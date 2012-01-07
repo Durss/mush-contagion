@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<styleSheets>
+		<styleSheet><![CDATA[css/flashstyles.css?v={v_version}]]></styleSheet>
+	</styleSheets>
+	
+	<fonts>
+		<font><![CDATA[swf/fonts/fonts.swf?v={v_version}]]></font>
+	</fonts>
+	
+	<labels>
+		<file><![CDATA[xml/i18n/labels_{v_lang}.xml?v={v_version}]]></file>
+	</labels>
+	
+	<vars>
+		<var code="root"><![CDATA[http://localhost/mushcontagion/]]></var>
+	</vars>
+	
+	<paths>
+		<path code=""><![CDATA[{v_root}xxx?v={v_version}]]></path>
+	</paths>
+	
+	<dependencies />
+	
+</root>
