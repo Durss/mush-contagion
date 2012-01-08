@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xml version="1.0" date="2011-11-29" authorId="3916" author="newSunshine" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:noNamespaceSchemaLocation='http://mtlib.tac-tac.org/xml/schema/muxxu.general.API.Request.xsd'>
+	<api baseurl="http://muxxu.com/app/xml" help="http://muxxu.com/app/helpList">
+		<flow name="user" access="public">
+			<id type="get">uid</id>
+			<key type="get">pubkey</key>
+			<title>Données publiques Muxxu</title>
+			<desc>Rassemble les données publiques du profil (ASV, etc) et donne des accés aux données publiques des jeux et des amis</desc>
+		</flow>
+
+		<flow name="friends" access="public">
+			<id type="get">uid</id>
+			<key type="xpath" src="user">/user/@friends</key>
+			<title>Amis Muxxu</title>
+			<desc>Renvoie la liste des amis d'un utilisateur</desc>
+		</flow>
+		
+		<flow name="user_priv" access="private">
+			<id type="get">uid</id>
+			<title>Données privées Muxxu</title>
+			<desc>Quelques données privées</desc>
+		</flow>
+		
+		<flow name="kingdom_user" access="public">
+			<id type="get">uid</id>
+			<key type="xpath" src="user">/user/games/g[@game='kingdom']/@key</key>
+			<title>Données publiques Kingdom</title>
+			<desc>Les données publiques de l'utilisateur sur Kingdom</desc>
+		</flow>
+		<flow name="kingdom_map" access="public">
+			<id type="xpath" src="kingdom_user">/user/@map</id>
+			<key type="xpath" src="kingdom_user">/user/@mapkey</key>
+			<title>Données carte</title>
+			<desc>Les données statiques de la carte de Kingdom : noms des villes, position et liens.</desc>
+		</flow>
+		<flow name="kingdom_mapinfos" access="public">
+			<id type="xpath" src="kingdom_user">/user/@map</id>
+			<key type="xpath" src="kingdom_map">/map/@infos</key>
+			<title>Données carte</title>
+			<desc>Les données dynamiques de la carte de Kingdom : royaumes et généraux.</desc>
+		</flow>
+		
+		<flow name="kube_user" access="private">
+			<id type="get">uid</id>
+			<title>Inventaire/Zones/Photos Kube</title>
+		</flow>
+		<flow name="kube_zone" access="public">
+			<id type="xpath" src="kube_user">/user/zones/zone/@id</id>
+			<key type="xpath" src="kube_user">/user/zones/zone/@key</key>
+			<title>Données Zone Kube</title>
+		</flow>
+		<flow name="kube_photo" access="public">
+			<id type="xpath" src="kube_user">/user/photos/p/@id</id>
+			<id type="xpath" src="kube_zone">/zone/@photoId</id>
+			<key type="xpath" src="kube_user">/user/photos/p/@key</key>
+			<key type="xpath" src="kube_zone">/zone/@photoKey</key>
+			<title>Données Photo Kube</title>
+		</flow>
+
+		<flow name="majority_user" access="public">
+			<id type="get">uid</id>
+			<key type="xpath" src="user">/user/games/g[@game='majority']/@key</key>
+			<title>Données publiques Majority</title>
+			<desc>Les données publiques de l'utilisateur sur Majority</desc>
+		</flow>
+
+		<flow name="intrusion_user" access="public">
+			<id type="get">uid</id>
+			<key type="xpath" src="user">/user/games/g[@game='intrusion']/@key</key>
+			<title>Fiche utilisateur</title>
+		</flow>
+		<flow name="intrusion_challenge" access="public">
+			<id type="undefined">undefined</id>
+			<key type="xpath" src="intrusion_user">/user/challenges/@gold</key>
+			<key type="xpath" src="intrusion_user">/user/challenges/@platinium</key>
+			<key type="xpath" src="intrusion_user">/user/challenges/@silver</key>
+			<title>Classements du Challenge</title>
+		</flow>
+		<flow name="intrusion_market" access="public">
+			<id type="undefined">undefined</id>
+			<key type="undefined">undefined</key>
+			<title>Prix du marché</title>
+		</flow>
+
+		<flow name="mb2_user" access="private">
+			<id type="get">uid</id>
+			<title>Données Utilisateur</title>
+		</flow>
+
+		<flow name="hotel_user" access="private">
+			<id type="get">uid</id>
+			<title>Informations de l'hôtel</title>
+		</flow>
+
+		<flow name="snake_user" access="private">
+			<id type="get">uid</id>
+			<title>Données Utilisateur</title>
+		</flow>
+	</api>
+</xml>
