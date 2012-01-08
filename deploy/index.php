@@ -4,20 +4,7 @@
 		<title>Mush Contagion</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="shortcut icon" href="favicon.ico" />
-		<style type="text/css">
-		html, body {
-			overflow:hidden;
-			height:100%;
-			margin:0;
-			padding:0;
-			font-family: Trebuchet MS,Arial,sans-serif;
-		}
-		body {
-			font: 86 % Arial, "Helvetica Neue", sans - serif;
-			color:#000000;
-			margin: 0;                
-		}
-		</style>
+		<link rel="stylesheet" type="text/css" href="css/base.css"/>
 		
 		<script type="text/javascript" src="js/swfobject.js"></script>
 		<script type="text/javascript" src="js/SWFAddress.js"></script>
@@ -27,11 +14,12 @@
     <body>
 		<div id="content1">
 		<div id="content">
-			<p>In order to view this page you need JavaScript and Flash Player 10.2+ support!</p>
-			<a href="http://get.adobe.com/fr/flashplayer/">Install flash</a>
+			<!-- p>In order to view this page you need JavaScript and Flash Player 10.2+ support!</p -->
+			<p>Afin de visualiser cette page, vous devez activer JavaScript et Flash Player 10.2+</p>
+			<a href="http://get.adobe.com/fr/flashplayer/">Installer flash</a>
 		</div>
 		</div>
-		
+
 		<script type="text/javascript">
 <?php
 	$version= "1";
@@ -52,7 +40,8 @@
 			
 			swfobject.embedSWF("swf/application.swf?v=<?php echo $version; ?>", "content", "100%", "100%", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
 			
-			swffit.fit("externalDynamicContent", 800, 700, 2000, 2000, true, true);
+			swffit.fit("externalDynamicContent", 800, 600, 2000, 2000, true, true);
 		</script>
+
 	</body>
 </html>
