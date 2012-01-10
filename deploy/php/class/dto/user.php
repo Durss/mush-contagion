@@ -32,12 +32,13 @@ class user extends base_dto
 	 */
 	public $key = Array();
 
-	/**
+	/*
 	 * Ensemble des scores figurant sur la page profil
 	 * @var (object) stdClass
 	 * @example	<pre>$this->score->fever = Array(<br/>	'Îles libres' => (int) 26,<br/>	'Score' => (string) '313 pts'<br/>);<br/>$this->score->intrusion = Array(<br/>	'Niveau' => (int) 6,<br/>);</pre>
-	 */
+
 	public $games;
+	 */
 
 	/**
 	* Liste des amis de l'utilisateur
@@ -47,8 +48,9 @@ class user extends base_dto
 	public $friends = NULL;
 	
 	
-	/** Instance de la lib - Permet de manipuler des flux en interne*/
+	/* Instance de la lib - Permet de manipuler des flux en interne
 	private $_api = NULL;
+	*/
 	
 	/**
 	 * Vérifie l'argument et attribue une methode de mapping
@@ -57,7 +59,7 @@ class user extends base_dto
 	 */
 	public function user($flow)
 	{
-		$this->_api = new mtlib(appName, privKey);
+		#$this->_api = new mtlib(appName, privKey);
 		
 		$this->init_dto($flow);
 	}
@@ -103,7 +105,7 @@ class user extends base_dto
 				$this->profil[ strval($key) ] = $value;
 			}
 		}
-
+/*	Note: Projet MushContagion : OSEF des données des autres jeux
 		//Mapping des éléments
 		foreach($xmlAsObject as $tag => $contents)
 		{
@@ -149,7 +151,7 @@ class user extends base_dto
 					}
 			}
 		}
-		
+*/		
 		$this->init_attributs();
 		return TRUE;
 	}
@@ -164,10 +166,10 @@ class user extends base_dto
 		$this->lang = $this->profil['lang'];
 	}
 	
-	/**
+	/*
 	 * Récupère les listes des amis de l'utilisateur.
 	 * <br />Nécessite au préalable d'avoir initialisé l'id de l'utilisateur
-	 */
+
 	public function getFriends() {
 		if ($this->friends == NULL) {
 			if(isset($this->key['friends']) && isset($this->id))
@@ -190,5 +192,6 @@ class user extends base_dto
 			return $this->friends;
 		}
 	}
+	 */
 }
 ?>

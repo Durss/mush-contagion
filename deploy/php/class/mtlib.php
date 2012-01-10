@@ -411,6 +411,7 @@ class mtlib
 	/**
 	 * Information sur le résultat des requêtes émises
 	 * @return	<ul><li><b>Array :</b> Liste des messages enregistrés</li><li><b>FALSE :</b> Rien à signaler.</li></ul>
+	 * @example	<ul><li>XML invalide : "mtlib:INVALID_XML"</li><li>Erreur de l'API : = "mtlib:API_ERROR : <i>error</i>"</li><li>Autorisation d'acces exigée : "mtlib:API_NEEDAUTH"</li><li>Si le flux est vide : "mtlib:API_NULL"</li></ul>
 	 */
 	public function notice()
 	{
