@@ -73,9 +73,14 @@ mysql_query($sql) or die(pReturn(mysql_error(), MSG_QueryFail));
 
 //liste d'amis
 $flow = $api->flow('friends', UID, $user->key['friends']);
-$user->friends = new friends($flow);
 
-if(!count($user->friends->list)) {} //Pauvre chou (pas d'amis)
+if(!$user->friends = new friends($flow))
+{
+	//todo: evaluer chaque type d'erreur.
+	foreach($api->notice() as $error) echo "<div class='adv'>{$error['type']}</div>\n";
+	die();
+} 
+elseif(!count($user->friends->list)) {} //Pauvre chou (pas d'amis)
 else
 {
 	//init

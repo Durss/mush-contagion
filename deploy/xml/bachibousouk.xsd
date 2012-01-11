@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!-- definition of simple type elements -->
+	<xsd:element name="result" type="xsd:int" />
+	<xsd:element name="pseudo" type="xsd:string" />
+	<xsd:element name="avatar" type="xsd:string" />
+	<xsd:element name="error" type="xsd:string" />
+	
+<!-- definition of attributes -->
+	<xsd:attribute name="uid" type="xsd:positiveInteger" />
+
+<!-- definition of complex type elements -->
+	<xsd:element name="user">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="pseudo" minOccurs="1" maxOccurs="1" />
+				<xsd:element ref="avatar" minOccurs="0" maxOccurs="1" />
+			</xsd:sequence>
+			<xsd:attribute ref="uid" use="required" />
+		</xsd:complexType>
+	</xsd:element>	
+	
+	
+	<xsd:element name="infectedUsers">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="user" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="root">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="result" minOccurs="1" maxOccurs="1" />
+				<xsd:element ref="infectedUsers" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="error" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+<!-- definition of restricted type
+	<xsd:simpleType name="typeAccess">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="public" />
+			<xsd:enumeration value="private" />
+		</xsd:restriction>
+	</xsd:simpleType> -->
+
+</xsd:schema>
