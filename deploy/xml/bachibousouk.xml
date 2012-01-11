@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<root	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation='http://localhost/mushcontagion/xml/bachibousouk.xsd'>
+    <result>1</result>
+    <infectedUsers>
+        <user uid="1">
+            <pseudo><![CDATA[XXX]]></pseudo>
+            <avatar><![CDATA[http://imgup.motion-twin.com/twinoid/d/c/XXX.jpg]]></avatar>
+        </user>
+    </infectedUsers>
+</root>
