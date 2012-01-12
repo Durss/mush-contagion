@@ -20,7 +20,7 @@ class friends extends base_dto
 	 */
 	public function friends($flow)
 	{
-		$this->init_dto($flow);
+		return $this->init_dto($flow);
 	}
 
 	/**
