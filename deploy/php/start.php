@@ -64,8 +64,8 @@ $user = new user($flow);
 //Insert, complète ou met à jour les infos sur l'utilisateur
 $sql = "-- Nouvel user ou MAJ\n"
 ."INSERT INTO `{$mysql_vars['db']}`.`{$mysql_vars['tbl']['user']}`\n"
-."(`uid`, `pubkey`, `name`, `lastvisit`, `avatar`) VALUES\n"
-."('".UID."', '".PUBKEY."', '{$user->name}', '".time()."', '{$user->avatar}')\n"
+."(`uid`, `pubkey`, `friends`, `name`, `lastvisit`, `avatar`) VALUES\n"
+."('".UID."', '".PUBKEY."', '{$user->key['friends']}', '{$user->name}', '".time()."', '{$user->avatar}')\n"
 //--Si l'utilisateur est déjà enregistré, mon met à jour toutes les données
 ."ON DUPLICATE KEY UPDATE\n"
 ."`pubkey` = '".PUBKEY."', `name` = '{$user->name}', `lastvisit` = '".time()."', `avatar` = '{$user->avatar}';";
@@ -98,5 +98,11 @@ else
 	mysql_query($sql) or die(pReturn(mysql_error(), MSG_QueryFail));
 }
 
-var_dump($user);
+//Etablissement de la flashvar
+$flashvars = Array(
+	"uid=".UID,
+	"key=".$user->key['friends'],
+);
+$fv['ObjectTag'] = '<param name=FlashVars value="'.implode('&', $flashvars).'" />';
+$fv['EmbedTag'] = 'FlashVars="'.implode('&', $flashvars).'"';
 ?>

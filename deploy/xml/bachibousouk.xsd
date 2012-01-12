@@ -32,7 +32,7 @@
 	<xsd:element name="root">
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="result" minOccurs="1" maxOccurs="1" />
+				<xsd:element ref="result" minOccurs="0" maxOccurs="1" />
 				<xsd:element ref="infectedUsers" minOccurs="0" maxOccurs="1" />
 				<xsd:element ref="error" minOccurs="0" maxOccurs="unbounded" />
 			</xsd:sequence>

@@ -3,7 +3,7 @@ if(isset($_GET['act']) && $_GET['act'] == 'php') //Dev: nSun
 {
 	define('baseURL', NULL);
 	include('php/start.php');
-	die();
+	#die();
 }
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -35,6 +35,11 @@ if(isset($_GET['act']) && $_GET['act'] == 'php') //Dev: nSun
 			flashvars["version"] = "<?php echo $version; ?>";
 			flashvars["configXml"] = "./xml/config.xml?v=<?php echo $version; ?>";
 			flashvars["lang"] = "fr";
+<?php
+	# Données d'accès au service
+?>
+			flashvars['uid'] = "<?php echo UID; ?>";
+			flashvars['key'] = "<?php echo $user->key['friends']; /* NOTE: Et OUI, il ne s'agit pas du pubkey ;) */ ?>";
 			
 			var attributes = {};
 			attributes["id"] = "externalDynamicContent";
