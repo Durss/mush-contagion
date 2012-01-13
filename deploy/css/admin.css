@@ -1,0 +1,30 @@
+@CHARSET "UTF-8";
+/*
+ * Base
+ */
+html, body
+{
+font-family: Trebuchet MS, Arial, sans-serif;
+}
+body
+{
+width: 650px;
+margin: 50px auto;
+font: 12px Trebuchet MS, Arial, sans-serif;
+color: #000;
+background-color: #FFF;
+}
+legend
+{
+font-size: 16px;	
+}
+label
+{
+display: block;
+}
+ul
+{
+margin: 0;
+padding: 0;
+padding-left: 32px;
+}

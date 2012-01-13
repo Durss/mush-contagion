@@ -4,10 +4,11 @@
 	<xsd:element name="result" type="xsd:int" />
 	<xsd:element name="pseudo" type="xsd:string" />
 	<xsd:element name="avatar" type="xsd:string" />
-	<xsd:element name="error" type="xsd:string" />
 	
 <!-- definition of attributes -->
 	<xsd:attribute name="uid" type="xsd:positiveInteger" />
+	<xsd:attribute name="isFriend" type="xsd:boolean" />
+	<xsd:attribute name="code" type="codeError" />
 
 <!-- definition of complex type elements -->
 	<xsd:element name="user">
@@ -17,6 +18,7 @@
 				<xsd:element ref="avatar" minOccurs="0" maxOccurs="1" />
 			</xsd:sequence>
 			<xsd:attribute ref="uid" use="required" />
+			<xsd:attribute ref="isFriend" use="required" />
 		</xsd:complexType>
 	</xsd:element>	
 	
@@ -38,13 +40,21 @@
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
+	
+	<xsd:element name="error">
+		<xsd:complexType mixed="true">
+			<xsd:attribute ref="code" use="optional" />
+		</xsd:complexType>
+	</xsd:element>
 
-<!-- definition of restricted type
-	<xsd:simpleType name="typeAccess">
+<!-- definition of restricted type -->
+	<xsd:simpleType name="codeError">
 		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="public" />
-			<xsd:enumeration value="private" />
+			<xsd:enumeration value="get" />
+			<xsd:enumeration value="api" />
+			<xsd:enumeration value="db" />
+			<xsd:enumeration value="mush" />
 		</xsd:restriction>
-	</xsd:simpleType> -->
+	</xsd:simpleType>
 
 </xsd:schema>

@@ -3,3 +3,7 @@ Options -Indexes
 deny from all
 allow from localhost
 </Files>
+<Files *.ini>
+deny from all
+allow from localhost
+</Files>

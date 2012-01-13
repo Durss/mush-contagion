@@ -3,6 +3,9 @@
  * Liste des messages d'erreur
  */
 
+//Mush
+define('MSG_FULL_INFECTED','MSG_FULL_INFECTED');
+
 //MySQL
 define('MSG_DBConnectFail', 'Echec de connexion à la base');
 define('MSG_DBSelectFail', 'Echec de sélection de la base');
