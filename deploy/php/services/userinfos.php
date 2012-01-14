@@ -31,7 +31,7 @@ $max = intval($ini['infectPerTurn']);
  * Initialisation
  */
 //Fichier XML de référence
-$base = website.'xml/atchoum.xml';
+$base = website.'/xml/bachibousouk.xml';
 //Intanciation de l'objet XML
 $root = new SimpleXMLElement($base, 0, 1);
 

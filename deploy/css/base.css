@@ -55,5 +55,37 @@ text-shadow: 2px 2px 1px #000;
 }
 
 /*
- *
+ * BETA-TEST
  */
+body.beta
+{
+	width: 700px;
+	margin: 16px auto;
+}
+body.beta .floatLeft
+{
+float: left;
+margin-right: 8px;
+}
+body.beta a,
+body.beta a:visited
+{
+color: #FF0;
+text-shadow: 2px 2px 3px #000;
+}
+body.beta a:hover
+{
+color: #FC0;
+text-shadow: 1px 1px 1px #000;
+}
+body.beta img.avatar40
+{
+	border: none;
+	width: 40px;
+	height: 40px;
+}
+body.beta textarea
+{
+width: 600px;
+height: 250px;
+}

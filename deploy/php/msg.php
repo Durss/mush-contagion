@@ -4,6 +4,7 @@
  */
 
 //Mush
+define('MSG_MAINTENANCE','MSG_MAINTENANCE');
 define('MSG_FULL_INFECTED','MSG_FULL_INFECTED');
 
 //MySQL
