@@ -1,4 +1,5 @@
 <?php
+define('BETA',true);
 //Base
 require('php/msg.php');
 require('c/config.php');
@@ -30,8 +31,15 @@ switch($_GET['act'])
 		include('c/admin.php');
 		if(!adminOffice()) usualSuspect('admin_access');
 	case 'php': //Dev: nSun
-		include('php/start.php');
+		if($ini['maintenance'] != '0') die(MSG_MAINTENANCE);
+		if(!BETA) include('php/start.php');
 	default:
-		include('php/flashFrame.php');
+		if($ini['maintenance'] != '0') die(MSG_MAINTENANCE);
+		if(BETA)
+		{
+			include('php/start.php');
+			include('beta.php');
+		}
+		else include('php/flashFrame.php');
 }
 ?>
