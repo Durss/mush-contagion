@@ -1,4 +1,7 @@
 package com.muxxu.mush.contaminator.components {
+	import flash.media.SoundChannel;
+	import flash.filters.DropShadowFilter;
+	import flash.events.MouseEvent;
 	import gs.TweenLite;
 	import gs.easing.Sine;
 
@@ -31,6 +34,9 @@ package com.muxxu.mush.contaminator.components {
 		private var _arrow:SpeakArrowGraphic;
 		private var _x:Number;
 		private var _y:Number;
+		private var _speaking:Boolean;
+		private var _reg:RegExp;
+		private var _channel:SoundChannel;
 		
 		
 		
@@ -53,6 +59,8 @@ package com.muxxu.mush.contaminator.components {
 		override public function set x(value:Number):void { _x = value; }
 		
 		override public function set y(value:Number):void { _y = value; }
+		
+		public function get speaking():Boolean { return _speaking; }
 
 
 
@@ -62,15 +70,21 @@ package com.muxxu.mush.contaminator.components {
 		/**
 		 * Populates the component
 		 */
-		public function populate(labelId:String):void {
+		public function populate(labelId:String, music:Boolean =true):void {
 			var xml:XML = new XML(Label.getLabel(labelId));
 			_sentences = xml.child("s");
 			_charIndex = 0;
 			_sentenceIndex = 0;
+			_speaking = true;
+			_tf.text = "";
+			_waitFor = 0;
 			
 			_interval = setInterval(write, 30);
+			write();
 			TweenLite.to(this, .25, {autoAlpha:1, ease:Sine.easeIn});
-			_sound.play(500);
+			if(music) {
+				_channel = _sound.play(500);
+			}
 		}
 
 
@@ -86,10 +100,49 @@ package com.muxxu.mush.contaminator.components {
 			_arrow = addChild(new SpeakArrowGraphic()) as SpeakArrowGraphic;
 			_tf = addChild(new CssTextField("speak")) as CssTextField;
 			
+			buttonMode = true;
+			mouseChildren = false;
+			
 			alpha = 0;
+			_reg = new RegExp("</?\w+((\s+\w+(\s*=\s*(?:\".*?\"|'.*?'|[^'\">\s]+))?)+\s*|\s*)/?>", "gi");
 			_tf.multiline = true;
+			filters = [new DropShadowFilter(5,135,0,.5,5,5,1.5,2)];
 			
 			_sound = new Sound(new URLRequest(Config.getPath("music")));
+			addEventListener(MouseEvent.CLICK, clickHandler);
+		}
+		
+		/**
+		 * Called when component is clicked
+		 */
+		private function clickHandler(event:MouseEvent):void {
+			if(_sentenceIndex >= _sentences.length()) return;
+			
+			var sentence:String = _sentences[_sentenceIndex];
+			if(_charIndex >= sentence.length) {
+				if(++_sentenceIndex == _sentences.length()) {
+					if(_channel != null) {
+						_channel.stop();
+						_channel = null;
+					}
+					dispatchEvent(new SpeakEvent(SpeakEvent.STOP_SPEAK));
+					dispatchEvent(new SpeakEvent(SpeakEvent.SPEAK_COMPLETE));
+					clearInterval(_interval);
+					_speaking = false;
+					return;
+				}else{
+					_charIndex = 0;
+					sentence = _sentences[_sentenceIndex];
+				}
+			}
+			if(sentence.indexOf("<sneeze", _charIndex) > -1) {
+				dispatchEvent(new SpeakEvent(SpeakEvent.SNEEZE));
+			}
+			_charIndex = sentence.length;
+			_waitFor = 0;
+			write();
+			_waitFor = sentence.replace(_reg, "").length * .55;
+			dispatchEvent(new SpeakEvent(SpeakEvent.STOP_SPEAK));
 		}
 		
 		/**
@@ -100,35 +153,34 @@ package com.muxxu.mush.contaminator.components {
 			
 			var sentence:String = _sentences[_sentenceIndex];
 			
-			_tf.text = sentence;
+			_tf.text = sentence;//Provides a way to know the final width and height of the box
 			var w:Number = _tf.width;
 			var h:Number = _tf.height;
 			var margin:int = 10;
 			
 			_tf.text = sentence.substr(0, _charIndex);
-			//Permet d'éviter les césures changeantes durant l'écriture lettre par lettre.
-			//[...]marche pas finalement... :(
-//			_tf.text += "<font color='#ffffff'>"+sentence.substr(_charIndex-1)+"</font>";
+			
 			if(_charIndex > sentence.length) {
-				_waitFor = sentence.length * .6;
+				_waitFor = sentence.replace(_reg, "").length * .55;
 				_charIndex = 0;
 				_sentenceIndex ++;
 				if(_sentenceIndex >= _sentences.length()) {
 					clearInterval(_interval);
+					_speaking = false;
+					dispatchEvent(new SpeakEvent(SpeakEvent.SPEAK_COMPLETE));
 				}
 				dispatchEvent(new SpeakEvent(SpeakEvent.STOP_SPEAK));
 			}else{
 				dispatchEvent(new SpeakEvent(SpeakEvent.SPEAK));
 			}
 			
-			if(sentence.substr(_charIndex, 7).toLowerCase() == "*atcha*") {
-				dispatchEvent(new SpeakEvent(SpeakEvent.SNEEZE));
-			}
-			
 			if(sentence.charAt(_charIndex) == "<") {
 				if (sentence.substr(_charIndex, 5) == "<wait") {
 					_waitFor = Math.round(1000/30 * parseFloat(sentence.substring(_charIndex+5, sentence.indexOf(" ", _charIndex))));
 					dispatchEvent(new SpeakEvent(SpeakEvent.STOP_SPEAK));
+				}
+				if (sentence.substr(_charIndex, 7) == "<sneeze") {
+					dispatchEvent(new SpeakEvent(SpeakEvent.SNEEZE));
 				}
 				_charIndex = sentence.indexOf(">", _charIndex);
 			}
