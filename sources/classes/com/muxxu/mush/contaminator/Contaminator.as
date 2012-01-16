@@ -1,4 +1,6 @@
 package com.muxxu.mush.contaminator {
+	import net.hires.debug.Stats;
+	import com.muxxu.mush.contaminator.views.SoundView;
 	import com.muxxu.mush.contaminator.views.MushroomView;
 	import com.muxxu.mush.contaminator.controler.FrontControler;
 	import com.muxxu.mush.contaminator.model.Model;
@@ -18,7 +20,7 @@ package com.muxxu.mush.contaminator {
 	 * @date 7 janv. 2012;
 	 */
 	 
-	[SWF(width="870", height="560", backgroundColor="0xFFFFFF", frameRate="31")]
+	[SWF(width="870", height="560", backgroundColor="0x000000", frameRate="31")]
 	[Frame(factoryClass="com.muxxu.mush.contaminator.ContaminatorLoader")]
 	public class Contaminator extends MovieClip {
 		private var _model:Model;
@@ -64,6 +66,9 @@ package com.muxxu.mush.contaminator {
 			
 			addChild(new BackgroundView());
 			addChild(new MushroomView());
+			addChild(new SoundView());
+			
+			addChild(new Stats());
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}

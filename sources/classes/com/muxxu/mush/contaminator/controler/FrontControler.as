@@ -58,6 +58,20 @@ package com.muxxu.mush.contaminator.controler {
 		public function throwSpores():void {
 			_model.throwSpores();
 		}
+		
+		/**
+		 * Toggles the sound state
+		 */
+		public function toggleSound():void {
+			_model.toggleSound();
+		}
+		
+		/**
+		 * Flags introduction as viewed
+		 */
+		public function introComplete():void {
+			_model.introComplete();
+		}
 
 
 		

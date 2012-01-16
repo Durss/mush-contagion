@@ -69,7 +69,7 @@ package com.muxxu.mush.contaminator {
 			stage.showDefaultContextMenu = false;
 			
 			_backColor		= parseInt(getFV("bgColor", "000000"), 16);
-			_barColor		= parseInt(getFV("loaderColor", "000000"), 16);
+			_barColor		= parseInt(getFV("loaderColor", "ffffff"), 16);
 			
 			Config.addVariable("lang", "fr");
 			Config.addVariable("version", "1");
@@ -102,7 +102,7 @@ package com.muxxu.mush.contaminator {
 				var w:int = 300; 
 				var h:int = 6; 
 				var percent:Number = (root.loaderInfo.bytesLoaded / root.loaderInfo.bytesTotal) * .5 + (_env.bytesLoaded / _env.bytesTotal) * .5;
-				if(isNaN(percent)) percent = 0;
+				if(isNaN(percent) || percent < 0) percent = 0;
 				var rect:Rectangle = new Rectangle(0,0,0,0);
 				rect.x	= Math.round((stage.stageWidth - w) * .5);
 				rect.y	= Math.round((stage.stageHeight - h) * .5);

@@ -44,7 +44,7 @@
 			params['menu'] = 'false';
 			params['wmode'] = 'direct';
 			
-			swfobject.embedSWF("swf/application.swf?v=<?php echo $version; ?>", "content", "100%", "100%", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
+			swfobject.embedSWF("swf/contaminator.swf?v=<?php echo $version; ?>", "content", "100%", "100%", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
 			
 			swffit.fit("externalDynamicContent", 800, 600, 2000, 2000, true, true);
 		</script>

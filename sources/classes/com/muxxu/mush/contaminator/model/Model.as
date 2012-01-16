@@ -1,4 +1,6 @@
 package com.muxxu.mush.contaminator.model {
+	import flash.media.SoundTransform;
+	import flash.media.SoundMixer;
 	import flash.net.SharedObject;
 	import com.muxxu.mush.contaminator.events.LightEvent;
 	import com.nurun.structure.mvc.views.ViewLocator;
@@ -12,8 +14,10 @@ package com.muxxu.mush.contaminator.model {
 	 * @date 14 janv. 2012;
 	 */
 	public class Model extends EventDispatcher implements IModel {
+		
 		private var _so:SharedObject;
 		private var _playIntro:Boolean;
+		private var _soundEnabled:Boolean;
 		
 		
 		
@@ -37,6 +41,11 @@ package com.muxxu.mush.contaminator.model {
 		 * Gets if the introduction should be played or not.
 		 */
 		public function get playIntro():Boolean { return _playIntro; }
+		
+		/**
+		 * Gets the sound's state
+		 */
+		public function get soundEnabled():Boolean { return _soundEnabled; }
 
 
 
@@ -57,6 +66,22 @@ package com.muxxu.mush.contaminator.model {
 		public function throwSpores():void {
 			dispatchLight(LightEvent.THROW_SPORES);
 		}
+		
+		/**
+		 * Toggles the sound state
+		 */
+		public function toggleSound():void {
+			_soundEnabled = !_soundEnabled;
+			_so.data["sound"] = _soundEnabled;
+			SoundMixer.soundTransform = new SoundTransform(_soundEnabled? 1 : 0);
+		}
+		
+		/**
+		 * Flags introduction as viewed
+		 */
+		public function introComplete():void {
+			_so.data["introPlayed"] = true;
+		}
 
 
 		
@@ -68,7 +93,9 @@ package com.muxxu.mush.contaminator.model {
 		 * Initialize the class.
 		 */
 		private function initialize():void {
-			_so = SharedObject.getLocal("mushcontagion", "/");	
+			_so = SharedObject.getLocal("mushcontagion", "/");
+			_soundEnabled = _so.data["sound"] !== false;
+			SoundMixer.soundTransform = new SoundTransform(_soundEnabled? 1 : 0);
 		}
 		
 		/**

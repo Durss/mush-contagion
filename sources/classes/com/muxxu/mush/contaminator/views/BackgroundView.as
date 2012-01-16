@@ -1,22 +1,20 @@
 package com.muxxu.mush.contaminator.views {
-	import com.muxxu.mush.contaminator.events.LightEvent;
-	import com.nurun.structure.mvc.views.ViewLocator;
-	import com.muxxu.mush.contaminator.controler.FrontControler;
-	import com.muxxu.mush.graphics.MushroomsBmp;
 	import gs.TweenLite;
 	import gs.easing.Sine;
 
 	import com.innerdrivestudios.visualeffect.WrappingBitmap;
+	import com.muxxu.mush.contaminator.events.LightEvent;
 	import com.muxxu.mush.contaminator.model.Model;
 	import com.muxxu.mush.graphics.GroundBack;
+	import com.muxxu.mush.graphics.MushroomsBmp;
 	import com.muxxu.mush.graphics.SkyBmp;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
+	import com.nurun.structure.mvc.views.ViewLocator;
 	import com.nurun.utils.pos.PosUtils;
 
 	import flash.display.Bitmap;
 	import flash.events.Event;
-	import flash.events.MouseEvent;
 
 	/**
 	 * 
@@ -104,13 +102,7 @@ package com.muxxu.mush.contaminator.views {
 		private function addedToStageHandler(event:Event):void {
 			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			stage.addEventListener(Event.RESIZE, computePositions);
-			stage.addEventListener(MouseEvent.CLICK, clickStageHandler);
 			computePositions();
-		}
-		
-		//TODO remove
-		private function clickStageHandler(event:MouseEvent):void {
-			FrontControler.getInstance().throwSpores();
 		}
 		
 		/**

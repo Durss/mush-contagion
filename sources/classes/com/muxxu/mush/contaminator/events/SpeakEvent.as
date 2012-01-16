@@ -11,6 +11,7 @@ package com.muxxu.mush.contaminator.events {
 		
 		public static const SPEAK:String = "speak";
 		public static const STOP_SPEAK:String = "stopSpeak";
+		public static const SPEAK_COMPLETE:String = "speakComplete";
 		public static const SNEEZE:String = "sneeze";
 		
 		
