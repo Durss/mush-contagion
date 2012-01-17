@@ -40,6 +40,9 @@ package com.innerdrivestudios.visualeffect {
 		}
 
 		private function _paint():void {
+			_matrix.tx = _matrix.tx % _width;
+			_matrix.ty = _matrix.ty % _height;
+			
 			graphics.clear();
 
 			graphics.beginBitmapFill(_bitmapdata, _matrix, true, false);
@@ -59,9 +62,8 @@ package com.innerdrivestudios.visualeffect {
 
 		public function scrollTo(x:Number, y:Number):void {
 			_matrix.tx = -x;
-
 			_matrix.ty = -y;
-
+			
 			_paint();
 		}
 
