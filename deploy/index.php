@@ -1,5 +1,10 @@
 <?php
-define('BETA',true);
+/**
+ * <h1>INDEX</h1>
+ * <p>Point névralgique de l'app.</p>
+ */
+define('DEVMODE',true);
+define('BETA',false);
 //Base
 require('php/msg.php');
 require('c/config.php');
@@ -13,6 +18,12 @@ require('php/class/dto/base_dto.php');
 require('php/class/dto/user.php');
 require('php/class/dto/friends.php');
 
+//Template
+require('php/class/nsunTpl.php');
+$page = new nsunTpl();
+$page->title = "Mush Contagion";
+$page->addMetaTag("ROBOTS", "NOINDEX, NOFOLLOW");
+
 //Parametres
 $ini = parse_ini_file('params.ini');
 
@@ -22,24 +33,33 @@ include('php/inc/runMtlib.php');
 //Sommaire de l'app
 //--init
 if(!isset($_GET['act'])) $_GET['act'] = null;
+//--admin
+if($_GET['act'] == 'admin')
+{
+	include('c/admin.php');
+	if(!adminOffice()) usualSuspect('admin_access');
+}
+//--Page de maintenance
+if($ini['maintenance'] != '0') die(MSG_MAINTENANCE);
 //--menu
 switch($_GET['act'])
-{
-	#?uid=3916&name=newSunshine&pubkey=dd455970
-	#?id=3916&key=1986aa04
-	case 'admin':
-		include('c/admin.php');
-		if(!adminOffice()) usualSuspect('admin_access');
+{	
 	case 'php': //Dev: nSun
-		if($ini['maintenance'] != '0') die(MSG_MAINTENANCE);
-		if(!BETA) include('php/start.php');
+		if(DEVMODE)
+		{
+			if(!BETA) include('php/start.php');
+			die();
+		}
 	default:
-		if($ini['maintenance'] != '0') die(MSG_MAINTENANCE);
 		if(BETA)
 		{
 			include('php/start.php');
 			include('beta.php');
 		}
-		else include('php/flashFrame.php');
+		else
+		{
+			include('php/start.php');
+			include('php/flashFrame.php');
+		}
 }
 ?>
