@@ -6,6 +6,7 @@
 //Mush
 define('MSG_MAINTENANCE','MSG_MAINTENANCE');
 define('MSG_FULL_INFECTED','MSG_FULL_INFECTED');
+define('MSG_USER_NOT_FOUND','MSG_USER_NOT_FOUND');
 
 //MySQL
 define('MSG_DBConnectFail', 'Echec de connexion à la base');

@@ -1,26 +1,26 @@
 <?php 
+/**
+ * <h1>ADMIN PANEL</h1>
+ * <p>Menu de paramétrage de l'app. Accès exclusif, défini dans le fichier 'params.ini'</p>
+ */
+
 //Bloque l'accès direct
-if(!defined('ADMIN_OK') || !ADMIN_OK)
+if(!isset($page) || !defined('ADMIN_OK') || !ADMIN_OK)
 {
 	header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
 	require('c/usualSuspect.php');
 	usualSuspect('admin_panel');
 	die();
 }
+
+//Liste les admins
 $adminList = array_keys($ini['admins']);
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<title>Admin : Mush Contagion</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link rel="shortcut icon" href="favicon.ico" />
-		<link rel="stylesheet" type="text/css" href="css/admin.css" />
-    </head>
-    <body>
-<?php
-//MAJ
 
+//Paramètres de la page
+$page->title = "Admin : Mush Contagion";
+$page->addStyleSheet('css/admin.css');
 
+//MAJ des paramètres
 if(isset($_POST['setMaintenance']) || isset($_POST['setParams']))
 {
 	$do = false;
@@ -80,21 +80,30 @@ if(isset($_POST['setMaintenance']) || isset($_POST['setParams']))
 	
 	if($do)
 	{
-		echo "<pre>".print_r($_POST,1)."</pre>"; 
-		$content = ";update ".date('Y-m-d H\hi:s')."\tby {$name}\n"
-		."[status]\n"
-		."maintenance={$update['maintenance']};		(bool)	Fermer/Ouvrir l'application au public\n"
-		."\n"
-		."[params]\n"
-		."infectCover={$update['infectCover']};		(bool)	Infecter les personnes déjà contaminée s'il n'y a plus de personnes aines disponibles\n"
-		."infectSelf={$update['infectSelf']};		(bool)	Infection d'office de l'utilisateur\n"
-		."infectPerTurn={$update['infectPerTurn']};	(int)	Nombre d'infection par tour\n"
-		."\n"
-		."[admins]; pseudo=uid\n";
-		foreach($ini['admins'] as $n => $id) $content .= "{$n}={$id}\n";
+		$page->c .= "<pre>".print_r($_POST,1)."</pre>"; 
 		
-		if(file_put_contents('params.ini', $content)) echo "<div class='msg'>Configuration mise à jour avec succes.</div>\n";
-		else echo "<div class='msg'>Echec de la mise à jour.</div>\n";
+		$date = date('Y-m-d H\hi:s');
+		$iniAdminList = null;
+		foreach($ini['admins'] as $n => $id) $iniAdminList .= "{$n}={$id}\n";
+
+//INI FILE
+		$content = <<<EOINI
+;update {$date}	by {$name}
+[status]
+maintenance={$update['maintenance']};		(bool)	Fermer/Ouvrir l'application au public
+
+[params]
+infectCover={$update['infectCover']};		(bool)	Infecter les personnes déjà contaminée s'il n'y a plus de personnes aines disponibles
+infectSelf={$update['infectSelf']};		(bool)	Infection d'office de l'utilisateur
+infectPerTurn={$update['infectPerTurn']};	(int)	Nombre d'infection par tour
+
+[admins]; pseudo=uid
+{$iniAdminList}
+EOINI;
+
+		//MAJ du fichier ini
+		if(file_put_contents('params.ini', $content)) $page->c .= "<div class='msg'>Configuration mise à jour avec succes.</div>\n";
+		else $page->c .= "<div class='msg'>Echec de la mise à jour.</div>\n";
 		
 		//refresh
 		$ini = parse_ini_file('params.ini',1);
@@ -113,21 +122,25 @@ $infectCover = ($ini['params']['infectCover'] == 1)
 	: null;
 $infectPerTurn = $ini['params']['infectPerTurn'];
 
-?>
+//Liste les admins
+$adminList = "<li>".implode("</li>\n\t\t\t\t\t<li>",$adminList)."</li>";
+
+//Contenu
+$page->c .= <<<EOHTML
 		<h1>Admin</h1>
-		<form method="post" action="?<?php echo $_SERVER['QUERY_STRING']; ?>">
+		<form method="post" action="?{$_SERVER['QUERY_STRING']}">
 			<fieldset>
 				<legend>Statut</legend>
-				<label><input type="checkbox" name="maintenance"<?php echo $maintenance; ?> /> Maintenance (cocher pour désactiver le site au public)</label>
+				<label><input type="checkbox" name="maintenance"{$maintenance} /> Maintenance (cocher pour désactiver le site au public)</label>
 			</fieldset>
 			<fieldset>
 				<input type="submit" name="setMaintenance" value="enregistrer" />
 			</fieldset>
 			<fieldset>
 				<legend>Paramètres</legend>
-					<label><input type="checkbox" name="infectSelf"<?php echo $infectSelf; ?> /> Auto-infection (Le visiteur est infecté d'office)</label>
-					<label><input type="checkbox" name="infectCover"<?php echo $infectCover; ?> /> Surinfection (possibilité d'être contaminé plusieurs fois)</label>
-					<label>Nombre d'infections par tours : <input type="text" name="infectPerTurn" value="<?php echo $infectPerTurn; ?>" /></label>
+					<label><input type="checkbox" name="infectSelf"{$infectSelf} /> Auto-infection (Le visiteur est infecté d'office)</label>
+					<label><input type="checkbox" name="infectCover"{$infectCover} /> Surinfection (possibilité d'être contaminé plusieurs fois)</label>
+					<label>Nombre d'infections par tours : <input type="text" name="infectPerTurn" value="{$infectPerTurn}" /></label>
 			</fieldset>
 			<fieldset>
 				<input type="submit" name="setParams" value="enregistrer" />
@@ -135,10 +148,10 @@ $infectPerTurn = $ini['params']['infectPerTurn'];
 			<fieldset>
 				<legend>Liste Admins</legend>
 				<ul>
-					<?php echo "<li>".implode("</li>\n\t\t\t\t\t<li>",$adminList)."</li>"; ?>
+					{$adminList}
 					<li><button onclick="javascript:alert('ça fera 30€ payable d\'avance.\n:P'); return false;">Ajouter</button></li>
 				</ul>
 			</fieldset>
 		</form>
-	</body>
-</html>
+EOHTML;
+?>
