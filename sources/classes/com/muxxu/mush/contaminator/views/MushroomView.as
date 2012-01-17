@@ -64,6 +64,7 @@ package com.muxxu.mush.contaminator.views {
 		private var _streak:CursorStreak;
 		private var _lastHitTime:int;
 		private var _sneezeHistory:Array;
+		private var _dialogDone:Object;
 		
 		
 		
@@ -141,6 +142,7 @@ package com.muxxu.mush.contaminator.views {
 			
 			_inc = 0;
 			_sneezeHistory = [];
+			_dialogDone = {};
 			_particles = new SporesManager(600, _particlesHolder);
 			
 			var m:Matrix = new Matrix();
@@ -202,16 +204,19 @@ package com.muxxu.mush.contaminator.views {
 				TweenLite.killTweensOf(_darkness);
 				TweenLite.killTweensOf(_speak);
 				TweenLite.to(_speak, .25, {autoAlpha:0});
-				TweenLite.to(_light2, 3, {autoAlpha:0});
-				TweenLite.to(_light1, 3, {autoAlpha:0});
-				TweenLite.to(_darkness, 2, {autoAlpha:0});
+				if(_light2.visible) {
+					TweenLite.to(_light2, 3, {autoAlpha:0});
+					TweenLite.to(_light1, 3, {autoAlpha:0});
+					TweenLite.to(_darkness, 2, {autoAlpha:0});
+				}
 				_streak.enable();
 				FrontControler.getInstance().introComplete();
 				
 			}else if(event.type == SpeakEvent.SNEEZE) {
 				eyeL.sneeze();
 				eyeR.sneeze();
-				sneeze(Math.random()*25 + 50, true);
+				var s:Number = Math.random() * 25 + 50;
+				sneeze(s, s, true);
 			}
 		}
 		
@@ -234,20 +239,21 @@ package com.muxxu.mush.contaminator.views {
 		 * Makes the landskape scrolling vertically.
 		 */
 		private function scroll():void {
-			TweenLite.to(_frontLandscape, .75, {y:stage.stageHeight+200, ease:Sine.easeIn});
-			TweenLite.to(_mushroom, .75, {y:stage.stageHeight + _mushroom.height + 100, ease:Sine.easeIn});
+			TweenLite.to(_frontLandscape, 3, {y:stage.stageHeight+400, ease:Sine.easeIn});
+			TweenLite.to(_mushroom, 3, {y:stage.stageHeight + _mushroom.height + 450, ease:Sine.easeIn});
+			setTimeout(_particles.goingUp, 4000);
 		}
 		
 		/**
 		 * Makes the mushroom sneezing
 		 */
-		private function sneeze(strength:Number, sound:Boolean = false):void {
+		private function sneeze(strength:Number, strengthY:Number, sound:Boolean = false):void {
 			_a1 = strength * .3;
 			_a2 = strength * .3;
 			_a3 = strength * .15;
-			_mushroom.scaleY = 1-strength/100;
+			_mushroom.scaleY = 1-strengthY/50;
 			TweenLite.to(_mushroom, 1, {scaleY:1, ease:Elastic.easeOut});
-			_particles.throwParticles(new Point(_mushroom.x, _mushroom.y - 75), strength);
+			_particles.throwParticles(new Point(_mushroom.x, _mushroom.y - 75), strength*2);
 			
 			if(sound) {
 				//Random sneeze sound
@@ -260,11 +266,23 @@ package com.muxxu.mush.contaminator.views {
 					for(i = 0; i < len; ++i) {
 						tot += _sneezeHistory[i];
 					}
-					if (tot < 80) {
+					tot /= len;
+					var id:String = _dialogDone["harder"] == undefined? "harder" : _dialogDone["stillharder"] == undefined? "stillharder" : "cook";
+					if (tot < 30 && _dialogDone[id] == undefined && _dialogDone["better"] == undefined) {
 						_sneezeHistory = [];
-						_speak.populate("harder", false);
+						_dialogDone[id] = true;
+						_speak.populate(id, false);
 					}
 					_sneezeHistory.shift();
+				}
+				
+				if(strength > 30) {
+					if(_dialogDone["harder"] === true && _dialogDone["better"] == undefined) {
+						_speak.populate("better", false);
+					}else{
+						FrontControler.getInstance().throwSpores();
+					}
+					_dialogDone["better"] = true;
 				}
 			}
 		}
@@ -273,8 +291,6 @@ package com.muxxu.mush.contaminator.views {
 		 * Makes the mushroom moving
 		 */
 		private function enterFrameHandler(event:Event):void {
-			if(_speak.speaking) return;
-			
 			_inc += Math.PI * .3;
 			_a1 *= .94;
 			_a2 *= .92;
@@ -283,6 +299,8 @@ package com.muxxu.mush.contaminator.views {
 			_mushroom.middle.rotation = Math.cos(_inc) * _a2;
 			_mushroom.rotation = Math.cos(_inc) * _a3;
 
+			if(_speak.speaking) return;
+			
 			var histX:Array = _streak.historyX;
 			var histY:Array = _streak.historyY;
 			
@@ -311,7 +329,7 @@ package com.muxxu.mush.contaminator.views {
 							incY = histY[histY.length-1] - histY[0];
 							if(incX < -distMin) _inc = Math.PI;
 							if(incX > distMin) _inc = 0;
-							sneeze(_streak.huge? dist*.2 : dist*.08);
+							sneeze(_streak.huge? dist*.2 : dist*.02, _streak.huge? incY * .2 : incY * .05);
 							_lastHitTime = getTimer();
 							return;
 						}

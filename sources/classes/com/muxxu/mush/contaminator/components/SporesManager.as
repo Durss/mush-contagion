@@ -18,6 +18,7 @@ package com.muxxu.mush.contaminator.components {
 		private var _currentParticle:Particle;
 		private var _parent:DisplayObjectContainer;
 		private var _startPoint:Point;
+		private var _lockY:Boolean;
 		
 		
 		
@@ -58,6 +59,10 @@ package com.muxxu.mush.contaminator.components {
 			}
 			_currentParticle = particle;
 		}
+		
+		public function goingUp():void {
+			_lockY = true;
+		}
 
 
 		
@@ -95,7 +100,10 @@ package com.muxxu.mush.contaminator.components {
 			var particle:Particle, i:int;
 			particle = _firstParticle;
 			while(particle != null && i++ < _len) {
-				particle.move();
+				if(_lockY) {
+//					_parent.filters = [new BlurFilter(0, 5)];
+				}
+				particle.move(_lockY);
 				particle = particle.next;
 			}
 		}

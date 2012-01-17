@@ -16,7 +16,17 @@
 		<label code="harder">
 			<s><![CDATA[C'est tout ce que t'as?!<wait1 /><br />Ma parole ces humains ne servent<br />Vraiment à rien!]]></s>
 			<s><![CDATA[Quand je te disais d'y<br />aller délicatement je ne te disais<br />pas d'y aller comme une mauviette!]]></s>
-			<s><![CDATA[Garde donc ton clique enfoncé<br />si tu veux un peu booster<br />ton tapotage....<wait1 /><br />.<wait.1 />.<wait.1 />.<wait.1 />m<wait.1 />a<wait.1 />u<wait.1 />v<wait.1 />i<wait.1 />e<wait.1 />t<wait.1 />t<wait.1 />e<wait.1 />.<wait.1 />.<wait.1 />.<wait.1 /><wait2 />]]></s>
+			<s><![CDATA[Garde donc ton clique enfoncé<br />si tu veux un peu booster<br />ton tapotage...<wait1 /><br />...de mauviette...<wait2 />]]></s>
+		</label>
+		<label code="stillharder">
+			<s><![CDATA[C'est bon? T'as bientôt fini<br />de faire ton attardé d'humain..?<wait.7 /><br /><br />Frappe comme un mush<wait.5 /><br />ou ne frappe pas!]]></s>
+			<s><![CDATA[Mais arrête tes caresses;<wait.5 /> ça<br />en devient très...<wait.5 /> très...<wait.5 /> gênant...!<br />			  <sneeze />*ATCHA*<wait1 />]]></s>
+		</label>
+		<label code="cook">
+			<s><![CDATA[* je vais me le faire en omelette *<wait1 /><br />Garde ton clique enfoncé non<br />d'un bollet!<wait2 />]]></s>
+		</label>
+		<label code="better">
+			<s><![CDATA[Et ben voilà qui est mieux!<br />Allez, remets moi donc un coup,<br />les prochaines spores sont en<br />partance directe pour tes amis...<br />kr<wait.2 />kr<wait.2 />kr<wait.2 />kr<wait.2 />kr<wait.2 />kr<wait2 />]]></s>
 		</label>
 	</labels>
 	

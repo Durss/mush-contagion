@@ -110,10 +110,11 @@ package com.muxxu.mush.contaminator.views {
 		 */
 		private function throwSporesHandler(event:LightEvent):void {
 			if(!_autoRotation) {
+				_speed = 7;
 				scroll();
 			}else{
 				_endRotation = true;
-				_speed = 50;
+				_speed = 7;
 			}
 		}
 		
@@ -134,9 +135,9 @@ package com.muxxu.mush.contaminator.views {
 		 * Makes the landskape scrolling vertically.
 		 */
 		private function scroll():void {
-			TweenLite.to(_ground, .75, {y:stage.stageHeight+130, ease:Sine.easeIn});
-			TweenLite.to(_mushrooms, .75, {y:stage.stageHeight, ease:Sine.easeIn});
-			TweenLite.to(this, 2, {ease:Sine.easeIn, offsetY:-2000, onComplete:startAutoRotation});
+			TweenLite.to(_ground, 3, {y:stage.stageHeight+330, ease:Sine.easeIn});
+			TweenLite.to(_mushrooms, 3, {y:stage.stageHeight+180, ease:Sine.easeIn});
+			TweenLite.to(this, 3, {ease:Sine.easeIn, offsetY:-400, onComplete:startAutoRotation});
 			addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 		}
 		
@@ -163,7 +164,8 @@ package com.muxxu.mush.contaminator.views {
 					offsetY -= Math.floor(_speed);
 					_speed *= .96;
 				}else{
-					offsetY -= 50;
+					offsetY -= Math.min(100, _speed);
+					_speed *= 1.03;
 				}
 			}
 		}
