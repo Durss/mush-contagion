@@ -1,6 +1,6 @@
 <?php
 /*
- * ATCHOUM ! Service d'infection express !
+ * USERINFOS : Service d'information sur un utilisateur, ses parents et enfants directs
  */
 
 define('baseURL','../../');
@@ -72,9 +72,10 @@ $parentData = $childData = array();
 if($userData['infected'])
 {
 	$sql = "-- Look for parents\n"
-	."SELECT `parent`, `date`\n"
-	."FROM `{$mysql_vars['tbl']['link']}`\n"
-	."WHERE `child` = ".UID."\n"
+	."SELECT L.`parent`, L.`date`, U.`name`, U.`avatar`\n"
+	."FROM `{$mysql_vars['tbl']['link']}` L, `{$mysql_vars['tbl']['user']}` U\n"
+	."WHERE L.`child` = ".UID."\n"
+	."AND L.`parent` = U.`uid`\n"
 	."ORDER BY `index` ASC;";
 	
 	//En cas d'erreur SQL
@@ -94,9 +95,10 @@ if($userData['infected'])
 if($userData['infected'])
 {
 	$sql = "-- Look for child\n"
-	."SELECT `child`, `date`\n"
-	."FROM `{$mysql_vars['tbl']['link']}`\n"
-	."WHERE `parent` = ".UID."\n"
+	."SELECT L.`child`, L.`date`, U.`name`, U.`avatar`\n"
+	."FROM `{$mysql_vars['tbl']['link']}` L, `{$mysql_vars['tbl']['user']}` U\n"
+	."WHERE L.`parent` = ".UID."\n"
+	."AND L.`child` = U.`uid`\n"
 	."ORDER BY `index` ASC;";
 	
 	//En cas d'erreur SQL
@@ -133,6 +135,9 @@ if(count($parentData))
 		$spore = $parent->addChild('spore');
 		$spore->addAttribute('uid', $s['parent']);
 		$spore->addAttribute('ts', $s['date']);
+		$spore->addChild('name', cdata($s['name']));
+		if(strlen($s['avatar'])) $spore->addChild('avatar', cdata($s['avatar']));
+		else $spore->addChild('avatar', null);
 	}
 }
 if(count($childData))
@@ -143,6 +148,9 @@ if(count($childData))
 		$spore = $child->addChild('spore');
 		$spore->addAttribute('uid', $s['child']);
 		$spore->addAttribute('ts', $s['date']);
+		$spore->addChild('name', cdata($s['name']));
+		if(strlen($s['avatar'])) $spore->addChild('avatar', cdata($s['avatar']));
+		else $spore->addChild('avatar', null);
 	}
 }
 
