@@ -5,11 +5,14 @@
  */
 
 //Bloque l'accès direct
-if(!isset($page) || !defined('ADMIN_OK') || !ADMIN_OK)
+if(!defined('ADMIN_OK') || !ADMIN_OK)
 {
-	header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
-	require('c/usualSuspect.php');
+	$path = dirname(__FILE__).'/../c/usualSuspect.php';
+	require_once($path);
 	usualSuspect('admin_panel');
+	if(isset($page)) $page->stop = false;
+	header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+	include(dirname(__FILE__).'/../e/404.html');
 	die();
 }
 
@@ -17,6 +20,8 @@ if(!isset($page) || !defined('ADMIN_OK') || !ADMIN_OK)
 $adminList = array_keys($ini['admins']);
 
 //Paramètres de la page
+require_once('php/class/nsunTpl.php');
+if(!isset($page)) $page = new nsunTpl();
 $page->title = "Admin : Mush Contagion";
 $page->addStyleSheet('css/admin.css');
 
