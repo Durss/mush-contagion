@@ -12,7 +12,8 @@ if(!defined('ADMIN_OK') || !ADMIN_OK)
 	usualSuspect('admin_panel');
 	if(isset($page)) $page->stop = false;
 	header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
-	include(dirname(__FILE__).'/../e/404.html');
+	$_GET['code'] = 404;
+	include(dirname(__FILE__).'/../error.php');
 	die();
 }
 

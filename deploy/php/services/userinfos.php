@@ -46,6 +46,9 @@ else
 	xmlError($userinfos, 'get', MSG_GET_INVALID_UID);
 }
 
+//--Option de pandémie
+define('FULL_INFOS', (bool) isset($_GET['pandemie']));
+
 //Recherche le profil dans la base
 $sql = "-- Look for user\n"
 ."SELECT `pubkey`, `name`, `lastvisit`, `avatar`, `infected`\n"
@@ -65,56 +68,55 @@ if(!mysql_num_rows($result)) xmlError($userinfos, 'mush', MSG_USER_NOT_FOUND);
 //Déploiement des données
 $userData = mysql_fetch_assoc($result);
 
-//init
-$parentData = $childData = array();
-
-//Recherche une infection parent
-if($userData['infected'])
-{
-	$sql = "-- Look for parents\n"
-	."SELECT L.`parent`, L.`date`, U.`name`, U.`avatar`\n"
-	."FROM `{$mysql_vars['tbl']['link']}` L, `{$mysql_vars['tbl']['user']}` U\n"
-	."WHERE L.`child` = ".UID."\n"
-	."AND L.`parent` = U.`uid`\n"
-	."ORDER BY `index` ASC;";
-	
-	//En cas d'erreur SQL
-	if(!$result = mysql_query($sql))
+if(FULL_INFOS)
 	{
-		$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error()) );
-		xmlError($userinfos, 'db', $e);
-	}
+	//init
+	$parentData = $childData = array();
 	
-	if(mysql_num_rows($result))
+	//Recherche une infection parent
+	if($userData['infected'])
 	{
-		//Déploiement des parents
-		while($row = mysql_fetch_assoc($result)) $parentData[] = $row;
+		$sql = "-- Look for parents\n"
+		."SELECT L.`parent`, L.`date`, U.`name`, U.`avatar`\n"
+		."FROM `{$mysql_vars['tbl']['link']}` L, `{$mysql_vars['tbl']['user']}` U\n"
+		."WHERE L.`child` = ".UID."\n"
+		."AND L.`parent` = U.`uid`\n"
+		."ORDER BY `index` ASC;";
+		
+		//En cas d'erreur SQL
+		if(!$result = mysql_query($sql))
+		{
+			$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error()) );
+			xmlError($userinfos, 'db', $e);
+		}
+		
+		if(mysql_num_rows($result))
+		{
+			//Déploiement des parents
+			while($row = mysql_fetch_assoc($result)) $parentData[] = $row;
+		}
 	}
-}
-//Recherche une infection enfant
-if($userData['infected'])
-{
+	//Recherche une infection enfant
 	$sql = "-- Look for child\n"
 	."SELECT L.`child`, L.`date`, U.`name`, U.`avatar`\n"
 	."FROM `{$mysql_vars['tbl']['link']}` L, `{$mysql_vars['tbl']['user']}` U\n"
 	."WHERE L.`parent` = ".UID."\n"
 	."AND L.`child` = U.`uid`\n"
 	."ORDER BY `index` ASC;";
-	
+		
 	//En cas d'erreur SQL
 	if(!$result = mysql_query($sql))
 	{
 		$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error()) );
 		xmlError($userinfos, 'db', $e);
 	}
-	
+		
 	if(mysql_num_rows($result))
 	{
 		//Déploiement des childs
 		while($row = mysql_fetch_assoc($result)) $childData[] = $row;
 	}
 }
-
 /*
  * Finitions du XML
  */
@@ -127,30 +129,34 @@ $user->addAttribute('level', $userData['infected']);
 $user->addChild('name', cdata($userData['name']));
 $user->addChild('avatar', cdata($userData['avatar']));
 
-if(count($parentData))
+if(FULL_INFOS)
 {
 	$parent = $user->addChild('parent');
-	foreach($parentData as $s)
+	if(count($parentData))
 	{
-		$spore = $parent->addChild('spore');
-		$spore->addAttribute('uid', $s['parent']);
-		$spore->addAttribute('ts', $s['date']);
-		$spore->addChild('name', cdata($s['name']));
-		if(strlen($s['avatar'])) $spore->addChild('avatar', cdata($s['avatar']));
-		else $spore->addChild('avatar', null);
+		foreach($parentData as $s)
+		{
+			$spore = $parent->addChild('spore');
+			$spore->addAttribute('uid', $s['parent']);
+			$spore->addAttribute('ts', $s['date']);
+			$spore->addChild('name', cdata($s['name']));
+			if(strlen($s['avatar'])) $spore->addChild('avatar', cdata($s['avatar']));
+			else $spore->addChild('avatar', null);
+		}
 	}
-}
-if(count($childData))
-{
+	
 	$child = $user->addChild('child');
-	foreach($childData as $s)
+	if(count($childData))
 	{
-		$spore = $child->addChild('spore');
-		$spore->addAttribute('uid', $s['child']);
-		$spore->addAttribute('ts', $s['date']);
-		$spore->addChild('name', cdata($s['name']));
-		if(strlen($s['avatar'])) $spore->addChild('avatar', cdata($s['avatar']));
-		else $spore->addChild('avatar', null);
+		foreach($childData as $s)
+		{
+			$spore = $child->addChild('spore');
+			$spore->addAttribute('uid', $s['child']);
+			$spore->addAttribute('ts', $s['date']);
+			$spore->addChild('name', cdata($s['name']));
+			if(strlen($s['avatar'])) $spore->addChild('avatar', cdata($s['avatar']));
+			else $spore->addChild('avatar', null);
+		}
 	}
 }
 

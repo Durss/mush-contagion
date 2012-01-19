@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!-- definition of simple type elements -->
+	
+<!-- definition of attributes -->
+	<xsd:attribute name="id" type="xsd:positiveInteger" />
+	<xsd:attribute name="link" type="xsd:string" />
+
+<!-- definition of complex type elements -->
+	<xsd:element name="xml">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="header" minOccurs="1" maxOccurs="1" />
+				<xsd:element ref="status" minOccurs="0" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>	
+	
+	<xsd:element name="header">
+		<xsd:complexType>
+			<xsd:attribute ref="link" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="status">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="s" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="s">
+		<xsd:complexType mixed="true">
+			<xsd:attribute ref="id" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+<!-- definition of restricted type -->
+
+</xsd:schema>

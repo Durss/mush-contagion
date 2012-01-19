@@ -2,7 +2,10 @@
 //Bloque l'accès direct
 if(!isset($page))
 {
-	header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found"); 
+	if(isset($page)) $page->stop = false;
+	header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+	$_GET['code'] = 404;
+	include(dirname(__FILE__).'/../error.php');
 	die();
 }
 
