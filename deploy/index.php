@@ -25,40 +25,71 @@ $page->title = "Mush Contagion";
 $page->addMetaTag("ROBOTS", "NOINDEX, NOFOLLOW");
 
 //Parametres
-$ini = parse_ini_file('params.ini');
+$ini = parse_ini_file('params.ini',1);
 
 //Démarrage de mtlib
-include('php/inc/runMtlib.php');
+require('php/inc/runMtlib.php');
 
 //Sommaire de l'app
 //--init
 if(!isset($_GET['act'])) $_GET['act'] = null;
+
+//--Page de maintenance
+if($ini['status']['maintenance'] != '0')
+{
+	//identification (si admin)
+	$flow = $api->flow('user', UID, PUBKEY);
+	//--Vérifie que le flux est valide
+	if($api->notice()) $user = false;
+	else $user = new user($flow);
+		
+	if($user
+	&& isset($ini['admins'][strtolower($user->name)])
+	&& $ini['admins'][strtolower($user->name)] == UID)
+	{
+		//@todo : marquer que le site est bloqué pour toute autre personne.
+		$page->c .= "<div class='adv'>Maintenance en cours</div>";
+	}
+	//503	Service Unavailable
+	else
+	{
+		if(isset($page)) $page->stop = true;
+		header($_SERVER["SERVER_PROTOCOL"]." 503 Service Unavailable");
+		$_GET['code'] = 503;
+		include('error.php');
+		die();
+	}
+}
 //--admin
 if($_GET['act'] == 'admin')
 {
 	include('c/admin.php');
-	if(!adminOffice()) usualSuspect('admin_access');
+	$page->stop = true;
+	if(!adminOffice())
+	{
+		usualSuspect('admin_access');
+		$page->stop = false;
+	}
+	
 }
-//--Page de maintenance
-if($ini['maintenance'] != '0') die(MSG_MAINTENANCE);
 //--menu
 switch($_GET['act'])
 {	
 	case 'php': //Dev: nSun
 		if(DEVMODE)
 		{
-			if(!BETA) include('php/start.php');
+			if(!BETA) require_once('php/start.php');
 			die();
 		}
 	default:
 		if(BETA)
 		{
-			include('php/start.php');
+			require_once('php/start.php');
 			include('beta.php');
 		}
 		else
 		{
-			include('php/start.php');
+			require_once('php/start.php');
 			include('php/flashFrame.php');
 		}
 }

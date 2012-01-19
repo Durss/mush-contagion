@@ -1,5 +1,6 @@
 <?php
 $httpCodes = array(
+/*
 //1xx Information
 100 => array('Continue',	"Attente de la suite de la requête"),
 101 => array('Switching Protocols',	"Acceptation du changement de protocole"),
@@ -29,18 +30,22 @@ $httpCodes = array(
 400 => array('Bad Request',	"La syntaxe de la requête est erronée"),
 401 => array('Unauthorized',	"Une authentification est nécessaire pour accéder à la ressource"),
 402 => array('Payment Required',	"Paiement requis pour accéder à la ressource"), //(non utilisé)
+*/
 403 => array('Forbidden',	"L'authentification est refusée."), //Contrairement à l'erreur 401, aucune demande d'authentification ne sera faite
 404 => array('Not Found',	"Ressource non trouvée"),
-405 => array('Method Not Allowed',	"Méthode de requête non autorisée"),
+#405 => array('Method Not Allowed',	"Méthode de requête non autorisée"),
 406 => array('Not Acceptable',	"Toutes les réponses possibles seront refusées."),
-407 => array('Proxy Authentication Required',	"Accès à la ressource autorisé par identification avec le proxy"),
+#407 => array('Proxy Authentication Required',	"Accès à la ressource autorisé par identification avec le proxy"),
 408 => array('Request Time-out',	"Temps d'attente d'une réponse du serveur écoulé"),
+/*
 409 => array('Conflict',	"La requête ne peut être traitée à l'état actuel"),
 410 => array('Gone',	"La ressource est indisponible et aucune adresse de redirection n'est connue"),
 411 => array('Length Required',	"La longueur de la requête n'a pas été précisée"),
 412 => array('Precondition Failed',	"Préconditions envoyées par la requête non-vérifiées"),
+*/
 413 => array('Request Entity Too Large',	"Traitement abandonné dû à une requête trop importante"),
 414 => array('Request-URI Too Long',	"URI trop longue"),
+/*
 415 => array('Unsupported Media Type',	"Format de requête non-supportée pour une méthode et une ressource données"),
 416 => array('Requested range unsatisfiable',	"Champs d'en-tête de requête « range » incorrect."),
 417 => array('Expectation failed',	"Comportement attendu et défini dans l'en-tête de la requête insatisfaisable"),
@@ -52,14 +57,15 @@ $httpCodes = array(
 426 => array('Upgrade Required',	""), //(RFC 2817) Le client devrait changer de protocole, par exemple au profit de TLS/1.0
 449 => array('Retry With',	""), //Code défini par Microsoft. La requête devrait être renvoyée après avoir effectué une action.
 450 => array('Blocked by Windows Parental Controls',	""), //Code défini par Microsoft. Cette erreur est produite lorsque les outils de contrôle parental de Windows sont activés et bloquent l'accès à la page.
+*/
 //5xx Erreur du serveur[modifier]
 500 => array('Internal Server Error',	"Erreur interne du serveur"),
 501 => array('Not Implemented',	"Fonctionnalité réclamée non supportée par le serveur"),
-502 => array('Bad Gateway ou Proxy Error',	"Mauvaise réponse envoyée à un serveur intermédiaire par un autre serveur."),
+#502 => array('Bad Gateway ou Proxy Error',	"Mauvaise réponse envoyée à un serveur intermédiaire par un autre serveur."),
 503 => array('Service Unavailable',	"Service temporairement indisponible ou en maintenance"),
 504 => array('Gateway Time-out',	"Temps d'attente d'une réponse d'un serveur à un serveur intermédiaire écoulé"),
 505 => array('HTTP Version not supported',	"Version HTTP non gérée par le serveur"),
-507 => array('Insufficient storage',	"WebDAV : Espace insuffisant pour modifier les propriétés ou construire la collection"),
+#507 => array('Insufficient storage',	"WebDAV : Espace insuffisant pour modifier les propriétés ou construire la collection"),
 509 => array('Bandwidth Limit Exceeded',	""), //Utilisé par de nombreux serveurs pour indiquer un dépassement de quota.
 );
 

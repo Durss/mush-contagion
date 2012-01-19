@@ -1,11 +1,5 @@
 Options -Indexes
 
-ErrorDocument 403 /mushcontagion/error.php?code=403
-ErrorDocument 404 /mushcontagion/error.php?code=404
-ErrorDocument 500 /mushcontagion/error.php?code=500
-ErrorDocument 503 /mushcontagion/error.php?code=503
-ErrorDocument 504 /mushcontagion/error.php?code=504
-
 <Files *.txt>
 deny from all
 allow from localhost
@@ -15,3 +9,16 @@ allow from localhost
 deny from all
 allow from localhost
 </Files>
+
+ErrorDocument 403 /mushcontagion/error.php?code=403
+ErrorDocument 404 /mushcontagion/error.php?code=404
+ErrorDocument 406 /mushcontagion/error.php?code=406
+ErrorDocument 408 /mushcontagion/error.php?code=408
+ErrorDocument 413 /mushcontagion/error.php?code=413
+ErrorDocument 414 /mushcontagion/error.php?code=414
+ErrorDocument 500 /mushcontagion/error.php?code=500
+ErrorDocument 501 /mushcontagion/error.php?code=501
+ErrorDocument 503 /mushcontagion/error.php?code=503
+ErrorDocument 504 /mushcontagion/error.php?code=504
+ErrorDocument 505 /mushcontagion/error.php?code=505
+ErrorDocument 509 /mushcontagion/error.php?code=509
