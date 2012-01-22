@@ -70,7 +70,7 @@ class mysqlManager
 		$this->_user = $mysql_vars['user'];
 		$this->_pass = $mysql_vars['pass'];
 		$this->db = $mysql_vars['db'];
-		$this->tbl = $mysql_vars['tables'];
+		$this->tbl = $mysql_vars['tbl'];
 		
 		if(!is_dir(self::LOG_DIR)) mkdir(self::LOG_DIR);
 	}

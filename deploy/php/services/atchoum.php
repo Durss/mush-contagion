@@ -11,6 +11,10 @@ require(baseURL.'c/config.php');
 require(baseURL.'php/func/pReturn.php');
 require(baseURL.'c/mysql.php');
 
+//Gestion DB
+require(baseURL.'php/class/mysqlManager.php');
+require(baseURL.'php/class/mushSQL.php');
+
 //Fonctions utiles XML
 require(baseURL.'php/func/xmlError.php');
 require(baseURL.'php/func/xmlFinish.php');
@@ -82,21 +86,17 @@ if(UID && FRIENDS_KEY)
 //Paire invalide id/key ou flux friend indisponible
 if(!UID || !FRIENDS_KEY || !$flowOK) xmlFinish($root);
 
+//Initialisation du gestionnaire DB
+$db = new mushSQL($mysql_vars, isset($_GET['debug']));
+
 //Params
-$addInfectedUsers = ($ini['infectCover'] == '1') ? null : "AND `infected` = 0\n";
+#$addInfectedUsers = ($ini['infectCover'] == '1') ? null : "AND `infected` = 0\n";
 
 //Dresse la liste des amis pour une requête SQL
 $f = array_keys($friends->list);
+
 //Sélectionne tous les amis qui ne sont pas encore infectés.
-$sql = "-- Amis non-infectés\n"
-."SELECT `uid`, `name`, `avatar`, `infected`\n"
-."FROM `{$mysql_vars['tbl']['user']}`\n"
-."WHERE `uid`\n"
-."IN (".implode(', ',$f).")\n"
-.$addInfectedUsers
-."ORDER BY RAND()\n"
-."LIMIT {$max};";
-if(!$r = mysql_query($sql))
+if(! $db->selectUsers(1, $f, $max, $ini['infectCover'], 1))
 {
 	//En cas d'erreur SQL
 	$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error()) );
@@ -106,37 +106,24 @@ if(!$r = mysql_query($sql))
 
 //Déplie la liste
 $list = Array();
-if(mysql_num_rows($r))
+if(mysql_num_rows($db->result))
 {
-	while($row = mysql_fetch_assoc($r)){
-		$list[intval($row['uid'])] = $row;
-	}
+	while($row = mysql_fetch_assoc($db->result)) $list[intval($row['uid'])] = $row;
 }
 
 //Pour les gens qui n'ont pas ou peu d'amis non-infectés
 if(count($list) < $max)
 {
-	if(count($list)) $excludeUsers = ",".implode(",", array_keys($list));
-	else $excludeUsers = null;
-	
-	$nb = $max - count($list);
-	$sql = "-- Manque d'amis non-infectés\n"
-	."SELECT `uid`, `name`, `avatar`, `infected`\n"
-	."FROM `{$mysql_vars['tbl']['user']}`\n"
-	."WHERE `uid` NOT IN (".UID.$excludeUsers.")\n"
-	.$addInfectedUsers
-	."ORDER BY RAND()\n"
-	."LIMIT {$nb};";
-	if(!$r = mysql_query($sql))
+	if(! $db->selectUsers(0, $f, $max - count($list), $ini['infectCover'], 1))
 	{
 		//En cas d'erreur SQL
 		$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error()) );
 		xmlError($root, 'db', $e);
 		xmlFinish($root);
 	}
-	if(mysql_num_rows($r))
+	if(mysql_num_rows($db->result))
 	{
-		while($row = mysql_fetch_assoc($r)) $list[intval($row['uid'])] = $row;
+		while($row = mysql_fetch_assoc($db->result)) $list[intval($row['uid'])] = $row;
 	}
 }
 
@@ -146,23 +133,15 @@ if(count($list) < $max)
 //Auto-infection
 if($ini['infectSelf'])
 {
-	$sql = "-- Origine de l'auto-infections\n"
-	."INSERT INTO `{$mysql_vars['db']}`.`{$mysql_vars['tbl']['link']}`\n"
-	."(`parent`, `child`, `date`) VALUES\n"
-	."('0', '".UID."', '".time()."');";
-	if(!mysql_query($sql))
+	if(!$db->insertLink(array(UID), 0))
 	{
 		//En cas d'erreur SQL
 		$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error()) );
 		xmlError($root, 'db', $e);
 		xmlFinish($root);
 	}
-
-	$sql = "-- Statut d'infecté (self)\n"
-	."UPDATE  `{$mysql_vars['db']}`.`{$mysql_vars['tbl']['user']}`\n"
-	."SET  `infected` = infected+1\n"
-	."WHERE  `{$mysql_vars['tbl']['user']}`.`uid` = ".UID.";";
-	if(!mysql_query($sql))
+	
+	if(!$db->updateInfection(array(UID)))
 	{
 		//En cas d'erreur SQL
 		$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error().$sql) );
@@ -173,14 +152,7 @@ if($ini['infectSelf'])
 
 if(count($list))
 {
-	$time = time();
-	$links = "('".UID."', '".implode("', '{$time}'),\n('".UID."', '", array_keys($list))."', '{$time}')";
-	
-	$sql = "-- Origine des infections\n"
-	."INSERT INTO `{$mysql_vars['db']}`.`{$mysql_vars['tbl']['link']}`\n"
-	."(`parent`, `child`, `date`) VALUES\n"
-	.$links.";";
-	if(!mysql_query($sql))
+	if(!$db->insertLink(array_keys($list), UID))
 	{
 		//En cas d'erreur SQL
 		$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error()) );
@@ -188,11 +160,7 @@ if(count($list))
 		xmlFinish($root);
 	}
 
-	$sql = "-- Statut d'infecté\n"
-	."UPDATE  `{$mysql_vars['db']}`.`{$mysql_vars['tbl']['user']}`\n"
-	."SET  `infected` = infected+1\n"
-	."WHERE  `{$mysql_vars['tbl']['user']}`.`uid` IN (".implode(", ", array_keys($list)).");";
-	if(!mysql_query($sql))
+	if(!$db->updateInfection(array_keys($list)))
 	{
 		//En cas d'erreur SQL
 		$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error().$sql) );
@@ -229,5 +197,6 @@ foreach($list as $target)
 }
 
 //Finalise
+#echo $root->asXML();
 xmlFinish($root);
 ?>
