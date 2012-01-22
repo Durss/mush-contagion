@@ -11,6 +11,10 @@ require(baseURL.'c/config.php');
 require(baseURL.'php/func/pReturn.php');
 require(baseURL.'c/mysql.php');
 
+//Gestion DB
+require(baseURL.'php/class/mysqlManager.php');
+require(baseURL.'php/class/mushSQL.php');
+
 //Fonctions utiles XML
 require(baseURL.'php/func/xmlError.php');
 require(baseURL.'php/func/xmlFinish.php');
@@ -49,24 +53,21 @@ else
 //--Option de pandémie
 define('FULL_INFOS', (bool) isset($_GET['pandemie']));
 
+//Initialisation du gestionnaire DB
+$db = new mushSQL($mysql_vars, isset($_GET['debug']));
+
 //Recherche le profil dans la base
-$sql = "-- Look for user\n"
-."SELECT `pubkey`, `name`, `lastvisit`, `avatar`, `infected`\n"
-."FROM `{$mysql_vars['tbl']['user']}`\n"
-."WHERE `uid` = ".UID."\n"
-."LIMIT 0, 1;";
-//En cas d'erreur SQL
-if(!$result = mysql_query($sql))
+if(! $db->selectUsers(1, array(UID), '0,1')) //En cas d'erreur SQL
 {
 	$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error()) );
 	xmlError($userinfos, 'db', $e);
 }
 
 //Si UID ne correspond pas à un utilisateur connu de près ou de loin
-if(!mysql_num_rows($result)) xmlError($userinfos, 'mush', MSG_USER_NOT_FOUND);
+if(!mysql_num_rows($db->result)) xmlError($userinfos, 'mush', MSG_USER_NOT_FOUND);
 
 //Déploiement des données
-$userData = mysql_fetch_assoc($result);
+$userData = mysql_fetch_assoc($db->result);
 
 if(FULL_INFOS)
 	{
@@ -76,45 +77,29 @@ if(FULL_INFOS)
 	//Recherche une infection parent
 	if($userData['infected'])
 	{
-		$sql = "-- Look for parents\n"
-		."SELECT L.`parent`, L.`date`, U.`name`, U.`avatar`\n"
-		."FROM `{$mysql_vars['tbl']['link']}` L, `{$mysql_vars['tbl']['user']}` U\n"
-		."WHERE L.`child` = ".UID."\n"
-		."AND L.`parent` = U.`uid`\n"
-		."ORDER BY `index` ASC;";
-		
-		//En cas d'erreur SQL
-		if(!$result = mysql_query($sql))
+		if(! $db->selectParents(UID)) //En cas d'erreur SQL
 		{
 			$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error()) );
 			xmlError($userinfos, 'db', $e);
 		}
 		
-		if(mysql_num_rows($result))
+		if(mysql_num_rows($db->result))
 		{
 			//Déploiement des parents
-			while($row = mysql_fetch_assoc($result)) $parentData[] = $row;
+			while($row = mysql_fetch_assoc($db->result)) $parentData[] = $row;
 		}
 	}
 	//Recherche une infection enfant
-	$sql = "-- Look for child\n"
-	."SELECT L.`child`, L.`date`, U.`name`, U.`avatar`\n"
-	."FROM `{$mysql_vars['tbl']['link']}` L, `{$mysql_vars['tbl']['user']}` U\n"
-	."WHERE L.`parent` = ".UID."\n"
-	."AND L.`child` = U.`uid`\n"
-	."ORDER BY `index` ASC;";
-		
-	//En cas d'erreur SQL
-	if(!$result = mysql_query($sql))
+	if(! $db->selectChilds(UID)) //En cas d'erreur SQL
 	{
 		$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error()) );
 		xmlError($userinfos, 'db', $e);
 	}
 		
-	if(mysql_num_rows($result))
+	if(mysql_num_rows($db->result))
 	{
 		//Déploiement des childs
-		while($row = mysql_fetch_assoc($result)) $childData[] = $row;
+		while($row = mysql_fetch_assoc($db->result)) $childData[] = $row;
 	}
 }
 /*

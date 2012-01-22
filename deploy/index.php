@@ -12,6 +12,10 @@ require('c/usualSuspect.php');
 require('php/func/pReturn.php');
 require('c/mysql.php');
 
+//Gestion DB
+require('php/class/mysqlManager.php');
+require('php/class/mushSQL.php');
+
 //mtlib et DTO (gestion de l'API Muxxu)
 require('php/class/mtlib.php');
 require('php/class/dto/base_dto.php');

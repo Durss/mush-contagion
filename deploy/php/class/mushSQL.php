@@ -9,10 +9,12 @@ class mushSQL extends mysqlManager
 	public function mushSQL($mysql_vars, $debugMode=false)
 	{
 		$this->mysqlManager($mysql_vars, $debugMode);
+		$this->connect();
 	}
 	
 	/**
-	 * Insert, complète ou met à jour les infos sur l'utilisateur dans la table 'user'
+	 * <p>Insert, complète ou met à jour les infos sur l'utilisateur dans la table 'user'</p>
+	 * <p>--Si l'utilisateur est déjà enregistré, mon met à jour toutes les données</p>
 	 * @param	int			$uid		-N°identifiant utilisateur
 	 * @param	string		$pubkey		-Clé publique de l'utilisateur
 	 * @param	string		$friendsKey	-Clé du flux friends de l'utilisateur
@@ -116,13 +118,13 @@ EOSQL;
 	{		
 		if(count($list) > 1)
 		{
-			$not = ($in) ? 'IN' : 'NOT IN';
+			$in = ($in) ? 'IN' : 'NOT IN';
 			$target = "{$in} (".implode(', ', $list).")";
 		}
 		else
 		{
 			$equal = ($in) ? '=' : '!=';
-			$target = "{$equal} ".current($list).")";
+			$target = "{$equal} ".current($list);
 		}
 		
 		if($limit === false) $limit = null;
@@ -132,7 +134,7 @@ EOSQL;
 		else
 		{
 			$addcomment = "en dessous du seuil d'infection";
-			$infection = "\n"."AND `infected` >= {$infection}";
+			$infection = "\n"."AND `infected` <= {$infection}";
 		}
 		
 		if($rand) $rand = "\n"."ORDER BY RAND()";
@@ -160,7 +162,7 @@ EOSQL;
 		$sql = <<<EOSQL
 -- Look for parents
 SELECT L.`parent`, L.`date`, U.`name`, U.`avatar`
-FROM `{$this->tbl['link']}` L, `{$this->tbl['tbl']['user']}` U
+FROM `{$this->tbl['link']}` L, `{$this->tbl['user']}` U
 WHERE L.`child` = {$uid}
 AND L.`parent` = U.`uid`
 ORDER BY L.`index` ASC;
@@ -178,8 +180,8 @@ EOSQL;
 	{
 		$sql = <<<EOSQL
 -- Look for childs
-SELECT L.`parent`, L.`date`, U.`name`, U.`avatar`
-FROM `{$this->tbl['link']}` L, `{$this->tbl['tbl']['user']}` U
+SELECT L.`child`, L.`date`, U.`name`, U.`avatar`
+FROM `{$this->tbl['link']}` L, `{$this->tbl['user']}` U
 WHERE L.`parent` = {$uid}
 AND L.`child` = U.`uid`
 ORDER BY L.`index` ASC;
