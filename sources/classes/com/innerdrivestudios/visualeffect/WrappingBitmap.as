@@ -54,7 +54,6 @@ package com.innerdrivestudios.visualeffect {
 
 		public function scroll(dx:Number, dy:Number):void {
 			_matrix.tx += dx;
-
 			_matrix.ty += dy;
 
 			_paint();
@@ -73,6 +72,15 @@ package com.innerdrivestudios.visualeffect {
 			lResult.draw(this);
 
 			return lResult;
+		}
+
+		public function get scrollX():Number {
+			return _matrix.tx;
+		}
+
+		public function set scrollX(value:Number):void {
+			_matrix.tx = value;
+			_paint();
 		}
 	}
 }
