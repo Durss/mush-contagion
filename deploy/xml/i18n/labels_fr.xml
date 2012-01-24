@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<root>
+<root	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation='http://localhost/mushcontagion/xml/schema/labels.xsd'>
 	<labels>
 		<label code="intro">
 			<s><![CDATA[				<sneeze/>*ATCHA*<wait1 /><br /><br />RAAAH C'EST POUR QUOI ENCORE???!!!]]></s>
