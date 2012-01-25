@@ -6,8 +6,15 @@
 		<link rel="shortcut icon" href="favicon.ico" />
 		<link rel="stylesheet" type="text/css" href="css/base.css"/>
     </head>
-    <body class="beta">
+    <body class="beta" style="overflow: scroll !important; background-color: #226;">
 <?php
+	$score = false;	
+	function strip_cdata($string) 
+	{ 
+	    preg_match_all('/<!\[cdata\[(.*?)\]\]>/is', $string, $matches); 
+	    return str_replace($matches[0], $matches[1], $string); 
+	} 
+			
 	if($_GET['act'] == 'infecter' && isset($_GET['id']) && isset($_GET['key']))
 	{
 		$atchoum = website."php/services/atchoum.php?id={$_GET['id']}&key={$_GET['key']}";
@@ -21,13 +28,7 @@
 		}
 		
 		if(isset($action->infectedUsers) && isset($action->infectedUsers->user))
-		{
-			function strip_cdata($string) 
-			{ 
-			    preg_match_all('/<!\[cdata\[(.*?)\]\]>/is', $string, $matches); 
-			    return str_replace($matches[0], $matches[1], $string); 
-			} 
-			
+		{	
 			$score .= "<dl>\n<dt>infectés</dt>\n";
 			foreach($action->infectedUsers->user as $victime)
 			{
@@ -53,17 +54,64 @@
 			$score .= "</dl>\n";
 		}
 		
-		$score .= "<textarea>".$action->asXML()."</textarea>";
+		#$score .= "<textarea>".$action->asXML()."</textarea>";
 	}
-	else $score = false;
-
+	
+	if($_GET['act'] == 'sante' && isset($_GET['id']))
+	{
+		$userService = website."php/services/userinfos.php?id={$_GET['id']}";
+		$userinfos = simplexml_load_file($userService, 'SimpleXMLElement', LIBXML_NOCDATA);
+		
+		if(isset($userinfos->user['level'])) $score = "<dl><dt>Taux d'infection</dt><dd>{$userinfos->user['level']}</dd></dl>";
+	}
+	
+	
+	if($_GET['act'] == 'pandemie' && isset($_GET['id']))
+	{
+	#	$_GET['id'] = 2;
+		$userService = website."php/services/userinfos.php?id={$_GET['id']}&pandemie";
+		$userinfos = simplexml_load_file($userService, 'SimpleXMLElement', LIBXML_NOCDATA);
+		
+		$score = null;
+		
+		if(count($userinfos->user->parent->spore))
+		{
+			$score .= "<dt>Parents</dt>\n";
+			foreach($userinfos->user->parent->spore as $parent)
+			{
+				$score .= ""
+				."<dd>".date('Y-m-d H\hi:s',intval($parent['ts']))."</dd>\n" 
+				."<dd>"
+				."<img src='".strip_cdata($parent->avatar)."' class='avatar40' /> "
+				."<strong>".strip_cdata($parent->name)."</strong>"
+				."</dd>\n";
+			}
+		}
+		if(count($userinfos->user->child->spore))
+		{
+			$score .= "<dt>Childs</dt>\n";
+			foreach($userinfos->user->child->spore as $child)
+			{
+				$score .= ""
+				."<dd>".date('Y-m-d H\hi:s',intval($child['ts']))."</dd>\n" 
+				."<dd>"
+				."<img src='".strip_cdata($child->avatar)."' class='avatar40' /> "
+				."<strong>".strip_cdata($child->name)."</strong>"
+				."</dd>\n";
+			}
+		}
+		if($score != null) $score = "<dl>\n{$score}</dl>\n";
+		
+	}
 
 	# Données d'accès au service
 	$id = UID ? UID : null;
 	$key = isset($user->key['friends']) ? $user->key['friends'] : null; // NOTE: Et OUI, il ne s'agit pas du pubkey ;)
 	
 	$baseGet = "?uid=".UID."&pubkey=".PUBKEY;
+	$actionHealth = $baseGet."&id=".UID."&act=sante";
 	$actionInfecter = $baseGet."&id=".UID."&key={$key}&act=infecter";
+	$actionPandemie = $baseGet."&id=".UID."&act=pandemie";
 ?>
 		<div>
 			<h1>Infos persos</h1>
@@ -77,9 +125,9 @@
 		<div>
 			<h1>Actions</h1>
 			<ul>
-				<li>Votre état de santé *</li>
+				<li><a href="<?php echo $actionHealth; ?>">Votre état de santé</a></li>
 				<li><a href="<?php echo $actionInfecter; ?>">Infecter des gens</a></li>
-				<li>Apperçu de la pandémie *</li>
+				<li><a href="<?php echo $actionPandemie; ?>">Apperçu de la pandémie</a></li>
 			</ul>
 		</div>
 <?php 
@@ -90,6 +138,5 @@
 		."</div>";
 	}
 ?>
-		<div>* Pas fait... :P</div>
 	</body>
 </html>

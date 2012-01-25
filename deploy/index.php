@@ -4,7 +4,7 @@
  * <p>Point névralgique de l'app.</p>
  */
 define('DEVMODE',true);
-define('BETA',false);
+define('BETA',true);
 //Base
 require('php/msg.php');
 require('c/config.php');
