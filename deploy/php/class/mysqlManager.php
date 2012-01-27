@@ -116,7 +116,7 @@ class mysqlManager
 		{
 			$flag = '['.date('d').']['.time().']';
 			$data = "{$flag}\t".strip_tags($msg)."\n";
-			file_put_contents(self::LOG_DIR.date('Ym').'.txt', $data);
+			file_put_contents(self::LOG_DIR.date('Ym').'.txt', $data, FILE_APPEND);
 			echo "<h1>Error</h1>\n<h3>Please report : [".date('Ym')."]{$flag}</h3>";
 		}
 		if(!$continue) die();

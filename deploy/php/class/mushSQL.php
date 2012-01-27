@@ -32,7 +32,7 @@ INSERT INTO `{$this->db}`.`{$this->tbl['user']}`
 ('{$uid}', '{$pubkey}', '{$friendsKey}', '{$name}', '{$time}', '{$avatar}')
 -- Si l'utilisateur est déjà enregistré, mon met à jour toutes les données
 ON DUPLICATE KEY UPDATE
-`pubkey` = '".PUBKEY."', `friends` = '{$friendsKey}', `name` = '{$name}', `lastvisit` = '{$time}', `avatar` = '{$avatar}';
+`pubkey` = '{$pubkey}', `friends` = '{$friendsKey}', `name` = '{$name}', `lastvisit` = '{$time}', `avatar` = '{$avatar}';
 EOSQL;
 		return $this->query($sql) or $this->error(mysql_error());
 	}
