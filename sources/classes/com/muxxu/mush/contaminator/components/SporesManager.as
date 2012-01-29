@@ -1,9 +1,15 @@
 package com.muxxu.mush.contaminator.components {
+	import com.muxxu.mush.contaminator.views.BackgroundView;
+	import com.muxxu.mush.contaminator.views.ContaminationView;
+	import com.nurun.structure.mvc.views.ViewLocator;
+	import com.nurun.utils.array.ArrayUtils;
+
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.geom.Point;
+	import flash.utils.setTimeout;
 	
 	/**
 	 * 
@@ -18,7 +24,11 @@ package com.muxxu.mush.contaminator.components {
 		private var _currentParticle:Particle;
 		private var _parent:DisplayObjectContainer;
 		private var _startPoint:Point;
-		private var _lockY:Boolean;
+		private var _backgroundView:BackgroundView;
+		private var _offsetY:int;
+		private var _slowingDown:Boolean;
+		private var _mushroomsView:ContaminationView;
+		private var _timeFlag:Boolean;
 		
 		
 		
@@ -57,11 +67,20 @@ package com.muxxu.mush.contaminator.components {
 				_parent.addChild(particle);
 				particle = particle.next;
 			}
+			_offsetY = 0;
 			_currentParticle = particle;
 		}
 		
-		public function goingUp():void {
-			_lockY = true;
+		/**
+		 * Loks the particles into the screen.
+		 */
+		public function startAnimation():void {
+			var particle:Particle, i:int;
+			particle = _firstParticle;
+			while(particle != null && i++ < _len) {
+				particle.lockY();
+				particle = particle.next;
+			}
 		}
 
 
@@ -85,10 +104,12 @@ package com.muxxu.mush.contaminator.components {
 				tmp = particle;
 				
 			}
-			particle.next = _firstParticle;//makes the spool loops
+			particle.next = _firstParticle;//makes the spool loop
 			
 			_efTarget = new Shape();
 			_efTarget.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
+			_backgroundView = ViewLocator.getInstance().locateViewByType(BackgroundView) as BackgroundView;
+			_mushroomsView = ViewLocator.getInstance().locateViewByType(ContaminationView) as ContaminationView;
 		}
 		
 		/**
@@ -96,16 +117,52 @@ package com.muxxu.mush.contaminator.components {
 		 */
 		private function enterFrameHandler(event:Event):void {
 			if(_startPoint == null) return;
-			
 			var particle:Particle, i:int;
+			
+			if(_backgroundView.skyAngle > Math.PI * .5){
+				//slow down
+				if (!_slowingDown && _backgroundView.scrollSpeed < 40) {
+					_slowingDown = true;
+					particle = _firstParticle;
+					while(particle != null && i++ < _len) {
+						particle.slowDown();
+						particle = particle.next;
+					}
+				}
+				if(_slowingDown) {
+					_offsetY = Math.max(0, _offsetY-5);
+				}else{
+					_offsetY = Math.min(500, _offsetY+7);
+				}
+			}
+			
+			if(_backgroundView.scrollSpeed == 0 && !_timeFlag) {
+				_timeFlag = true;
+				setTimeout(contaminate, 2000);
+			}
+			
 			particle = _firstParticle;
 			while(particle != null && i++ < _len) {
-				if(_lockY) {
-//					_parent.filters = [new BlurFilter(0, 5)];
-				}
-				particle.move(_lockY);
+				particle.move(_backgroundView.skyAngle, _offsetY);
 				particle = particle.next;
 			}
+		}
+		
+		/**
+		 * Contaminates the mushrooms
+		 */
+		private function contaminate():void {
+			var particle:Particle, i:int;
+			var targets:Array = _mushroomsView.getTargets();
+			
+			particle = _firstParticle;
+			while(particle != null && i++ < _len) {
+				if(particle.launched) {
+					particle.lockTarget( ArrayUtils.getRandom(targets) );
+				}
+				particle = particle.next;
+			}
+			
 		}
 		
 	}

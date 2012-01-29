@@ -65,6 +65,7 @@ package com.muxxu.mush.contaminator.views {
 		private var _lastHitTime:int;
 		private var _sneezeHistory:Array;
 		private var _dialogDone:Object;
+		private var _disabled:Boolean;
 		
 		
 		
@@ -89,6 +90,12 @@ package com.muxxu.mush.contaminator.views {
 		 */
 		override public function update(event:IModelEvent):void {
 			var model:Model = event.model as Model;
+			
+			if(model.infectedUsers != null) {
+				
+				return;
+			}
+			
 			if(model.playIntro) {
 				addChild(_introductionLayer);
 				addChild(_speak);
@@ -105,7 +112,7 @@ package com.muxxu.mush.contaminator.views {
 				setTimeout(MovieClip(_mushroom.top.getChildByName("right")).play, 2000);
 				setTimeout(MovieClip(_mushroom.bottom.getChildByName("mouth")).play, 2000);
 				setTimeout(startTalking, 3200);
-			}else{
+			} else {
 				MovieClip(_mushroom.top.getChildByName("left")).play();
 				MovieClip(_mushroom.top.getChildByName("right")).play();
 				MovieClip(_mushroom.bottom.getChildByName("mouth")).play();
@@ -232,6 +239,7 @@ package com.muxxu.mush.contaminator.views {
 		 * Called when the spores are thrown
 		 */
 		private function throwSporesHandler(event:LightEvent):void {
+			stage.removeEventListener(Event.RESIZE, computePositions);
 			scroll();
 		}
 		
@@ -241,7 +249,7 @@ package com.muxxu.mush.contaminator.views {
 		private function scroll():void {
 			TweenLite.to(_frontLandscape, 3, {y:stage.stageHeight+400, ease:Sine.easeIn});
 			TweenLite.to(_mushroom, 3, {y:stage.stageHeight + _mushroom.height + 450, ease:Sine.easeIn});
-			setTimeout(_particles.goingUp, 4000);
+			setTimeout(_particles.startAnimation, 4000);
 		}
 		
 		/**
@@ -280,6 +288,8 @@ package com.muxxu.mush.contaminator.views {
 					if(_dialogDone["harder"] === true && _dialogDone["better"] == undefined) {
 						_speak.populate("better", false);
 					}else{
+						_disabled = true;
+						_streak.disable();
 						FrontControler.getInstance().throwSpores();
 					}
 					_dialogDone["better"] = true;
@@ -307,7 +317,7 @@ package com.muxxu.mush.contaminator.views {
 			//Detect collision with mushroom.
 			//Detects the collision direction to sync the mushroom's animation.
 //			graphics.clear();
-			if(histX.length >= 2 && getTimer() - _lastHitTime > 500) {
+			if(histX.length >= 2 && getTimer() - _lastHitTime > 500 && !_disabled) {
 //				graphics.beginFill(0xff0000, 1);
 				var j:int, i:int, len:int, dist:Number, px:Number, py:Number, incX:Number, incY:Number, ratio:Number, distMin:Number;
 				j = histX.length-1;

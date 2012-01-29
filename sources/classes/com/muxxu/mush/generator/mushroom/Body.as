@@ -1,8 +1,7 @@
 package com.muxxu.mush.generator.mushroom {
-	import com.nurun.utils.math.MathUtils;
 	import com.cartogrammar.drawing.CubicBezier;
 	import com.nurun.utils.color.ColorFunctions;
-	import com.nurun.utils.vector.VectorUtils;
+	import com.nurun.utils.math.MathUtils;
 
 	import flash.display.Shape;
 	import flash.filters.DropShadowFilter;
@@ -146,18 +145,20 @@ package com.muxxu.mush.generator.mushroom {
 			for(i = 0; i < len; ++i) {
 				points[i] = _refPoints[i].clone();
 			}
-			points[1].x -= (_flattenRatio-1)*_sizeRatio*.75;
-			points[1].y -= (_flattenRatio-1)*_sizeRatio*.75;
-			points[2].x += (_flattenRatio-1)*_sizeRatio*.75;
-			points[2].y -= (_flattenRatio-1)*_sizeRatio*.75;
+			var p1:Point = points[1];
+			var p2:Point = points[2];
+			p1.x -= (_flattenRatio-1)*_sizeRatio*.75;
+			p1.y -= (_flattenRatio-1)*_sizeRatio*.75;
+			p2.x += (_flattenRatio-1)*_sizeRatio*.75;
+			p2.y -= (_flattenRatio-1)*_sizeRatio*.75;
 			
 			_bottomPoint = new Point();
-			_bottomPoint.x = points[1].x + (points[2].x - points[1].x)*.5;
-			_bottomPoint.y = points[1].y + (points[2].y - points[1].y)*.5;
+			_bottomPoint.x = p1.x + (p2.x - p1.x)*.5;
+			_bottomPoint.y = p1.y + (p2.y - p1.y)*.5;
 
 			var topPoint:Point = new Point();
-			topPoint.x = points[0].x + (points[3].x - points[0].x)*.5;
-			topPoint.y = points[0].y + (points[3].y - points[0].y)*.5;
+			topPoint.x = Point(points[0]).x + (Point(points[3]).x - Point(points[0]).x)*.5;
+			topPoint.y = Point(points[0]).y + (Point(points[3]).y - Point(points[0]).y)*.5;
 			
 			_orientation = Math.atan2(_bottomPoint.y - topPoint.y, _bottomPoint.x - topPoint.x) * MathUtils.RAD2DEG - 90;
 			
@@ -170,7 +171,7 @@ package com.muxxu.mush.generator.mushroom {
 //			graphics.drawCircle(_bottomPoint.x, _bottomPoint.y, 2);
 //			graphics.lineStyle(0, 0xff0000);
 //			graphics.moveTo(topPoint.x, topPoint.y);
-			// graphics.lineTo(_bottomPoint.x, _bottomPoint.y);
+//			graphics.lineTo(_bottomPoint.x, _bottomPoint.y);
 		}
 		
 	}

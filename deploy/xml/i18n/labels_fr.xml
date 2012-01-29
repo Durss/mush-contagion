@@ -2,6 +2,11 @@
 <root	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:noNamespaceSchemaLocation='http://localhost/mushcontagion/xml/schema/labels.xsd'>
 	<labels>
+		<label code="GET_INVALID_UID"><![CDATA[Identifiant utilisateur invalide!]]></label>
+		<label code="GET_INVALID_KEY"><![CDATA[Clé d'identification invalide!]]></label>
+		<label code="MSG_FULL_INFECTED"><![CDATA[Tout le monde a été infecté O_O.<br />C'est une victoire écrasante pour le Mush!]]></label>
+		<label code="API_MT_ERROR"><![CDATA[Connexion à l'API muxxu échouée.]]></label>
+			
 		<label code="intro">
 			<s><![CDATA[				<sneeze/>*ATCHA*<wait1 /><br /><br />RAAAH C'EST POUR QUOI ENCORE???!!!]]></s>
 			<s><![CDATA[Tu QUOI?!!??!!<wait1 /><br />Tu souhaites te convertir<br />au mush???!!!???!!!<wait1 /><br />Ohh...... <wait.5 />C'est pas banal ça...]]></s>

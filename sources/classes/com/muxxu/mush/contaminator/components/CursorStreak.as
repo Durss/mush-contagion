@@ -62,7 +62,7 @@ package com.muxxu.mush.contaminator.components {
 		 * Disables the component
 		 */
 		public function disable():void {
-			removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
+			_enabled = false;
 		}
 
 
@@ -98,7 +98,7 @@ package com.muxxu.mush.contaminator.components {
 		 * Draw the lines
 		 */
 		private function enterFrameHandler(event:Event):void {
-			if(_prevX != stage.mouseX && _prevY != stage.mouseY) {
+			if(_prevX != stage.mouseX && _prevY != stage.mouseY && _enabled) {
 				_historyX.push(stage.mouseX);
 				_historyY.push(stage.mouseY);
 				_prevX = stage.mouseX;
@@ -106,6 +106,9 @@ package com.muxxu.mush.contaminator.components {
 			}else{
 				_historyX.shift();
 				_historyY.shift();
+				if(!_enabled && _historyX.length == 0) {
+					removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
+				}
 			}
 			
 			var i:int, len:int, size:Number, alpha:Number;

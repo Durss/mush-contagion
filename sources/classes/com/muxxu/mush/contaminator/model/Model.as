@@ -1,12 +1,17 @@
 package com.muxxu.mush.contaminator.model {
-	import flash.media.SoundTransform;
-	import flash.media.SoundMixer;
-	import flash.net.SharedObject;
+	import com.muxxu.mush.contaminator.cmd.InfectCmd;
 	import com.muxxu.mush.contaminator.events.LightEvent;
-	import com.nurun.structure.mvc.views.ViewLocator;
-	import com.nurun.structure.mvc.model.events.ModelEvent;
+	import com.muxxu.mush.contaminator.throwables.ContaminatorError;
+	import com.muxxu.mush.contaminator.vo.UserCollection;
+	import com.nurun.core.commands.events.CommandEvent;
 	import com.nurun.structure.mvc.model.IModel;
+	import com.nurun.structure.mvc.model.events.ModelEvent;
+	import com.nurun.structure.mvc.views.ViewLocator;
+
 	import flash.events.EventDispatcher;
+	import flash.media.SoundMixer;
+	import flash.media.SoundTransform;
+	import flash.net.SharedObject;
 	
 	/**
 	 * 
@@ -18,6 +23,7 @@ package com.muxxu.mush.contaminator.model {
 		private var _so:SharedObject;
 		private var _playIntro:Boolean;
 		private var _soundEnabled:Boolean;
+		private var _infectedUsers:UserCollection;
 		
 		
 		
@@ -46,6 +52,12 @@ package com.muxxu.mush.contaminator.model {
 		 * Gets the sound's state
 		 */
 		public function get soundEnabled():Boolean { return _soundEnabled; }
+		
+		/**
+		 * Gets the infected users
+		 */
+		public function get infectedUsers():UserCollection { return _infectedUsers; }
+		
 
 
 
@@ -64,6 +76,10 @@ package com.muxxu.mush.contaminator.model {
 		 * Starts the application.
 		 */
 		public function throwSpores():void {
+			var cmd:InfectCmd = new InfectCmd();
+			cmd.addEventListener(CommandEvent.COMPLETE, infectCompleteHandler);
+			cmd.addEventListener(CommandEvent.ERROR, commandErrorHandler);
+			cmd.execute();
 			dispatchLight(LightEvent.THROW_SPORES);
 		}
 		
@@ -112,5 +128,26 @@ package com.muxxu.mush.contaminator.model {
 			ViewLocator.getInstance().dispatchToViews(new LightEvent(type));
 		}
 		
+		
+		
+		
+		//__________________________________________________________ COMMANDS
+		
+		/**
+		 * Called when infection completes
+		 */
+		private function infectCompleteHandler(event:CommandEvent):void {
+			_infectedUsers = new UserCollection();
+			_infectedUsers.populate(event.data as XML);
+			update();
+		}
+		
+		
+		/**
+		 * Called if a command fails
+		 */
+		private function commandErrorHandler(event:CommandEvent):void {
+			 throw new ContaminatorError(event.data as String);
+		}
 	}
 }

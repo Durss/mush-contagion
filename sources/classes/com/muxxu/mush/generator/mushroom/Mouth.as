@@ -40,7 +40,7 @@ package com.muxxu.mush.generator.mushroom {
 		 */
 		public function populate(key:String, sizeRatio:Number = 50):void {
 			scaleX = scaleY = sizeRatio/50;
-			gotoAndStop( Math.floor(parseInt(key.substr(5,6), 16) / 0xffffff * totalFrames) + 1 );
+			gotoAndStop( Math.floor(parseInt(key.substr(25,1), 16) / 0xf * totalFrames) + 1 );
 		}
 
 
