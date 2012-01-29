@@ -6,6 +6,7 @@
  */
 function cdata($str)
 {
-	return "<![CDATA[{$str}]]>";
+	//return "<![CDATA[{$str}]]>";
+	return $str;
 }
 ?>

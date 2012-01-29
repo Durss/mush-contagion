@@ -1,4 +1,9 @@
 package com.muxxu.mush.contaminator {
+	import gs.plugins.TransformAroundCenterPlugin;
+	import gs.plugins.TransformAroundPointPlugin;
+	import gs.plugins.TweenPlugin;
+	import com.muxxu.mush.contaminator.views.ExceptionView;
+	import com.muxxu.mush.contaminator.views.ContaminationView;
 	import net.hires.debug.Stats;
 	import com.muxxu.mush.contaminator.views.SoundView;
 	import com.muxxu.mush.contaminator.views.MushroomView;
@@ -23,6 +28,7 @@ package com.muxxu.mush.contaminator {
 	[SWF(width="870", height="560", backgroundColor="0x000000", frameRate="31")]
 	[Frame(factoryClass="com.muxxu.mush.contaminator.ContaminatorLoader")]
 	public class Contaminator extends MovieClip {
+		
 		private var _model:Model;
 		
 		
@@ -61,12 +67,16 @@ package com.muxxu.mush.contaminator {
 		 */
 		private function initialize():void {
 			_model = new Model();
+			TweenPlugin.activate([TransformAroundPointPlugin, TransformAroundCenterPlugin]);
+			
 			ViewLocator.getInstance().initialise(_model);
 			FrontControler.getInstance().initialize(_model);
 			
 			addChild(new BackgroundView());
+			addChild(new ContaminationView());
 			addChild(new MushroomView());
 			addChild(new SoundView());
+			addChild(new ExceptionView());
 			
 			addChild(new Stats());
 			

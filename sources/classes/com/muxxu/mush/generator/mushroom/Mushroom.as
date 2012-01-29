@@ -22,6 +22,7 @@ package com.muxxu.mush.generator.mushroom {
 		private var _key:String;
 		private var _ratio:Number;
 		private var _holder:Sprite;
+		private var _isJumping:Boolean;
 		
 		
 		
@@ -41,6 +42,10 @@ package com.muxxu.mush.generator.mushroom {
 		/* ***************** *
 		 * GETTERS / SETTERS *
 		 * ***************** */
+		/**
+		 * Gets if the mushroom is jumping or not
+		 */
+		public function get isJumping():Boolean { return _isJumping; }
 
 
 
@@ -70,12 +75,23 @@ package com.muxxu.mush.generator.mushroom {
 		/**
 		 * Makes the mushroom jump
 		 */
-		public function jump():void {
-			TweenLite.to(_holder, .25, {transformAroundPoint:{point:new Point(_head.width*.5, _body.y + _body.height*.8), rotation:-25}, ease:Sine.easeIn, y:45* _ratio, onUpdate:placeElements});
-			TweenLite.to(_holder, .25, {transformAroundPoint:{point:new Point(_head.width*.5, _head.height), rotation:25}, ease:Sine.easeOut, y:-70 * _ratio, delay:.25, onUpdate:placeElements});
-			TweenLite.to(_holder, .85, {transformAroundPoint:{point:new Point(_head.width*.5, _head.height), rotation:0}, ease:Back.easeOut, easeParams:[4], x:0, y:0, delay:.5, onUpdate:placeElements});
-			TweenLite.to(_head, .25, {transformAroundPoint:{point:new Point(_head.width*.5, _head.height), rotation:-15}});
-			TweenLite.to(_head, 1.5, {transformAroundPoint:{point:new Point(_head.width*.5, _head.height), rotation:0}, ease:Elastic.easeOut, easeParams:[3,.6], delay:.5});
+		public function jump(left:Boolean = true):void {
+			_isJumping = true;
+			if(left) {
+				TweenLite.to(this, .65, {x:"-"+(150*_ratio), ease:Sine.easeOut, delay:.2});
+				TweenLite.to(_holder, .25, {transformAroundPoint:{point:new Point(_head.width*.5, _body.y + _body.height*.8), rotation:-25}, ease:Sine.easeIn, y:45* _ratio, onUpdate:placeElements});
+				TweenLite.to(_holder, .25, {transformAroundPoint:{point:new Point(_head.width*.5, _head.height), rotation:25}, ease:Sine.easeOut, y:-70 * _ratio, delay:.25, onUpdate:placeElements});
+				TweenLite.to(_holder, .85, {transformAroundPoint:{point:new Point(_head.width*.5, _head.height), rotation:0}, ease:Back.easeOut, easeParams:[4], x:0, y:0, delay:.5, onUpdate:placeElements});
+				TweenLite.to(_head, .25, {transformAroundPoint:{point:new Point(_head.width*.5, _head.height), rotation:-15}});
+				TweenLite.to(_head, 1.5, {transformAroundPoint:{point:new Point(_head.width*.5, _head.height), rotation:0}, ease:Elastic.easeOut, easeParams:[3,.6], delay:.5, onComplete:onJumpComplete});
+			}else{
+				TweenLite.to(this, .65, {x:"+"+(150*_ratio), ease:Sine.easeOut, delay:.2});
+				TweenLite.to(_holder, .25, {transformAroundPoint:{point:new Point(_head.width*.5, _body.y + _body.height*.8), rotation:15}, ease:Sine.easeIn, y:40* _ratio, onUpdate:placeElements});
+				TweenLite.to(_holder, .25, {transformAroundPoint:{point:new Point(_head.width*.5, _head.height), rotation:-25}, ease:Sine.easeOut, x:-50*_ratio, y:-70 * _ratio, delay:.25, onUpdate:placeElements});
+				TweenLite.to(_holder, .85, {transformAroundPoint:{point:new Point(_head.width*.5, _head.height), rotation:0}, ease:Back.easeOut, easeParams:[2.5], x:0, y:0, delay:.5, onUpdate:placeElements});
+				TweenLite.to(_head, .25, {transformAroundPoint:{point:new Point(_head.width*.5, _head.height), rotation:15}});
+				TweenLite.to(_head, 1.5, {transformAroundPoint:{point:new Point(_head.width*.5, _head.height), rotation:0}, ease:Elastic.easeOut, easeParams:[3,.6], delay:.5, onComplete:onJumpComplete});
+			}
 		}
 
 
@@ -101,7 +117,7 @@ package com.muxxu.mush.generator.mushroom {
 		 * Places the elements
 		 */
 		private function placeElements():void {
-			_body.flattenRatio = 1+Math.max(0,_holder.y)/250;
+			_body.flattenRatio = 1+Math.max(0,_holder.y)/200;
 			_mouth.rotation = _body.orientation;
 			
 			_body.x = _head.bottomPoint.x - _body.width * .5;
@@ -110,8 +126,16 @@ package com.muxxu.mush.generator.mushroom {
 			_eyeL.y = _head.bottomPoint.y - _eyeL.height * .15;
 			_eyeR.x = _head.bottomPoint.x + _eyeR.width;
 			_eyeR.y = _head.bottomPoint.y - _eyeR.height * .15;
+			_mouth.scaleY = 1-(_body.flattenRatio-1)*4;
 			_mouth.x = _body.x + _body.bottomPoint.x;
-			_mouth.y = _body.y + _body.bottomPoint.y - _mouth.height*.3;
+			_mouth.y = _body.y + _body.bottomPoint.y - _mouth.height * .3;
+		}
+		
+		/**
+		 * Called when jump animation completes
+		 */
+		private function onJumpComplete():void {
+			_isJumping = false;
 		}
 		
 	}

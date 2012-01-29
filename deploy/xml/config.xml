@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <root	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:noNamespaceSchemaLocation='http://localhost/mushcontagion/xml/schema/config.xsd'>
+	
 	<styleSheets>
 		<styleSheet><![CDATA[{v_ressourcesPath}css/flashstyles.css?v={v_version}]]></styleSheet>
 	</styleSheets>
@@ -12,14 +13,15 @@
 	<labels>
 		<file><![CDATA[{v_ressourcesPath}xml/i18n/labels_{v_lang}.xml?v={v_version}]]></file>
 	</labels>
-	
+		
 	<vars>
-		<var code="wsPath"><![CDATA[http://localhost/mushcontagion/]]></var>
+		<var code="wsPath"><![CDATA[http://127.0.0.1/mushcontagion/]]></var>
 		<var code="ressourcesPath"><![CDATA[./]]></var>
 	</vars>
 	
 	<paths>
 		<path code="music"><![CDATA[{v_ressourcesPath}sounds/music.mp3?v={v_version}]]></path>
+		<path code="infectService"><![CDATA[{v_wsPath}php/services/atchoum.php?id={UID}&key={KEY}&v={v_version}]]></path>
 	</paths>
 	
 	<dependencies />

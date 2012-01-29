@@ -100,7 +100,7 @@ package com.muxxu.mush.generator {
 			_input.autoSize = TextFieldAutoSize.LEFT;
 			_input.width = 300;
 			_input.autoSize = TextFieldAutoSize.NONE;
-			_input.text = "durss";
+			_input.text = "durss.89";
 			_input.restrict = "[0-9][a-z]\.";
 			
 			_avatar.buttonMode = true;
@@ -129,9 +129,11 @@ package com.muxxu.mush.generator {
 				fr.save(PNGEncoder.encode(bmd), "avatar.png");
 				event.stopPropagation();
 			}else{
-				_mushroomBig.jump();
-				_mushroomSmall.jump();
-				TweenLite.to(_ground, .65, {scrollX:_ground.scrollX + 200, ease:Sine.easeOut, delay:.2});
+				var left:Boolean = Math.random() > .5;
+				_mushroomBig.jump(left);
+//				_mushroomSmall.jump(left);
+				var slide:Number = left ? 200 : -200;
+				TweenLite.to(_ground, .65, {scrollX:_ground.scrollX + slide, ease:Sine.easeOut, delay:.2});
 			}
 		}
 

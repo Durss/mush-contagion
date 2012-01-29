@@ -1,4 +1,5 @@
 package com.muxxu.mush.contaminator.views {
+	import com.nurun.utils.math.MathUtils;
 	import gs.TweenLite;
 	import gs.easing.Sine;
 
@@ -25,11 +26,15 @@ package com.muxxu.mush.contaminator.views {
 		
 		private var _ground:Bitmap;
 		private var _sky:WrappingBitmap;
-		private var _offsetY:Number;
 		private var _autoRotation:Boolean;
 		private var _endRotation:Boolean;
-		private var _speed:Number;
 		private var _mushrooms:Bitmap;
+		private var _speed:Number;
+		private var _offsetX:Number;
+		private var _offsetY:Number;
+		private var _rotation:Number;
+		private var _speedR:Number;
+		private var _result:Boolean;
 		
 		
 		
@@ -54,21 +59,49 @@ package com.muxxu.mush.contaminator.views {
 		 */
 		override public function update(event:IModelEvent):void {
 			var model:Model = event.model as Model;
-			model;
+			
+			if(model.infectedUsers != null) {
+				_result = true;
+				return;
+			}
+			
 		}
 		
 		/**
-		 * Gets the sky's scroll offset
+		 * Gets the sky's scroll offset Y.
 		 * Internal use.
 		 */
 		public function get offsetY():Number { return _offsetY; }
 
 		
 		/**
-		 * Sets the sky's scroll offset.
+		 * Sets the sky's scroll offset Y.
 		 * Internal use.
 		 */
-		public function set offsetY(offsetY:Number):void { _offsetY = offsetY; scrollSky(); }
+		public function set offsetY(value:Number):void { _offsetY = value; scrollSky(); }
+		
+		/**
+		 * Gets the sky's scroll offset X.
+		 * Internal use.
+		 */
+		public function get offsetX():Number { return _offsetX; }
+
+		
+		/**
+		 * Sets the sky's scroll offset X.
+		 * Internal use.
+		 */
+		public function set offsetX(value:Number):void { _offsetX = value; scrollSky(); }
+		
+		/**
+		 * Gets the current sky scroll angle.
+		 */
+		public function get skyAngle():Number { return _rotation; }
+		
+		/**
+		 * Gets the scroll's speed
+		 */
+		public function get scrollSpeed():Number { return _speed; }
 
 
 
@@ -90,7 +123,8 @@ package com.muxxu.mush.contaminator.views {
 			_ground = addChild(new Bitmap(new GroundBack(NaN, NaN))) as Bitmap;
 			_mushrooms = addChild(new Bitmap(new MushroomsBmp(NaN, NaN))) as Bitmap;
 			
-			offsetY = 0;
+			_offsetX = _sky.width;
+			_offsetY = 0;
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			ViewLocator.getInstance().addEventListener(LightEvent.THROW_SPORES, throwSporesHandler);
@@ -110,11 +144,11 @@ package com.muxxu.mush.contaminator.views {
 		 */
 		private function throwSporesHandler(event:LightEvent):void {
 			if(!_autoRotation) {
-				_speed = 7;
+				_speedR = .0005;
+				_speed = 5;
 				scroll();
 			}else{
 				_endRotation = true;
-				_speed = 7;
 			}
 		}
 		
@@ -137,7 +171,7 @@ package com.muxxu.mush.contaminator.views {
 		private function scroll():void {
 			TweenLite.to(_ground, 3, {y:stage.stageHeight+330, ease:Sine.easeIn});
 			TweenLite.to(_mushrooms, 3, {y:stage.stageHeight+180, ease:Sine.easeIn});
-			TweenLite.to(this, 3, {ease:Sine.easeIn, offsetY:-400, onComplete:startAutoRotation});
+			TweenLite.to(this, 4, {ease:Sine.easeIn, offsetY:-400, onComplete:startAutoRotation});
 			addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 		}
 		
@@ -145,7 +179,7 @@ package com.muxxu.mush.contaminator.views {
 		 * Scrolls the sky depending on the offsetY value.
 		 */
 		private function scrollSky():void {
-			_sky.scrollTo(0, offsetY);
+			_sky.scrollTo(offsetX, offsetY);
 		}
 		
 		/**
@@ -153,6 +187,7 @@ package com.muxxu.mush.contaminator.views {
 		 */
 		private function startAutoRotation():void {
 			_autoRotation = true;
+			_rotation = 0;
 		}
 		
 		/**
@@ -160,13 +195,14 @@ package com.muxxu.mush.contaminator.views {
 		 */
 		private function enterFrameHandler(event:Event):void {
 			if(_autoRotation) {
-				if(_endRotation) {
-					offsetY -= Math.floor(_speed);
-					_speed *= .96;
-				}else{
-					offsetY -= Math.min(100, _speed);
-					_speed *= 1.03;
-				}
+				offsetX += Math.sin(_rotation) * _speed;
+				offsetY += -Math.cos(_rotation) * _speed;
+				_speed *= (_rotation < Math.PI * .5)? 1.03 : _speed > 20? .99 : .92;
+				if(_result && _speed < 1) _speed = 0;
+				_speedR += .0001;
+				_rotation += _speedR;
+				_rotation = MathUtils.restrict(_rotation, 0, _result? Math.PI : Math.PI * .5); // locks angle to PI/2 while server hasn't answered
+				_speed = MathUtils.restrict(_speed, 0, 100);
 			}
 		}
 		
