@@ -18,7 +18,6 @@ require(baseURL.'php/class/mushSQL.php');
 //Fonctions utiles XML
 require(baseURL.'php/func/xmlError.php');
 require(baseURL.'php/func/xmlFinish.php');
-require(baseURL.'php/func/cdata.php');
 
 //mtlib et DTO (gestion de l'API Muxxu)
 require(baseURL.'php/class/mtlib.php');
@@ -52,7 +51,7 @@ if(isset($_GET['id']) && $api->is_id($_GET['id']))
 else
 {
 	define('UID', false);
-	xmlError($root, 'get', MSG_GET_INVALID_UID);
+	xmlError($root, 'GET_INVALID_UID');
 }
 //--clé friends (utilisateur)
 if(isset($_GET['key']) && $api->is_key($_GET['key']))
@@ -63,7 +62,7 @@ if(isset($_GET['key']) && $api->is_key($_GET['key']))
 else
 {
 	define('FRIENDS_KEY', false);
-	xmlError($root, 'get', MSG_GET_INVALID_KEY);
+	xmlError($root, 'GET_INVALID_KEY');
 }
 
 /*
@@ -74,7 +73,7 @@ if(UID && FRIENDS_KEY)
 {
 	$flow = $api->flow('friends', UID, FRIENDS_KEY);
 	//En cas d'erreur avec l'API ou le flux
-	if($api->notice()) foreach($api->notice() as $error) xmlError($root, 'api', cdata($error['type']));
+	if($api->notice()) foreach($api->notice() as $error) xmlError($root, str_replace('mtlib:','MUXXU_',$error['type']), $error['rawdata']);
 	//Pas d'erreur c'est lessieur
 	else
 	{
@@ -86,21 +85,17 @@ if(UID && FRIENDS_KEY)
 //Paire invalide id/key ou flux friend indisponible
 if(!UID || !FRIENDS_KEY || !$flowOK) xmlFinish($root);
 
-//Initialisation du gestionnaire DB
-$db = new mushSQL($mysql_vars, isset($_GET['debug']));
-
-//Params
-#$addInfectedUsers = ($ini['infectCover'] == '1') ? null : "AND `infected` = 0\n";
-
 //Dresse la liste des amis pour une requête SQL
 $f = array_keys($friends->list);
+
+//Initialisation du gestionnaire DB
+$db = new mushSQL($mysql_vars, isset($_GET['debug']));
 
 //Sélectionne tous les amis qui ne sont pas encore infectés.
 if(! $db->selectUsers(1, $f, $max, $ini['infectCover'], 1))
 {
 	//En cas d'erreur SQL
-	$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error()) );
-	xmlError($root, 'db', $e);
+	xmlError($root, 'MYSQL_QUERY_FAIL_1');
 	xmlFinish($root);
 }
 
@@ -117,8 +112,7 @@ if(count($list) < $max)
 	if(! $db->selectUsers(0, $f, $max - count($list), $ini['infectCover'], 1))
 	{
 		//En cas d'erreur SQL
-		$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error()) );
-		xmlError($root, 'db', $e);
+		xmlError($root, 'MYSQL_QUERY_FAIL_2');
 		xmlFinish($root);
 	}
 	if(mysql_num_rows($db->result))
@@ -136,16 +130,14 @@ if($ini['infectSelf'])
 	if(!$db->insertLink(array(UID), 0))
 	{
 		//En cas d'erreur SQL
-		$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error()) );
-		xmlError($root, 'db', $e);
+		xmlError($root, 'MYSQL_QUERY_FAIL_3');
 		xmlFinish($root);
 	}
 	
 	if(!$db->updateInfection(array(UID)))
 	{
 		//En cas d'erreur SQL
-		$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error().$sql) );
-		xmlError($root, 'db', $e);
+		xmlError($root, 'MYSQL_QUERY_FAIL_4');
 		xmlFinish($root);
 	}
 }
@@ -155,26 +147,26 @@ if(count($list))
 	if(!$db->insertLink(array_keys($list), UID))
 	{
 		//En cas d'erreur SQL
-		$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error()) );
-		xmlError($root, 'db', $e);
+		xmlError($root, 'MYSQL_QUERY_FAIL_5');
 		xmlFinish($root);
 	}
 
 	if(!$db->updateInfection(array_keys($list)))
 	{
 		//En cas d'erreur SQL
-		$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error().$sql) );
-		xmlError($root, 'db', $e);
+		xmlError($root, 'MYSQL_QUERY_FAIL_6');
 		xmlFinish($root);
 	}
 }
 //Tout le monde est infecté
 else
 {
-	$e = cdata(MSG_FULL_INFECTED);
-	xmlError($root, 'mush', $e);
+	xmlError($root, 'APP_FULL_INFECTED');
 	xmlFinish($root);
 }
+
+//Déconnexion de la base.
+$db->__destruct();
 
 /*
  * Finitions du XML
@@ -190,10 +182,12 @@ foreach($list as $target)
 	//Elément <root><infectedUsers><user>
 	$user = $infectedUsers->addChild('user');
 	$user->addAttribute('uid', $target['uid']);
-	$user->addAttribute('isFriend', (bool) isset($friends->list[$target['uid']]));
+	$isFriend = isset($friends->list[$target['uid']]) ? 1 : 0;
+	$user->addAttribute('isFriend', $isFriend);
 
-	$user->addChild('name', cdata($target['name']));
-	$user->addChild('avatar', cdata($target['avatar']));
+	$user->addChild('name', $target['name']);
+	if(strlen($target['avatar'])) $user->addChild('avatar', $target['avatar']);
+	else $user->addChild('avatar');
 }
 
 //Finalise

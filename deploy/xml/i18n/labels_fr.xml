@@ -2,11 +2,30 @@
 <root	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:noNamespaceSchemaLocation='http://localhost/mushcontagion/xml/schema/labels.xsd'>
 	<labels>
-		<label code="GET_INVALID_UID"><![CDATA[Identifiant utilisateur invalide!]]></label>
-		<label code="GET_INVALID_KEY"><![CDATA[Clé d'identification invalide!]]></label>
-		<label code="MSG_FULL_INFECTED"><![CDATA[Tout le monde a été infecté O_O.<br />C'est une victoire écrasante pour le Mush!]]></label>
+		<!-- Erreurs -->
+		<label code="APP_FULL_INFECTED"><![CDATA[Aucune cible à contaminer n'est disponible pour l'instant.]]></label>
+		<label code="APP_USER_NOT_FOUND"><![CDATA[Aucune personne n'a été enregistrée sous cet identifiant.]]></label>
+		<!-- Erreur de paramétrage du service -->
+		<label code="GET_INVALID_UID"><![CDATA[Identifiant utilisateur invalide]]></label>
+		<label code="GET_INVALID_KEY"><![CDATA[Clé d'identification invalide]]></label>
+		<!-- Erreur de l'api Muxxu -->
 		<label code="API_MT_ERROR"><![CDATA[Connexion à l'API muxxu échouée.]]></label>
-			
+		<label code="MUXXU_INVALID_XML"><![CDATA[L'API de Muxxu n'a pas retourné de données valides.]]></label>
+		<label code="MUXXU_API_ERROR"/>
+		<label code="MUXXU_API_NEEDAUTH"><![CDATA[Une autorisation d'accès à vos données privées est requise.]]></label>
+		<label code="MUXXU_API_NULL"><![CDATA[L'API de Muxxu ne retourne aucun résultat.]]></label>
+		<!-- Erreur MySQL -->
+		<label code="MYSQL_QUERY_FAIL_1"><![CDATA[Echec de la sélection des amis non-contaminées.]]></label>
+		<label code="MYSQL_QUERY_FAIL_2"><![CDATA[Echec de la sélection des personnes non-contaminées.]]></label>
+		<label code="MYSQL_QUERY_FAIL_3"><![CDATA[Echec de la traçabilité de l'auto-contamination.]]></label>
+		<label code="MYSQL_QUERY_FAIL_4"><![CDATA[Echec de l'auto-contamination.]]></label>
+		<label code="MYSQL_QUERY_FAIL_5"><![CDATA[Echec de la traçabilité de la pandémie.]]></label>
+		<label code="MYSQL_QUERY_FAIL_6"><![CDATA[Echec de la contamination.]]></label>
+		<label code="MYSQL_QUERY_FAIL_7"><![CDATA[Echec de la recherche d'information pour cet utilisateur.']]></label>
+		<label code="MYSQL_QUERY_FAIL_8"><![CDATA[Echec de la recherche d'information sur les personnes ayant contaminé cet utilisateur.]]></label>
+		<label code="MYSQL_QUERY_FAIL_9"><![CDATA[Echec de la recherche d'information sur les personnes ayant été contaminées par cet utilisateur.]]></label>		
+		
+		<!-- Dialogues -->	
 		<label code="intro">
 			<s><![CDATA[				<sneeze/>*ATCHA*<wait1 /><br /><br />RAAAH C'EST POUR QUOI ENCORE???!!!]]></s>
 			<s><![CDATA[Tu QUOI?!!??!!<wait1 /><br />Tu souhaites te convertir<br />au mush???!!!???!!!<wait1 /><br />Ohh...... <wait.5 />C'est pas banal ça...]]></s>

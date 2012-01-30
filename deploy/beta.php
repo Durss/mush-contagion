@@ -9,11 +9,6 @@
     <body class="beta" style="overflow: scroll !important; background-color: #226;">
 <?php
 	$score = false;	
-	function strip_cdata($string) 
-	{ 
-	    preg_match_all('/<!\[cdata\[(.*?)\]\]>/is', $string, $matches); 
-	    return str_replace($matches[0], $matches[1], $string); 
-	} 
 			
 	if($_GET['act'] == 'infecter' && isset($_GET['id']) && isset($_GET['key']))
 	{
@@ -35,8 +30,8 @@
 				$ami = ($victime['isFriend'] == '1') ? '(un ami)' : "(quelqu'un par hasard)";
 				
 				$score .= "<dd>"
-				."<img src='".strip_cdata($victime->avatar)."' class='avatar40' /> "
-				."<strong>".strip_cdata($victime->name)."</strong> {$ami}"
+				."<img src='{$victime->avatar}' class='avatar40' /> "
+				."<strong>{$victime->name}</strong> {$ami}"
 				."</dd>\n";
 			}
 			$score .= "</dl>\n";
@@ -82,8 +77,8 @@
 				$score .= ""
 				."<dd>".date('Y-m-d H\hi:s',intval($parent['ts']))."</dd>\n" 
 				."<dd>"
-				."<img src='".strip_cdata($parent->avatar)."' class='avatar40' /> "
-				."<strong>".strip_cdata($parent->name)."</strong>"
+				."<img src='{$parent->avatar}' class='avatar40' /> "
+				."<strong>{$parent->name}</strong>"
 				."</dd>\n";
 			}
 		}
@@ -95,8 +90,8 @@
 				$score .= ""
 				."<dd>".date('Y-m-d H\hi:s',intval($child['ts']))."</dd>\n" 
 				."<dd>"
-				."<img src='".strip_cdata($child->avatar)."' class='avatar40' /> "
-				."<strong>".strip_cdata($child->name)."</strong>"
+				."<img src='{$child->avatar}' class='avatar40' /> "
+				."<strong>{$child->name}</strong>"
 				."</dd>\n";
 			}
 		}
@@ -127,7 +122,7 @@
 			<ul>
 				<li><a href="<?php echo $actionHealth; ?>">Votre état de santé</a></li>
 				<li><a href="<?php echo $actionInfecter; ?>">Infecter des gens</a></li>
-				<li><a href="<?php echo $actionPandemie; ?>">Apperçu de la pandémie</a></li>
+				<li><a href="<?php echo $actionPandemie; ?>">Aperçu de la pandémie</a></li>
 			</ul>
 		</div>
 <?php 
