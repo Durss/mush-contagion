@@ -9,7 +9,7 @@ class mushSQL extends mysqlManager
 	public function mushSQL($mysql_vars, $debugMode=false)
 	{
 		$this->mysqlManager($mysql_vars, $debugMode);
-		$this->connect();
+		return $this->connect();
 	}
 	
 	/**
@@ -165,7 +165,7 @@ SELECT L.`parent`, L.`date`, U.`name`, U.`avatar`
 FROM `{$this->tbl['link']}` L, `{$this->tbl['user']}` U
 WHERE L.`child` = {$uid}
 AND L.`parent` = U.`uid`
-ORDER BY L.`index` ASC;
+ORDER BY L.`id` ASC;
 EOSQL;
 		
 		return $this->query($sql) or $this->error(mysql_error());
@@ -184,7 +184,7 @@ SELECT L.`child`, L.`date`, U.`name`, U.`avatar`
 FROM `{$this->tbl['link']}` L, `{$this->tbl['user']}` U
 WHERE L.`parent` = {$uid}
 AND L.`child` = U.`uid`
-ORDER BY L.`index` ASC;
+ORDER BY L.`id` ASC;
 EOSQL;
 		
 		return $this->query($sql) or $this->error(mysql_error());

@@ -10,7 +10,7 @@ class mysqlManager
 	 * Répertoire des logs
 	 * @var string
 	 */
-	const LOG_DIR = 'dbLog/';
+	public $logDir = 'dbLog/';
 	/**
 	 * Afficher ou consigner les messages d'erreur
 	 * @var bool
@@ -57,6 +57,12 @@ class mysqlManager
 	 */
 	public $result = false;
 	/**
+	 * Rapport d'erreurs
+	 * @var array
+	 */
+	public $errorLog = false;
+	
+	/**
 	 * Constructeur
 	 * @param	array	$mysql_vars	-Paramètres de connexion à la DB
 	 * @example	<pre>$mysql_vars = array(<br/>	'host' => 'localhost',<br/>	'user' => 'root',<br/>	'pass' => '',<br/>	'db' => 'kube_photo',<br/>	'tables' => array(<br/>		'photos' => 'photos',<br/>	),<br/>);</pre>
@@ -72,7 +78,7 @@ class mysqlManager
 		$this->db = $mysql_vars['db'];
 		$this->tbl = $mysql_vars['tbl'];
 		
-		if(!is_dir(self::LOG_DIR)) mkdir(self::LOG_DIR);
+		if(!is_dir($this->logDir)) mkdir($this->logDir);
 	}
 	
 	/**
@@ -84,9 +90,12 @@ class mysqlManager
 		if($this->_connected) return true;
 		
 		//Connexion
-		$this->_link = mysql_connect($this->_host, $this->_user, $this->_pass)
-			or $this->error('Impossible de se connecter : ' . mysql_error());
-		
+		$this->_link = @mysql_connect($this->_host, $this->_user, $this->_pass);
+		if(!$this->_link)
+		{
+			$this->error('Impossible de se connecter : ' . mysql_error());
+			return $this->_connected = false;
+		}
 		//Sélection de la base
 		mysql_select_db($this->db) or $this->error('Impossible de sélectionner la base de données');
 		
@@ -100,6 +109,8 @@ class mysqlManager
 	 */
 	public function query($sql)
 	{
+		//Libération des résultats
+		$this->freeResult();
 		// Exécution des requêtes SQL
 		return $this->result = mysql_query($sql) or $this->error('Echec de la requête : ' . mysql_error() . "<br/> <code>{$sql}</code>");
 	}
@@ -107,19 +118,44 @@ class mysqlManager
 	/**
 	 * Rapport d'erreur
 	 * @param	string	$msg
-	 * @param	bool	$continue	-Passé à <b>false</b> provoque l'arrêt de l'execution du script
 	 */
-	public function error($msg='undefined', $continue=false)
+	public function error($msg=false)
 	{
-		if($this->_debugMode) var_dump($msg);
-		else
+		if(!$msg) $msg = mysql_error();
+		
+		$this->errorLog = array();
+		$this->errorLog['no'] = mysql_errno();
+		$this->errorLog['error'] = $msg;
+		$this->errorLog['report'] = null;
+		
+		if($this->_debugMode) var_dump(mysql_errno(), $msg);
+		else //Consigne l'erreur dans un fichier
 		{
 			$flag = '['.date('d').']['.time().']';
 			$data = "{$flag}\t".strip_tags($msg)."\n";
-			file_put_contents(self::LOG_DIR.date('Ym').'.txt', $data, FILE_APPEND);
-			echo "<h1>Error</h1>\n<h3>Please report : [".date('Ym')."]{$flag}</h3>";
+			file_put_contents($this->logDir.date('Ym').'.txt', $data, FILE_APPEND);
+			$this->errorLog['report'] = "[".date('Ym')."]{$flag}";
 		}
-		if(!$continue) die();
+	}
+	
+	/**
+	 * RAZ du rapport d'erreurs
+	 */
+	public function errorLogReset()
+	{
+		$this->errorLog = false;
+	}
+	
+	/**
+	 * Libération des résultats
+	 */
+	public function freeResult()
+	{
+		if(is_resource($this->result)
+		&& get_resource_type($this->result) == 'mysql result')
+		{
+			mysql_free_result($this->result);
+		}
 	}
 	
 	/**
@@ -127,11 +163,15 @@ class mysqlManager
 	 */
 	public function __destruct()
 	{
-		// Libération des résultats
-		if(is_resource($this->result)) mysql_free_result($this->result);
+		//Libération des résultats
+		$this->freeResult();
 		
 		// Fermeture de la connexion
-		if($this->_link) mysql_close($this->_link);
+		if($this->_connected
+		&& is_resource($this->_link)
+		&& get_resource_type($this->_link) == 'mysql link')
+		{
+			mysql_close($this->_link);
+		}
 	}
-	
 }

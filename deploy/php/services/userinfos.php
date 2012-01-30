@@ -18,7 +18,6 @@ require(baseURL.'php/class/mushSQL.php');
 //Fonctions utiles XML
 require(baseURL.'php/func/xmlError.php');
 require(baseURL.'php/func/xmlFinish.php');
-require(baseURL.'php/func/cdata.php');
 
 //mtlib et DTO (gestion de l'API Muxxu)
 require(baseURL.'php/class/mtlib.php');
@@ -47,7 +46,7 @@ if(isset($_GET['id']) && $api->is_id($_GET['id']))
 else
 {
 	define('UID', false);
-	xmlError($userinfos, 'get', MSG_GET_INVALID_UID);
+	xmlError($userinfos, 'GET_INVALID_UID');
 }
 
 //--Option de pandémie
@@ -57,14 +56,18 @@ define('FULL_INFOS', (bool) isset($_GET['pandemie']));
 $db = new mushSQL($mysql_vars, isset($_GET['debug']));
 
 //Recherche le profil dans la base
-if(! $db->selectUsers(1, array(UID), '0,1')) //En cas d'erreur SQL
+if(! $db->selectUsers(1, array(UID), '1')) //En cas d'erreur SQL
 {
-	$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error()) );
-	xmlError($userinfos, 'db', $e);
+	xmlError($userinfos, 'MYSQL_QUERY_FAIL_7', mysql_error());
+	xmlFinish($userinfos);
 }
 
 //Si UID ne correspond pas à un utilisateur connu de près ou de loin
-if(!mysql_num_rows($db->result)) xmlError($userinfos, 'mush', MSG_USER_NOT_FOUND);
+if(! mysql_num_rows($db->result))
+{
+	xmlError($userinfos, 'APP_USER_NOT_FOUND');
+	xmlFinish($userinfos);
+}
 
 //Déploiement des données
 $userData = mysql_fetch_assoc($db->result);
@@ -79,11 +82,9 @@ if(FULL_INFOS)
 	{
 		if(! $db->selectParents(UID)) //En cas d'erreur SQL
 		{
-			$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error()) );
-			xmlError($userinfos, 'db', $e);
+			xmlError($userinfos, 'MYSQL_QUERY_FAIL_8');
 		}
-		
-		if(mysql_num_rows($db->result))
+		elseif(mysql_num_rows($db->result))
 		{
 			//Déploiement des parents
 			while($row = mysql_fetch_assoc($db->result)) $parentData[] = $row;
@@ -92,16 +93,18 @@ if(FULL_INFOS)
 	//Recherche une infection enfant
 	if(! $db->selectChilds(UID)) //En cas d'erreur SQL
 	{
-		$e = cdata( pReturn(MSG_QueryFail.' : '.mysql_error()) );
-		xmlError($userinfos, 'db', $e);
+		xmlError($userinfos, 'MYSQL_QUERY_FAIL_9');
 	}
-		
-	if(mysql_num_rows($db->result))
+	elseif(mysql_num_rows($db->result))
 	{
 		//Déploiement des childs
 		while($row = mysql_fetch_assoc($db->result)) $childData[] = $row;
 	}
 }
+
+//Déconnexion de la base.
+$db->__destruct();
+
 /*
  * Finitions du XML
  */
@@ -111,8 +114,8 @@ $user = $userinfos->addChild('user');
 $user->addAttribute('uid', UID);
 $user->addAttribute('level', $userData['infected']);
 
-$user->addChild('name', cdata($userData['name']));
-$user->addChild('avatar', cdata($userData['avatar']));
+$user->addChild('name', $userData['name']);
+$user->addChild('avatar', $userData['avatar']);
 
 if(FULL_INFOS)
 {
@@ -124,9 +127,9 @@ if(FULL_INFOS)
 			$spore = $parent->addChild('spore');
 			$spore->addAttribute('uid', $s['parent']);
 			$spore->addAttribute('ts', $s['date']);
-			$spore->addChild('name', cdata($s['name']));
-			if(strlen($s['avatar'])) $spore->addChild('avatar', cdata($s['avatar']));
-			else $spore->addChild('avatar', null);
+			$spore->addChild('name', $s['name']);
+			if(strlen($s['avatar'])) $spore->addChild('avatar', $s['avatar']);
+			else $spore->addChild('avatar');
 		}
 	}
 	
@@ -138,9 +141,9 @@ if(FULL_INFOS)
 			$spore = $child->addChild('spore');
 			$spore->addAttribute('uid', $s['child']);
 			$spore->addAttribute('ts', $s['date']);
-			$spore->addChild('name', cdata($s['name']));
-			if(strlen($s['avatar'])) $spore->addChild('avatar', cdata($s['avatar']));
-			else $spore->addChild('avatar', null);
+			$spore->addChild('name', $s['name']);
+			if(strlen($s['avatar'])) $spore->addChild('avatar', $s['avatar']);
+			else $spore->addChild('avatar');
 		}
 	}
 }

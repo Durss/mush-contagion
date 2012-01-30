@@ -249,7 +249,8 @@ class mtlib
 		//Erreur de l'API
 		elseif($simpleXML->xpath("/error"))
 		{
-			$msg = "mtlib:API_ERROR : ".$simpleXML;
+			$msg = "mtlib:API_ERROR";
+			$rawData = strval($simpleXML->error);
 		}
 		//Autorisation d'acces exigée
 		elseif($simpleXML->xpath('/needauth'))
