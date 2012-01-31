@@ -51,6 +51,9 @@ $sql = "-- Tire 3 noms au hasard\n"
 ."ORDER BY rand() ASC\n"
 ."LIMIT 3";
 
+mysql_connect($mysql_vars['host'],$mysql_vars['user'],$mysql_vars['pass']) or die(pReturn(mysql_error(), MSG_DBConnectFail));
+mysql_selectdb($mysql_vars['db']) or die(pReturn(mysql_error(), MSG_DBSelectFail));
+
 $result = mysql_query($sql) or die(mysql_error());
 
 //Préparation du texte
@@ -62,6 +65,8 @@ $pattern[] = '#<yyy/>#';
 $pattern[] = '#<zzz/>#';
 
 while($row = mysql_fetch_assoc($result)) $replacement[] = "[i]{$row['name']}[/i]";
+
+mysql_close();
 
 $txt = preg_replace($pattern, $replacement, $subject);
 

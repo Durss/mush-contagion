@@ -55,7 +55,6 @@ class user extends base_dto
 	/**
 	 * Vérifie l'argument et attribue une methode de mapping
 	 * @param object	$flow	- Flux XML
-	 * @todo éviter de multiplier les instances de mtlib.
 	 */
 	public function user($flow)
 	{

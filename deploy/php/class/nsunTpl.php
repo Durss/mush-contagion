@@ -202,7 +202,6 @@ class nsunTpl
 	
 	/**
 	 * Imprime la page
-	 * @todo	intégrer un menu
 	 */
 	public function build()
 	{	
