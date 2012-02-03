@@ -101,6 +101,9 @@ SET  `infected` = infected+1
 WHERE  `{$this->tbl['user']}`.`uid` {$target};
 EOSQL;
 
+		#DEBUG
+		#file_put_contents('query.sql', $sql."\n\n", FILE_APPEND);
+		
 		return $this->query($sql) or $this->error(mysql_error());
 	}
 	
@@ -114,18 +117,19 @@ EOSQL;
 	 * @param	bool	$lastvisit		-Si la date de la dernière visite est requise
 	 * @return	ressource
 	 */
-	public function selectUsers($in, $list, $limit=false, $infection=false, $rand=false, $lastvisit=false)
+	public function selectUsers($in, $list=false, $limit=false, $infection=false, $rand=false, $lastvisit=false)
 	{		
 		if(count($list) > 1)
 		{
 			$in = ($in) ? 'IN' : 'NOT IN';
-			$target = "{$in} (".implode(', ', $list).")";
+			$target = "`uid` {$in} (".implode(', ', $list).")";
 		}
-		else
+		elseif(is_array($list) && count($list) == 1)
 		{
 			$equal = ($in) ? '=' : '!=';
-			$target = "{$equal} ".current($list);
+			$target = "`uid` {$equal} ".current($list);
 		}
+		else $target = false;
 		
 		if($limit === false) $limit = null;
 		else $limit = "\n"."LIMIT {$limit}";
@@ -134,8 +138,14 @@ EOSQL;
 		else
 		{
 			$addcomment = "en dessous du seuil d'infection";
-			$infection = "\n"."AND `infected` <= {$infection}";
+			$infection = "`infected` < {$infection}";
 		}
+		
+		if($target && $infection) $and = "\nAND ";
+		else $and = null;
+
+		if($target || $infection) $where = "WHERE ";
+		else $where = null;
 		
 		if($rand) $rand = "\n"."ORDER BY RAND()";
 		else $rand = null;
@@ -147,8 +157,12 @@ EOSQL;
 -- Sélection de profils {$addcomment}
 SELECT `uid`, `name`, `avatar`, `infected`{$lastvisit}
 FROM `{$this->tbl['user']}`
-WHERE `uid` {$target}{$infection}{$rand}{$limit};
+{$where}{$infection}{$and}{$target}{$rand}{$limit};
 EOSQL;
+		
+		#DEBUG
+		#file_put_contents('query.sql', $sql."\n\n", FILE_APPEND);
+		
 		return $this->query($sql) or $this->error(mysql_error());
 	}
 
@@ -185,6 +199,93 @@ FROM `{$this->tbl['link']}` L, `{$this->tbl['user']}` U
 WHERE L.`parent` = {$uid}
 AND L.`child` = U.`uid`
 ORDER BY L.`id` ASC;
+EOSQL;
+		
+		return $this->query($sql) or $this->error(mysql_error());
+	}
+	
+	/**
+	 * Vider la table 'users'
+	 */
+	public function truncateUsers()
+	{
+		$sql = <<<EOSQL
+-- Vider la table 'users'
+TRUNCATE TABLE `{$this->tbl['user']}`;
+EOSQL;
+		
+		return $this->query($sql) or $this->error(mysql_error());
+	}
+
+	/**
+	 * Vider la table 'links'
+	 */
+	public function truncateLinks()
+	{
+		$sql = <<<EOSQL
+-- Vider la table 'link'
+TRUNCATE TABLE `{$this->tbl['link']}`;
+EOSQL;
+		
+		return $this->query($sql) or $this->error(mysql_error());
+	}
+	
+	/**
+	 * Soigner tout le monde
+	 */
+	public function healEveryone()
+	{
+		$sql = <<<EOSQL
+-- Soigner tous le monde
+UPDATE `{$this->db}`.`{$this->tbl['user']}`
+SET `infected` = '0'
+WHERE `{$this->tbl['user']}`.`infected` > 0;
+EOSQL;
+		
+		return $this->query($sql) or $this->error(mysql_error());
+	}
+	
+	/**
+	 * Nombre de visiteurs
+	 */
+	public function countRealUsers()
+	{
+		$sql = <<<EOSQL
+-- Nombre de visiteurs
+SELECT count(`id`) as 'countRealUsers' FROM `{$this->tbl['user']}` WHERE `pubkey` != 'NULL';
+EOSQL;
+		
+		return $this->query($sql) or $this->error(mysql_error());
+	}
+	
+	/**
+	 * Nombre de personnes infectées
+	 */
+	public function countInfectedUsers()
+	{
+		$sql = <<<EOSQL
+-- Nombre de personnes infectées
+SELECT count(`id`) as 'countInfectedUsers' FROM `{$this->tbl['user']}` WHERE `infected` > 0;
+EOSQL;
+		
+		return $this->query($sql) or $this->error(mysql_error());
+	}
+	
+	//Nombre d'users
+	//SELECT `id` FROM `mushteasing_user` ORDER BY `mushteasing_user`.`id`  DESC LIMIT 1
+		
+	/**
+	 * Stats générales des tables
+	 */
+	public function tableStatus()
+	{
+		$tables = "('".implode("', '",$this->tbl)."')";
+		
+		$sql = <<<EOSQL
+-- Stats des tables
+SHOW TABLE STATUS
+FROM `{$this->db}`
+WHERE Name IN {$tables};
 EOSQL;
 		
 		return $this->query($sql) or $this->error(mysql_error());

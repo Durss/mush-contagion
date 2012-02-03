@@ -2,6 +2,8 @@
 /*
  * ATCHOUM ! Service d'infection express !
  */
+//DEBUG
+#header('Content-Type: text/html; charset="UTF-8"');
 
 define('baseURL','../../');
 
@@ -86,38 +88,82 @@ if(UID && FRIENDS_KEY)
 if(!UID || !FRIENDS_KEY || !$flowOK) xmlFinish($root);
 
 //Dresse la liste des amis pour une requête SQL
-$f = array_keys($friends->list);
+$friendsID = array_keys($friends->list);
+//--mélange
+shuffle($friendsID);
+$chunkFriendsID = array_chunk($friendsID, $ini['queryLimit']);
 
 //Initialisation du gestionnaire DB
+$list = Array();
+#$i=0;
+#$temps_debut = microtime(true);
 $db = new mushSQL($mysql_vars, isset($_GET['debug']));
 
-//Sélectionne tous les amis qui ne sont pas encore infectés.
-if(! $db->selectUsers(1, $f, $max, $ini['infectCover'], 1))
+foreach($chunkFriendsID as $f)
 {
-	//En cas d'erreur SQL
-	xmlError($root, 'MYSQL_QUERY_FAIL_1');
-	xmlFinish($root);
-}
-
-//Déplie la liste
-$list = Array();
-if(mysql_num_rows($db->result))
-{
-	while($row = mysql_fetch_assoc($db->result)) $list[intval($row['uid'])] = $row;
+	$select = false;
+	#echo ++$i;
+	//Sélectionne tous les amis qui ne sont pas encore infectés.
+	if(! $db->selectUsers(1, $f, $max - count($list), $ini['infectCeil']))
+	{
+		//En cas d'erreur SQL
+		xmlError($root, 'MYSQL_QUERY_FAIL_1');
+		xmlFinish($root);
+	}
+	else $select = $db->result;
+	
+	//Déplie la liste
+	if($select && mysql_num_rows($select))
+	{
+		while($row = mysql_fetch_assoc($select))
+		{
+			//MAJ de l'infection au plus vite
+			if(!$db->updateInfection(array($row['uid'])))
+			{
+				//En cas d'erreur SQL
+				xmlError($root, 'MYSQL_QUERY_FAIL_6');
+				xmlFinish($root);
+			}
+			$list[intval($row['uid'])] = $row;
+		}
+	}
+	
+	//Soupape
+	if(count($list) >= $max) break;
 }
 
 //Pour les gens qui n'ont pas ou peu d'amis non-infectés
 if(count($list) < $max)
 {
-	if(! $db->selectUsers(0, $f, $max - count($list), $ini['infectCover'], 1))
+	if(count($list))
+	{
+		$exclude = array_keys($list);
+		$exclude[] = UID;
+	}
+	else $exclude = array(UID);
+	
+	$select = false;
+	if(! $db->selectUsers(0, $exclude, $max - count($list), $ini['infectCeil'], 1))
 	{
 		//En cas d'erreur SQL
 		xmlError($root, 'MYSQL_QUERY_FAIL_2');
-		xmlFinish($root);
+		xmlFinish($root);	
 	}
-	if(mysql_num_rows($db->result))
+	else $select = $db->result; 
+	
+	if($select && mysql_num_rows($select))
 	{
-		while($row = mysql_fetch_assoc($db->result)) $list[intval($row['uid'])] = $row;
+		while($row = mysql_fetch_assoc($select))
+		{
+			//MAJ de l'infection au plus vite
+			if(!$db->updateInfection(array($row['uid'])))
+			{
+				//En cas d'erreur SQL
+				xmlError($root, 'MYSQL_QUERY_FAIL_6');
+				xmlFinish($root);
+			}
+			$list[intval($row['uid'])] = $row;
+		}
 	}
 }
 
@@ -151,12 +197,15 @@ if(count($list))
 		xmlFinish($root);
 	}
 
+	/*
+	 * note : Intert rapproché de la sélection
 	if(!$db->updateInfection(array_keys($list)))
 	{
 		//En cas d'erreur SQL
 		xmlError($root, 'MYSQL_QUERY_FAIL_6');
 		xmlFinish($root);
 	}
+	*/
 }
 //Tout le monde est infecté
 else
@@ -168,6 +217,10 @@ else
 //Déconnexion de la base.
 $db->__destruct();
 
+#$temps_fin = microtime(true);
+#echo '<div>Temps d\'execution : '.round($temps_fin - $temps_debut, 4).'</div>';
+
+#file_put_contents("p{$ini['queryLimit']}.records.txt",round($temps_fin - $temps_debut, 4)."\n", FILE_APPEND);
 /*
  * Finitions du XML
  */

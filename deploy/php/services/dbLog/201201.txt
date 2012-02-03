@@ -1,0 +1,14 @@
+[31][1328042186]	Echec de la requête : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `infected` 
+[31][1328042186]	You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `infected` 
+[31][1328042206]	Echec de la requête : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `infected` 
+[31][1328042206]	You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `infected` 
+[31][1328042210]	Echec de la requête : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `infected` 
+[31][1328042210]	You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `infected` 
+[31][1328042290]	Echec de la requête : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `infected` 
+[31][1328042290]	You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `infected` 
+[31][1328042295]	Echec de la requête : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `infected` 
+[31][1328042295]	You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `infected` 
+[31][1328042320]	Echec de la requête : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `infected` 
+[31][1328042320]	You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `infected` 
+[31][1328042382]	Echec de la requête : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `infected` 
+[31][1328042382]	You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND `infected` 
