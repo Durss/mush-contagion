@@ -40,7 +40,11 @@ if(!$user->friends = new friends($flow))
 } 
 elseif(!count($user->friends->list)) {} //Pauvre chou (pas d'amis)
 //Insertion des amis dans la table 'user' / MAJ du pseudo s'ils sont déjà présents dans la table.
-else $db->insertFriends($user->friends->list);
+else
+{
+	$friendsList = array_chunk($user->friends->list, $ini['params']['queryLimit'],1);
+	foreach($friendsList as $list) $db->insertFriends($list);
+}
 
 //Déconnexion de la base.
 $db->__destruct();

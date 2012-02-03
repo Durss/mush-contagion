@@ -110,7 +110,7 @@ class mysqlManager
 	public function query($sql)
 	{
 		//Libération des résultats
-		$this->freeResult();
+		#$this->freeResult();
 		// Exécution des requêtes SQL
 		return $this->result = mysql_query($sql) or $this->error('Echec de la requête : ' . mysql_error() . "<br/> <code>{$sql}</code>");
 	}

@@ -40,6 +40,7 @@ $page->c .= <<<EOHTML
 
 			flashvars['id'] = "{$id}";
 			flashvars['key'] = "{$key}";
+			flashvars['maintenance'] = "{$ini['status']['maintenance']}";
 			
 			var attributes = {};
 			attributes["id"] = "externalDynamicContent";
