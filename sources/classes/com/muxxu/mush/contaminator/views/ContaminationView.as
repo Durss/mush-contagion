@@ -1,4 +1,7 @@
 package com.muxxu.mush.contaminator.views {
+	import com.muxxu.mush.contaminator.events.InfectionEvent;
+	import flash.display.DisplayObject;
+	import com.muxxu.mush.generator.twinoid.Twinoid;
 	import com.nurun.utils.vector.VectorUtils;
 	import flash.utils.setInterval;
 	import by.blooddy.crypto.MD5;
@@ -25,13 +28,12 @@ package com.muxxu.mush.contaminator.views {
 	 * @date 28 janv. 2012;
 	 */
 	public class ContaminationView extends AbstractView {
+		
 		private var _ground:Bitmap;
 		private var _displayed:Boolean;
 		private var _sky:BackgroundView;
-		private var _mush1:Mushroom;
-		private var _mush2:Mushroom;
-		private var _mush3:Mushroom;
-		private var _enabledMushrooms:Vector.<Mushroom>;
+		private var _mushrooms:Vector.<Mushroom>;
+		private var _twinoids:Vector.<Twinoid>;
 		
 		
 		
@@ -58,22 +60,16 @@ package com.muxxu.mush.contaminator.views {
 			var model:Model = event.model as Model;
 			var u:UserCollection = model.infectedUsers;
 			if(u != null) {
-				if(u.length > 0) {
-					setTimeout(_mush1.populate, 1, MD5.hash(u.getUserAtIndex(0).name+"."+u.getUserAtIndex(0).uid), 1);
-					addChild(_mush1);
-					_enabledMushrooms.push(_mush1);
+				var i:int, len:int;
+				len = u.length;
+				for(i = 0; i < len; ++i) {
+					_twinoids[i] = new Twinoid();
+					_mushrooms[i] = new Mushroom();
+					setTimeout(_twinoids[i].populate, i*1 + 5, MD5.hash(u.getUserAtIndex(i).name+"."+u.getUserAtIndex(i).uid), 1);
+					setTimeout(_mushrooms[i].populate, i*1.5 + 5, MD5.hash(u.getUserAtIndex(i).name+"."+u.getUserAtIndex(i).uid), 1);
+					_twinoids[i].addEventListener(InfectionEvent.INFECTED, infectionCompleteHandler);
 				}
-				if(u.length > 1) {
-					setTimeout(_mush2.populate, 2, MD5.hash(u.getUserAtIndex(1).name+"."+u.getUserAtIndex(1).uid), 1);
-					addChild(_mush2);
-					_enabledMushrooms.push(_mush2);
-				}
-				if(u.length > 2) {
-					setTimeout(_mush3.populate, 3, MD5.hash(u.getUserAtIndex(2).name+"."+u.getUserAtIndex(2).uid), 1);
-					addChild(_mush3);
-					_enabledMushrooms.push(_mush3);
-				}
-				setTimeout(placeMushrooms, 4);
+				setTimeout(placeMushrooms, 25);
 			}
 		}
 
@@ -86,7 +82,7 @@ package com.muxxu.mush.contaminator.views {
 		 * Gets the contaminations targets
 		 */
 		public function getTargets():Array {
-			return VectorUtils.toArray(_enabledMushrooms);
+			return VectorUtils.toArray(_twinoids);
 		}
 
 
@@ -102,11 +98,8 @@ package com.muxxu.mush.contaminator.views {
 			visible = false;
 			_ground = addChild(new Bitmap(new Ground2Bmp(NaN, NaN))) as Bitmap;
 			_sky = ViewLocator.getInstance().locateViewByType(BackgroundView) as BackgroundView;
-			_mush1 = new Mushroom();
-			_mush2 = new Mushroom();
-			_mush3 = new Mushroom();
-			
-			_enabledMushrooms = new Vector.<Mushroom>();
+			_mushrooms = new Vector.<Mushroom>();
+			_twinoids = new Vector.<Twinoid>();
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			ViewLocator.getInstance().addEventListener(LightEvent.THROW_SPORES, throwSporesHandler);
@@ -157,25 +150,32 @@ package com.muxxu.mush.contaminator.views {
 		 * Places the mushrooms
 		 */
 		private function placeMushrooms():void {
-			var i:int, len:int, bounds:Rectangle, inc:Number;
-			len = _enabledMushrooms.length;
-			inc = 1/(_enabledMushrooms.length + 1);
+			var i:int, len:int, bounds:Rectangle, inc:Number, rnd:Number;
+			len = _twinoids.length;
+			inc = 1/(_twinoids.length + 1);
 			for(i = 0; i < len; ++i) {
-				bounds = _enabledMushrooms[i].getBounds(_enabledMushrooms[i]);
-				_enabledMushrooms[i].x = stage.stageWidth * inc * (i+1) - bounds.width*.5 - bounds.x;
-				_enabledMushrooms[i].y = _ground.height - bounds.height - bounds.y - Math.random() * 65;
+				rnd = Math.random() * 65;
+				bounds = _twinoids[i].getBounds(_twinoids[i]);
+				_twinoids[i].x = stage.stageWidth * inc * (i+1) - bounds.width*.5 - bounds.x;
+				_twinoids[i].y = _ground.height - bounds.height - bounds.y - rnd;
+				
+				bounds = _mushrooms[i].getBounds(_mushrooms[i]);
+				_mushrooms[i].x = stage.stageWidth * inc * (i+1) - bounds.width*.5 - bounds.x;
+				_mushrooms[i].y = _ground.height - bounds.height - bounds.y - rnd;
 			}
 			
-			_enabledMushrooms.sort(sortOnY);
+			_twinoids.sort(sortOnY);
+			_mushrooms.sort(sortOnY);
 			
 			for(i = 0; i < len; ++i) {
-				addChild(_enabledMushrooms[i]);
+				addChild(_twinoids[i]);
+				_twinoids[i].validate();
 			}
 			
 			setInterval(jumpMushrooms, 1000);
 		}
 
-		private function sortOnY(a:Mushroom, b:Mushroom):int {
+		private function sortOnY(a:DisplayObject, b:DisplayObject):int {
 			var ba:Rectangle = a.getBounds(a);
 			var bb:Rectangle = b.getBounds(b);
 			var diff:Number = (a.y + ba.bottom) - (b.y + bb.bottom);
@@ -190,19 +190,38 @@ package com.muxxu.mush.contaminator.views {
 		 */
 		private function jumpMushrooms():void {
 			var i:int, len:int;
-			len = _enabledMushrooms.length;
+			len = _twinoids.length;
 			for(i = 0; i < len; ++i) {
-				if(Math.random() > .8 && !_enabledMushrooms[i].isJumping) {
-					if(_enabledMushrooms[i].x < 150) {
-						_enabledMushrooms[i].jump(false);
-					}else if(_enabledMushrooms[i].x > stage.stageWidth - 150 - _enabledMushrooms[i].width) {
-						_enabledMushrooms[i].jump(true);
-					}else{
-						_enabledMushrooms[i].jump(Math.random() > .475);
+				if(Math.random() > .85 && !_twinoids[i].isJumping) {
+					if(_twinoids[i].x < 150) {
+						_twinoids[i].jump(false);
+						_mushrooms[i].jump(false);
+					}else if(_twinoids[i].x > stage.stageWidth - 150 - _twinoids[i].width) {
+						_twinoids[i].jump(true);
+						_mushrooms[i].jump(true);
+					} else {
+						var left:Boolean = Math.random() > .475;
+						_twinoids[i].jump(left);
+						_mushrooms[i].jump(left);
 					}
 					break;
 				}
 			}
+		}
+		
+		/**
+		 * Called when a twinoid's infection completes
+		 */
+		private function infectionCompleteHandler(event:InfectionEvent):void {
+			var i:int, len:int;
+			len = _twinoids.length;
+			for(i = 0; i < len; ++i) {
+				if(_twinoids[i] == event.target) {
+					break;
+				}
+			}
+			removeChild(event.target as Twinoid);
+			addChildAt(_mushrooms[i], i+1);
 		}
 	}
 }

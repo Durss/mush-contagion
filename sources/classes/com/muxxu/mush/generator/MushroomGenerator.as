@@ -1,4 +1,5 @@
 package com.muxxu.mush.generator {
+	import com.muxxu.mush.generator.twinoid.Twinoid;
 	import by.blooddy.crypto.image.PNGEncoder;
 	import flash.net.FileReference;
 	import flash.display.BitmapData;
@@ -36,7 +37,7 @@ package com.muxxu.mush.generator {
 	 * @date 21 janv. 2012;
 	 */
 	 
-	[SWF(width="300", height="320", backgroundColor="0xFFFFFF", frameRate="31")]
+	[SWF(width="500", height="520", backgroundColor="0xFFFFFF", frameRate="31")]
 	public class MushroomGenerator extends MovieClip {
 		
 		[Embed(source="../../../../../../creas/loopGround.png")]
@@ -47,6 +48,7 @@ package com.muxxu.mush.generator {
 		private var _mushroomBig:Mushroom;
 		private var _input:TextField;
 		private var _ground:WrappingBitmap;
+		private var _twinoidBig:Twinoid;
 		
 		
 		
@@ -90,7 +92,8 @@ package com.muxxu.mush.generator {
 			_ground = addChild(new WrappingBitmap(Bitmap(new _groundClass()).bitmapData)) as WrappingBitmap;
 			_avatar = addChild(new AvatarBaseGraphic()) as AvatarBaseGraphic;
 			_mushroomSmall = _avatar.addChildAt(new Mushroom(), 1) as Mushroom;
-			_mushroomBig = addChildAt(new Mushroom(), 1) as Mushroom;
+			_mushroomBig = addChild(new Mushroom()) as Mushroom;
+			_twinoidBig = addChild(new Twinoid()) as Twinoid;
 			_input = addChild(new TextField()) as TextField;
 
 			_input.defaultTextFormat = new TextFormat("Arial", 20, 0, true, null, null, null, null, TextFormatAlign.CENTER);
@@ -130,20 +133,30 @@ package com.muxxu.mush.generator {
 				event.stopPropagation();
 			}else{
 				var left:Boolean = Math.random() > .5;
+				_twinoidBig.jump(left);
 				_mushroomBig.jump(left);
 //				_mushroomSmall.jump(left);
 				var slide:Number = left ? 200 : -200;
+				TweenLite.killTweensOf(_twinoidBig);
+				TweenLite.killTweensOf(_mushroomBig);
+				TweenLite.killTweensOf(_mushroomSmall);
 				TweenLite.to(_ground, .65, {scrollX:_ground.scrollX + slide, ease:Sine.easeOut, delay:.2});
 			}
 		}
 
 		private function changeHandler(event:Event = null):void {
+			_twinoidBig.targeted = 20;
+			_twinoidBig.touch();
+			
 			var key:String = MD5.hash(_input.text.toLowerCase());//uname.uid
 			_mushroomSmall.populate(key, .36);
 			_mushroomBig.populate(key, 1.5);
-			
 			_mushroomBig.x = 25;
 			_mushroomBig.y = 30;
+			
+			_twinoidBig.populate(key, 1.5);
+			_twinoidBig.x = 400;
+			_twinoidBig.y = 200;
 			
 			_mushroomSmall.x = Math.round((80 - _mushroomSmall.width) * .5) - _mushroomSmall.getBounds(_mushroomSmall).x;
 			_mushroomSmall.y = Math.round((80 - _mushroomSmall.height) * .5) - _mushroomSmall.getBounds(_mushroomSmall).y;

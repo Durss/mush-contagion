@@ -1,6 +1,7 @@
 package com.muxxu.mush.contaminator.components {
+	import com.muxxu.mush.generator.twinoid.Twinoid;
 	import com.nurun.utils.math.MathUtils;
-	import flash.display.DisplayObject;
+
 	import flash.display.Shape;
 	import flash.geom.Point;
 	
@@ -38,7 +39,7 @@ package com.muxxu.mush.contaminator.components {
 		private var _incAngle:Number;
 		private var _amplitudeEased:Number;
 		private var _slowDown:Boolean;
-		private var _target:DisplayObject;
+		private var _target:Twinoid;
 		private var _px:Number;
 		private var _maxSy:Number;
 		
@@ -106,9 +107,9 @@ package com.muxxu.mush.contaminator.components {
 			//If the particle is locked to a specific target
 			if(_target != null) {
 				_incX += _frequency;
-				var endX:Number = _target.x + _target.width * .5;
-				var endY:Number = _target.y + _target.parent.y + _target.height * .5;
-				_px += (endX - _px) * (Math.max(0, y)/5000);
+				var endX:Number = _target.x;
+				var endY:Number = _target.y + _target.parent.y;
+				_px += (endX - _px) * (Math.max(0, y)/10000);
 				x = _px + Math.sin(_incX) * _amplitude;
 				y += _sy;
 				if(y < endY) {
@@ -119,6 +120,7 @@ package com.muxxu.mush.contaminator.components {
 				_sy = MathUtils.restrict(_sy, -_maxSy, _maxSy);
 				if(Math.abs(x - endX) < 20 && Math.abs(y - endY) < 20) {
 					_launched = false;
+					_target.touch();
 					parent.removeChild(this);//Diiiiiiiirty tiiiiiiime :D
 				}
 				return;
@@ -224,7 +226,7 @@ package com.muxxu.mush.contaminator.components {
 		/**
 		 * Locks the particle to a target.
 		 */
-		public function lockTarget(target:DisplayObject):void {
+		public function lockTarget(target:Twinoid):void {
 			_target = target;
 			_amplitude = Math.random()*15 + 10;
 			_incX = Math.random()*Math.PI*2;
