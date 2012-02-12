@@ -1,4 +1,5 @@
 package com.muxxu.mush.contaminator.components {
+	import com.muxxu.mush.generator.twinoid.Twinoid;
 	import com.muxxu.mush.contaminator.views.BackgroundView;
 	import com.muxxu.mush.contaminator.views.ContaminationView;
 	import com.nurun.structure.mvc.views.ViewLocator;
@@ -152,13 +153,15 @@ package com.muxxu.mush.contaminator.components {
 		 * Contaminates the mushrooms
 		 */
 		private function contaminate():void {
-			var particle:Particle, i:int;
+			var particle:Particle, i:int, target:Twinoid;
 			var targets:Array = _mushroomsView.getTargets();
 			
 			particle = _firstParticle;
 			while(particle != null && i++ < _len) {
 				if(particle.launched) {
-					particle.lockTarget( ArrayUtils.getRandom(targets) );
+					target = ArrayUtils.getRandom(targets) as Twinoid;
+					target.targeted ++;
+					particle.lockTarget( target );
 				}
 				particle = particle.next;
 			}

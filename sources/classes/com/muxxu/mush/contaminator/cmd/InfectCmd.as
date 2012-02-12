@@ -74,7 +74,7 @@ package com.muxxu.mush.contaminator.cmd {
 			}
 			
 			if (data.child("error").length() > 0) {
-				dispatchEvent(new CommandEvent(CommandEvent.ERROR, XML(data.child("error")[0]).toString()));
+				dispatchEvent(new CommandEvent(CommandEvent.ERROR, XML(data.child("error").@code).toString()));
 			}else{
 				dispatchEvent(new CommandEvent(CommandEvent.COMPLETE, data.child("infectedUsers")[0]));
 			}

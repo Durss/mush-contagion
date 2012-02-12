@@ -62,7 +62,7 @@ package com.muxxu.mush.generator.mushroom {
 			_ratio = ratio;
 			_key = key;
 			_head.populate(key, 100 * ratio);
-			_body.populate(key, 100*ratio);
+			_body.populate(key, 100 * ratio);
 			_eyeL.populate(key, ((parseInt(key.charAt(16),16)/0xf)*10 + 20)*ratio);
 			_eyeR.populate(key, ((parseInt(key.charAt(17),16)/0xf)*10 + 20)*ratio);
 			_mouth.populate(key, ((parseInt(key.charAt(18),16)/0xf)*10 + 30)*ratio);
@@ -126,7 +126,7 @@ package com.muxxu.mush.generator.mushroom {
 			_eyeL.y = _head.bottomPoint.y - _eyeL.height * .15;
 			_eyeR.x = _head.bottomPoint.x + _eyeR.width;
 			_eyeR.y = _head.bottomPoint.y - _eyeR.height * .15;
-			_mouth.scaleY = 1-(_body.flattenRatio-1)*4;
+			_mouth.scaleY = _mouth.scaleX -(_body.flattenRatio-1)*4;
 			_mouth.x = _body.x + _body.bottomPoint.x;
 			_mouth.y = _body.y + _body.bottomPoint.y - _mouth.height * .3;
 		}
