@@ -278,6 +278,14 @@ if(isset($_POST['setMaintenance']) || isset($_POST['setParams']))
 	}
 	else $update['queryLimit'] = $ini['params']['queryLimit'];
 	
+	//infectDelay
+	if(is_numeric($_POST['infectDelay']) && $_POST['infectDelay'] != $ini['params']['infectDelay'])
+	{
+		$update['infectDelay'] = $_POST['infectDelay'];
+		$do = true;
+	}
+	else $update['infectDelay'] = $ini['params']['infectDelay'];
+	
 	if($do)
 	{
 		$page->c .= "<pre>".print_r($_POST,1)."</pre>"; 
@@ -296,6 +304,7 @@ maintenance={$update['maintenance']};		(bool)	Fermer/Ouvrir l'application au pub
 infectCover={$update['infectCover']};		(bool)	Infecter les personnes déjà contaminée s'il n'y a plus de personnes aines disponibles
 infectSelf={$update['infectSelf']};		(bool)	Infection d'office de l'utilisateur
 infectCeil={$update['infectCeil']};			(int)	Seuil d'infection
+infectDelay={$update['infectDelay']};			(int)	Délai d'infection (exprimé en secondes)
 infectPerTurn={$update['infectPerTurn']};	(int)	Nombre d'infection par tour
 queryLimit={$update['queryLimit']};		(int)	Limitation du nombre de profils évalués dans les requêtes de tirage au sort
 
@@ -325,6 +334,7 @@ $infectCover = ($ini['params']['infectCover'] == 1)
 $infectCeil = $ini['params']['infectCeil'];
 $infectPerTurn = $ini['params']['infectPerTurn'];
 $queryLimit = $ini['params']['queryLimit'];
+$infectDelay = $ini['params']['infectDelay'];
 
 //Liste les admins
 $adminList = "<li>".implode("</li>\n\t\t\t\t\t<li>",$adminList)."</li>";
@@ -347,9 +357,10 @@ $page->c .= <<<EOHTML
 				<legend>Paramètres</legend>
 					<label><input type="checkbox" name="infectSelf"{$infectSelf} /> Auto-infection (Le visiteur est infecté d'office)</label>
 					<label><input type="checkbox" name="infectCover"{$infectCover} /> Surinfection (possibilité d'être contaminé plusieurs fois)</label>
-					<label>Seuil d'infection : <input type="text" name="infectCeil" value="{$infectCeil}" /></label>
-					<label>Nombre d'infections par tours : <input type="text" name="infectPerTurn" value="{$infectPerTurn}" /></label>
-					<label>Nombre d'ID par requètes : <input type="text" name="queryLimit" value="{$queryLimit}" /></label>
+					<label>Seuil d'infection : <input type="text" name="infectCeil" value="{$infectCeil}" size="3" /></label>
+					<label>Délai entre deux infections : <input type="text" name="infectDelay" value="{$infectDelay}" size="3" /> (secondes)</label>
+					<label>Nombre d'infections par tours : <input type="text" name="infectPerTurn" value="{$infectPerTurn}" size="3" /></label>
+					<label>Nombre d'ID par requètes : <input type="text" name="queryLimit" value="{$queryLimit}" size="3" /></label>
 			</fieldset>
 			<fieldset>
 				<input type="submit" name="setParams" value="enregistrer" />
