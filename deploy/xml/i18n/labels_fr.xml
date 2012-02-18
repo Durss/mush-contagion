@@ -24,6 +24,7 @@
 		<label code="MYSQL_QUERY_FAIL_7"><![CDATA[Echec de la recherche d'information pour cet utilisateur.']]></label>
 		<label code="MYSQL_QUERY_FAIL_8"><![CDATA[Echec de la recherche d'information sur les personnes ayant contaminé cet utilisateur.]]></label>
 		<label code="MYSQL_QUERY_FAIL_9"><![CDATA[Echec de la recherche d'information sur les personnes ayant été contaminées par cet utilisateur.]]></label>		
+		<label code="MYSQL_QUERY_FAIL_10"><![CDATA[Echec de la recherche d'information sur la dernière infection menée par cet utilisateur.]]></label>		
 		
 		<!-- Dialogues -->	
 		<label code="intro">

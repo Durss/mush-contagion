@@ -28,6 +28,8 @@ require(baseURL.'php/class/dto/user.php');
 /*
  * Initialisation
  */
+$ini = parse_ini_file(baseURL.'params.ini');
+
 //Fichier XML de référence
 $base = website.'/xml/userinfos.xml';
 //Intanciation de l'objet XML
@@ -71,6 +73,21 @@ if(! mysql_num_rows($db->result))
 
 //Déploiement des données
 $userData = mysql_fetch_assoc($db->result);
+
+//dernière infection effectuée
+if(! $db->selectLastInfection(UID)) //En cas d'erreur SQL
+{
+	xmlError($userinfos, 'MYSQL_QUERY_FAIL_10', mysql_error());
+	xmlFinish($userinfos);
+}
+
+//Si UID n'a pas encore effectué d'infection
+if(! mysql_num_rows($db->result)) $lastInfection = false;
+else
+{
+	$row = mysql_fetch_assoc($db->result);
+	$lastInfection = intval($row['date']);
+}
 
 if(FULL_INFOS)
 	{
@@ -116,6 +133,24 @@ $user->addAttribute('level', $userData['infected']);
 
 $user->addChild('name', $userData['name']);
 $user->addChild('avatar', $userData['avatar']);
+
+if($lastInfection)
+{
+	//respect du délai
+	if(time() - intval($ini['infectDelay']) > $lastInfection)
+	{
+		//Délai respecté
+		$wait = intval(0);
+	}
+	else
+	{
+		//Veuillez patienter
+		$wait = ($lastInfection + intval($ini['infectDelay'])) - time();
+	}
+	$delay = $user->addChild('delay');
+	$delay->addAttribute('wait', $wait);
+	$delay->addAttribute('lastInfection', $lastInfection);
+}
 
 if(FULL_INFOS)
 {

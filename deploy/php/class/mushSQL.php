@@ -206,6 +206,7 @@ EOSQL;
 	
 	/**
 	 * Vider la table 'users'
+	 * @return	ressource
 	 */
 	public function truncateUsers()
 	{
@@ -219,6 +220,7 @@ EOSQL;
 
 	/**
 	 * Vider la table 'links'
+	 * @return	ressource
 	 */
 	public function truncateLinks()
 	{
@@ -232,6 +234,7 @@ EOSQL;
 	
 	/**
 	 * Soigner tout le monde
+	 * @return	ressource
 	 */
 	public function healEveryone()
 	{
@@ -247,6 +250,7 @@ EOSQL;
 	
 	/**
 	 * Nombre de visiteurs
+	 * @return	ressource
 	 */
 	public function countRealUsers()
 	{
@@ -260,6 +264,7 @@ EOSQL;
 	
 	/**
 	 * Nombre de personnes infectées
+	 * @return	ressource
 	 */
 	public function countInfectedUsers()
 	{
@@ -276,6 +281,7 @@ EOSQL;
 		
 	/**
 	 * Stats générales des tables
+	 * @return	ressource
 	 */
 	public function tableStatus()
 	{
@@ -286,6 +292,25 @@ EOSQL;
 SHOW TABLE STATUS
 FROM `{$this->db}`
 WHERE Name IN {$tables};
+EOSQL;
+		
+		return $this->query($sql) or $this->error(mysql_error());
+	}
+	
+	/**
+	 * Date de la dernière infection menée par un utilisateur
+	 * @param	int	$uid	-N°identifiant de l'utilisateur
+	 * @return	ressource
+	 */
+	public function selectLastInfection($uid)
+	{
+		$sql = <<<EOSQL
+-- Date de la dernière infection menée par un utilisateur
+SELECT `date`
+FROM `{$this->tbl['link']}`
+WHERE `parent` = {$uid}
+ORDER BY `{$this->tbl['link']}`.`id` DESC
+LIMIT 1
 EOSQL;
 		
 		return $this->query($sql) or $this->error(mysql_error());
