@@ -1,25 +1,25 @@
 package com.muxxu.mush.contaminator.views {
-	import com.muxxu.mush.contaminator.events.InfectionEvent;
-	import flash.display.DisplayObject;
-	import com.muxxu.mush.generator.twinoid.Twinoid;
-	import com.nurun.utils.vector.VectorUtils;
-	import flash.utils.setInterval;
 	import by.blooddy.crypto.MD5;
-
 	import gs.TweenLite;
-
+	import com.muxxu.mush.contaminator.components.CharacterTooltip;
+	import com.muxxu.mush.contaminator.components.Smoke;
+	import com.muxxu.mush.contaminator.controler.FrontControler;
+	import com.muxxu.mush.contaminator.events.InfectionEvent;
 	import com.muxxu.mush.contaminator.events.LightEvent;
 	import com.muxxu.mush.contaminator.model.Model;
 	import com.muxxu.mush.contaminator.vo.UserCollection;
 	import com.muxxu.mush.generator.mushroom.Mushroom;
+	import com.muxxu.mush.generator.twinoid.Twinoid;
 	import com.muxxu.mush.graphics.Ground2Bmp;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
 	import com.nurun.structure.mvc.views.ViewLocator;
-
+	import com.nurun.utils.vector.VectorUtils;
 	import flash.display.Bitmap;
+	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.geom.Rectangle;
+	import flash.utils.setInterval;
 	import flash.utils.setTimeout;
 
 	/**
@@ -34,6 +34,8 @@ package com.muxxu.mush.contaminator.views {
 		private var _sky:BackgroundView;
 		private var _mushrooms:Vector.<Mushroom>;
 		private var _twinoids:Vector.<Twinoid>;
+		private var _pseudos:Vector.<CharacterTooltip>;
+		private var _contaminated:int;
 		
 		
 		
@@ -59,12 +61,14 @@ package com.muxxu.mush.contaminator.views {
 		override public function update(event:IModelEvent):void {
 			var model:Model = event.model as Model;
 			var u:UserCollection = model.infectedUsers;
-			if(u != null) {
+			if(u != null && !model.contaminationComplete) {
 				var i:int, len:int;
 				len = u.length;
 				for(i = 0; i < len; ++i) {
 					_twinoids[i] = new Twinoid();
 					_mushrooms[i] = new Mushroom();
+					_pseudos[i] = new CharacterTooltip();
+					_pseudos[i].populate(u.getUserAtIndex(i).name);
 					setTimeout(_twinoids[i].populate, i*1 + 5, MD5.hash(u.getUserAtIndex(i).name+"."+u.getUserAtIndex(i).uid), 1);
 					setTimeout(_mushrooms[i].populate, i*1.5 + 5, MD5.hash(u.getUserAtIndex(i).name+"."+u.getUserAtIndex(i).uid), 1);
 					_twinoids[i].addEventListener(InfectionEvent.INFECTED, infectionCompleteHandler);
@@ -100,6 +104,7 @@ package com.muxxu.mush.contaminator.views {
 			_sky = ViewLocator.getInstance().locateViewByType(BackgroundView) as BackgroundView;
 			_mushrooms = new Vector.<Mushroom>();
 			_twinoids = new Vector.<Twinoid>();
+			_pseudos = new Vector.<CharacterTooltip>();
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			ViewLocator.getInstance().addEventListener(LightEvent.THROW_SPORES, throwSporesHandler);
@@ -134,14 +139,22 @@ package com.muxxu.mush.contaminator.views {
 		}
 		
 		/**
-		 * Move sthe ground according to the sky's position
+		 * Moves the ground according to the sky's position
 		 */
 		private function enterFrameHandler(event:Event):void {
 			if(_sky.skyAngle >= Math.PI) {
-				if (_sky.scrollSpeed < 50) {
+				if (_sky.scrollSpeed < 50 && !visible) {
 					visible = true;
 					TweenLite.to(this, 1.2, {y:stage.stageHeight-_ground.height, delay:2.8});
-					removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
+				}else{
+					var i:int, len:int, target:DisplayObject, bounds:Rectangle;
+					len = _twinoids.length;
+					for(i = 0; i < len; ++i) {
+						target = contains(_mushrooms[i])? _mushrooms[i] : _twinoids[i];
+						bounds = target.getBounds(target);
+						_pseudos[i].x = target.x + bounds.x + (bounds.width - _pseudos[i].width) * .5;
+						_pseudos[i].y = target.y + bounds.y - _pseudos[i].height - 10;
+					}
 				}
 			}
 		}
@@ -169,6 +182,7 @@ package com.muxxu.mush.contaminator.views {
 			
 			for(i = 0; i < len; ++i) {
 				addChild(_twinoids[i]);
+				addChild(_pseudos[i]);
 				_twinoids[i].validate();
 			}
 			
@@ -220,8 +234,20 @@ package com.muxxu.mush.contaminator.views {
 					break;
 				}
 			}
+			
+			var j:int, lenJ:int;
+			lenJ = 15;
+			for(j = 0; j < lenJ; ++j) {
+				addChild(new Smoke(_twinoids[i]));
+			}
+			
 			removeChild(event.target as Twinoid);
 			addChildAt(_mushrooms[i], i+1);
+			_mushrooms[i].x = _twinoids[i].x - _twinoids[i].width * .5;
+			_pseudos[i].setMushMode();
+			if(++_contaminated == _twinoids.length) {
+				FrontControler.getInstance().contaminationComplete();
+			}
 		}
 	}
 }

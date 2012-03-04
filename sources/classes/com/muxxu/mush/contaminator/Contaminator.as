@@ -1,4 +1,5 @@
 package com.muxxu.mush.contaminator {
+	import com.muxxu.mush.contaminator.views.StatusView;
 	import gs.plugins.TransformAroundCenterPlugin;
 	import gs.plugins.TransformAroundPointPlugin;
 	import gs.plugins.TweenPlugin;
@@ -75,6 +76,7 @@ package com.muxxu.mush.contaminator {
 			addChild(new BackgroundView());
 			addChild(new ContaminationView());
 			addChild(new MushroomView());
+			addChild(new StatusView());
 			addChild(new SoundView());
 			addChild(new ExceptionView());
 			

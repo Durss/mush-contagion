@@ -92,7 +92,6 @@ package com.muxxu.mush.contaminator.views {
 			var model:Model = event.model as Model;
 			
 			if(model.infectedUsers != null) {
-				
 				return;
 			}
 			
@@ -270,7 +269,7 @@ package com.muxxu.mush.contaminator.views {
 				_sneezeHistory.push(strength);
 				var i:int, len:int, tot:int;
 				len = _sneezeHistory.length;
-				if(len > 4) {
+				if(len > 4 && strength <= 30) {
 					for(i = 0; i < len; ++i) {
 						tot += _sneezeHistory[i];
 					}

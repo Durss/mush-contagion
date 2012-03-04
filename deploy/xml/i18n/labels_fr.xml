@@ -26,7 +26,10 @@
 		<label code="MYSQL_QUERY_FAIL_9"><![CDATA[Echec de la recherche d'information sur les personnes ayant été contaminées par cet utilisateur.]]></label>		
 		<label code="MYSQL_QUERY_FAIL_10"><![CDATA[Echec de la recherche d'information sur la dernière infection menée par cet utilisateur.]]></label>		
 		
-		<!-- Dialogues -->	
+		<label code="copyStatus"><![CDATA[Copier]]></label>		
+		<label code="contaminationComplete"><![CDATA[<b>Brave petit humain, c'est bien, le mush est fier de toi!</b><br />Pour prouver un peu plus ton adhésion au mush n'hésite pas à te vanter de cette contamination auprès de tous tes amis en copiant/collant ceci en statut :]]></label>		
+		
+		<!-- Main mushroom dialogs -->	
 		<label code="intro">
 			<s><![CDATA[				<sneeze/>*ATCHA*<wait1 /><br /><br />RAAAH C'EST POUR QUOI ENCORE???!!!]]></s>
 			<s><![CDATA[Tu QUOI?!!??!!<wait1 /><br />Tu souhaites te convertir<br />au mush???!!!???!!!<wait1 /><br />Ohh...... <wait.5 />C'est pas banal ça...]]></s>
@@ -53,6 +56,147 @@
 		</label>
 		<label code="better">
 			<s><![CDATA[Et ben voilà qui est mieux!<br />Allez, remets moi donc un coup,<br />les prochaines spores sont en<br />partance directe pour tes amis...<br />kr<wait.2 />kr<wait.2 />kr<wait.2 />kr<wait.2 />kr<wait.2 />kr<wait2 />]]></s>
+		</label>
+		
+		<!-- Twinoids dialogs -->
+		<label code="twinoids">
+			<s><![CDATA[Salut copain!]]></s>
+			<s><![CDATA[Viens on va jouer à kube!]]></s>
+			<s><![CDATA[J'aime bien la moussaka avec des miel pops.]]></s>
+			<s><![CDATA[Mis à part que ça a rien à voir, c'est exactement ça!]]></s>
+			<s><![CDATA[LOL]]></s>
+			<s><![CDATA[Vous connaissez la blague de la chaise?]]></s>
+			<s><![CDATA[J'ai poutré tout le monde sur labrute aujourd'hui!]]></s>
+			<s><![CDATA[Au clair de la luneuuuh...]]></s>
+			<s><![CDATA[Zboing!]]></s>
+			<s><![CDATA[Hihi c'est rigolo de faire des sauts.]]></s>
+			<s><![CDATA[Depuis qu'on est carrés, c'est mieux pour se ranger.]]></s>
+			<s><![CDATA[Coucou!]]></s>
+			<s><![CDATA[Ca va?]]></s>
+			<s><![CDATA[Est-ce que vous aimez les ventilateurs?]]></s>
+			<s><![CDATA[Adieu!]]></s>
+			<s><![CDATA[J'ai faim.]]></s>
+			<s><![CDATA[Ah oui oui oui!]]></s>
+			<s><![CDATA[Je te le dirais paaaaas!]]></s>
+			<s><![CDATA[Tu peux me passer le savon?]]></s>
+			<s><![CDATA[MamaaAAaan! FAIS MOI A MANGER!]]></s>
+			<s><![CDATA[Allo?]]></s>
+			<s><![CDATA[J'me taperais bien une omelette aux champignons.]]></s>
+			<s><![CDATA[Bah! 42 évidemment!]]></s>
+			<s><![CDATA[Vous pouvez répéter la question?]]></s>
+			<s><![CDATA[Les poils c'est génial!]]></s>
+			<s><![CDATA[Avoir des pieds c'est tellement sur-fait...]]></s>
+			<s><![CDATA[Fuuu j'me suis encore mangé les fesses à snake &gt;_&lt;]]></s>
+			<s><![CDATA[J'aimerais bien aller dans l'espace.]]></s>
+			<s><![CDATA[J'ai envie d'un chocolat chaud.]]></s>
+			<s><![CDATA[Nomomnomnom..! Rien de tel qu'une tartine d'ail.]]></s>
+			<s><![CDATA[...]]></s>
+			<s><![CDATA[Woooohooo \o/]]></s>
+			<s><![CDATA[:'(]]></s>
+			<s><![CDATA[:D]]></s>
+			<s><![CDATA[:3]]></s>
+			<s><![CDATA[&gt;:(]]></s>
+			<s><![CDATA[*o*]]></s>
+			<s><![CDATA[-_-]]></s>
+			<s><![CDATA[:calim:]]></s>
+			<s><![CDATA[:/]]></s>
+			<s><![CDATA[mdr]]></s>
+			<s><![CDATA[Je suis enrubé :'(]]></s>
+			<s><![CDATA[Moi rigoler ça m'fait rire j'trouve ça marrant.]]></s>
+			<s><![CDATA[Quelle est la différence entre un pigeon?]]></s>
+			<s><![CDATA[slt sa va ???]]></s>
+			<s><![CDATA[Kikoo!]]></s>
+			<s><![CDATA[Oooh c'est beau ces choses qui tombent du ciel!]]></s>
+			<s><![CDATA[QUOI?]]></s>
+			<s><![CDATA["Ca touche" ça touche pas. "Ca touche pas" ça touche.]]></s>
+			<s><![CDATA[C'est mon anniversaire \o/<br />..ou pas..<br />...ou si...<br />en fait j'sais plus :/]]></s>
+			<s><![CDATA[T'eeees troooop miiiignon mignon mignon mignon mais gros gros gros!]]></s>
+			<s><![CDATA[Avec ou sans dentifrice votre éclair au chocolat?]]></s>
+			<s><![CDATA[Je vends des POGs!]]></s>
+			<s><![CDATA[Des gogo..des gogo; DES GOLIATHS!]]></s>
+			<s><![CDATA[PICORONS EN APPROCHE!!!]]></s>
+			<s><![CDATA[Igooor à taaable sors de ce puits!]]></s>
+			<s><![CDATA[Marc Mazzoti c'est mon cousin!]]></s>
+			
+			<s a="tubasa"><![CDATA[Tais-toi et creuse!]]></s>
+			<s a="tubasa"><![CDATA[Tient voilà un mouton...voilà un mouton...pour les alsaciens, les suisses et les lorrains.]]></s>
+			<s a="tubasa"><![CDATA[Le bon, La_Brute et le truand]]></s>
+			<s a="tubasa"><![CDATA[Ne jamais grogner sèchement à un numides...surtout s'il a un aqua-splash dans les mains]]></s>
+			<s a="falgor"><![CDATA[Snake un au revoir.]]></s>
+			<s a="falgor"><![CDATA[Croque Monsieur ? Non, Croque Motel]]></s>
+			<s a="colapsydo"><![CDATA[Dans l'espace, personne ne vous entendra jouer.]]></s>
+			<s a="musaran"><![CDATA[Mangez 300 fruits et légumes par jour.]]></s>
+			<s a="musaran"><![CDATA[Faites des jeux, pas la guerre.]]></s>
+			<s a="musaran"><![CDATA[Vous faites exprès de vous noyer ou quoi ?]]></s>
+			
+			
+			<s p="eole"><![CDATA[Qui vient jouer au projet Baies avec moi?]]></s>
+			<s p="eole"><![CDATA[Je vais arroser menthounette!]]></s>
+			<s p="deepnight"><![CDATA[...mmh...]]></s>
+			<s p="deepnight"><![CDATA[...c'est beau la mort...]]></s>
+			<s p="deepnight"><![CDATA[...et PAF le chien...]]></s>
+			<s p="selliato"><![CDATA[Salut moi c'est Slimfr01!]]></s>
+			<s p="warp"><![CDATA[Apprenez HAXE!]]></s>
+			<s p="warp"><![CDATA[Avez vous trouvé l'île Chocolat sur kube?]]></s>
+			<s p="warp"><![CDATA[J'espère que le WIP cubique vous plait!]]></s>
+			<s p="warp"><![CDATA[Une petite odyssey?]]></s>
+			<s p="warp"><![CDATA[Où en est Alphasin? Qui sait... :P]]></s>
+			<s p="durss"><![CDATA[Poil !]]></s>
+			<s p="durss"><![CDATA[Bisous mes Atlantes chéris!]]></s>
+			<s p="durss"><![CDATA[Flash FTW!]]></s>
+			<s p="19946YYUHY"><![CDATA[J'aime casser les pieds des gens :3]]></s>
+			<s p="arma"><![CDATA[Suisse en force!!!]]></s>
+			<s p="skool"><![CDATA[Non je ne suis pas intéressé madame. Je suis déjà marié à mes serveurs!]]></s>
+			<s p="ayame"><![CDATA[J'vous jure, on terminera Mush un jour!]]></s>
+			<s p="ayame"><![CDATA[J'aime bien faire des vaisseaux au pixel :3!]]></s>
+			<s p="blackmagic"><![CDATA[J'vous jure, on terminera Mush un jour!]]></s>
+			<s p="blackmagic"><![CDATA[Ayame vous a concocté un Deadalus aux p'tits oignons!]]></s>
+			<s p="bumdum"><![CDATA[Les fruits c'est la vie!]]></s>
+		</label>
+		
+		<label code="mush">
+			<s><![CDATA[*ATCHA*]]></s>
+			<s><![CDATA[blublubluuuu]]></s>
+			<s><![CDATA[maaaangeeeeeer]]></s>
+			<s><![CDATA[gaaaaaaaaaah]]></s>
+			<s><![CDATA[*crounch*crounch*]]></s>
+			<s><![CDATA[ploup]]></s>
+			<s><![CDATA[flopflopflop]]></s>
+			<s><![CDATA[Domination >:D]]></s>
+			<s><![CDATA[&gt;:D]]></s>
+			<s><![CDATA[krkrkr >:D]]></s>
+			<s><![CDATA[Des spooores * *   ** * *   * **  * *]]></s>
+			<s><![CDATA[TUUUUEEER]]></s>
+			<s><![CDATA[Humains crêtins]]></s>
+			<s><![CDATA[Humains cacaaa boudiiin]]></s>
+			<s><![CDATA[Maaangeer boudin d'humain]]></s>
+			<s><![CDATA[*atchOUm*]]></s>
+			<s><![CDATA[*GNiiiiiiiiiiiiiih*]]></s>
+			<s><![CDATA[ooooh du bon pâté d'humain]]></s>
+			<s><![CDATA[Extermination!]]></s>
+			<s><![CDATA[Exterminer! Exterminer! EXTERMIIIINNEEEER!]]></s>
+			<s><![CDATA[J'ai une spore coincée tu peux m'aider à l'extirper?]]></s>
+			<s><![CDATA[HUMAINS EN VUE!!! EXTIRPEZ!]]></s>
+			<s><![CDATA[paix!]]></s>
+			<s><![CDATA[Viens humain. C'est pour ton bien.]]></s>
+			<s><![CDATA[Trop beau mon chapeau!]]></s>
+			<s><![CDATA[at.. at.. at.. ATCHAAAAAAAAAA!!!]]></s>
+			<s><![CDATA[Eh dis tu fais quoi? Tu prends racine?! krkrkrkr]]></s>
+			<s><![CDATA[Aahh y a pas à dire, on est mieux mush qu'humain!]]></s>
+			<s><![CDATA[Saletés d'humains...]]></s>
+			<s><![CDATA[Humain est synonyme d'erreur de la nature.]]></s>
+			<s><![CDATA[Nous sommes la mycose des humain. Et réciproquement..]]></s>
+			<s><![CDATA[hinhinhin petits humains...]]></s>
+			<s><![CDATA[Viens humain. Je vais te montrer ce que ça fait d'être avec des oeufs et des patates dans une poêle..]]></s>
+			<s><![CDATA[MUSH!]]></s>
+			<s><![CDATA[Mush un jour, mush toujours!]]></s>
+			<s><![CDATA[Eh! Quand t'as le nez qui coule t'fais quoi? Tu t'mush? krkrkkr]]></s>
+			<s><![CDATA[Oh l'autre.. y s'mush pas du coude.]]></s>
+			<s><![CDATA[Plus que quelques humains et nous reignerons sur l'univers entier!]]></s>
+			<s><![CDATA[Ca vous apprendra à nous manger.]]></s>
+			<s><![CDATA[Ne vous avisez plus de me mettre du basilic sur la tronche...]]></s>
+			<s><![CDATA[Ouuh je vais en contaminer plus d'un!!]]></s>
+			<s><![CDATA[Muxxu tombera très bientôt sous la domination totale du mush!]]></s>
 		</label>
 	</labels>
 	

@@ -72,6 +72,13 @@ package com.muxxu.mush.contaminator.controler {
 		public function introComplete():void {
 			_model.introComplete();
 		}
+		
+		/**
+		 * Called when contamination completes
+		 */
+		public function contaminationComplete():void {
+			_model.setContaminationComplete();
+		}
 
 
 		

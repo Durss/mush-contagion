@@ -1,9 +1,9 @@
 package com.muxxu.mush.generator.twinoid {
-	import com.muxxu.mush.contaminator.events.InfectionEvent;
 	import gs.TweenLite;
 	import gs.easing.Elastic;
 	import gs.easing.Sine;
 
+	import com.muxxu.mush.contaminator.events.InfectionEvent;
 	import com.nurun.components.volume.Cube;
 
 	import flash.display.Sprite;
@@ -103,7 +103,7 @@ package com.muxxu.mush.generator.twinoid {
 		 * Called when a particle touch it.
 		 */
 		public function touch():void {
-			if(++_touched >= _targeted && !_isJumping) {
+			if(++_touched >= _targeted) {
 				_isJumping = true;
 				TweenLite.to(_body, 2, {scaleX:.5, ease:Elastic.easeIn, easeParams:[1,.1], onComplete:onTransformComplete});
 			}else{
@@ -156,6 +156,7 @@ package com.muxxu.mush.generator.twinoid {
 		 * Called when contamination's transofrmation completes.
 		 */
 		private function onTransformComplete():void {
+			_isJumping = false;
 			dispatchEvent(new InfectionEvent(InfectionEvent.INFECTED));
 		}
 		
