@@ -113,7 +113,7 @@ package com.muxxu.mush.contaminator.components {
 		}
 		
 		/**
-		 * Called when component is clicked
+		 * Called when acomponent is clicked
 		 */
 		private function clickHandler(event:MouseEvent):void {
 			if(_sentenceIndex >= _sentences.length()) return;
@@ -152,6 +152,10 @@ package com.muxxu.mush.contaminator.components {
 			if(--_waitFor > 0) return;
 			
 			var sentence:String = _sentences[_sentenceIndex];
+			if(sentence == null) {
+				clearInterval(_interval);
+				return;
+			}
 			
 			_tf.text = sentence;//Provides a way to know the final width and height of the box
 			var w:Number = _tf.width;

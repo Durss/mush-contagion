@@ -54,7 +54,7 @@ package com.muxxu.mush.contaminator.components {
 		 */
 		public function Particle() {
 			_friction = Math.random() * .3 + .3;
-			_radius = Math.random() * 2.5 + 1;
+			_radius = Math.random() * 2.5 + 2;
 			
 			x = y = -1;
 		}
@@ -108,7 +108,7 @@ package com.muxxu.mush.contaminator.components {
 			if(_target != null) {
 				_incX += _frequency;
 				var endX:Number = _target.x;
-				var endY:Number = _target.y + _target.parent.y;
+				var endY:Number = _target.y + _target.parent.y + 30;
 				_px += (endX - _px) * (Math.max(0, y)/10000);
 				x = _px + Math.sin(_incX) * _amplitude;
 				y += _sy;
@@ -121,6 +121,7 @@ package com.muxxu.mush.contaminator.components {
 				if(Math.abs(x - endX) < 20 && Math.abs(y - endY) < 20) {
 					_launched = false;
 					_target.touch();
+					_target = null;
 					parent.removeChild(this);//Diiiiiiiirty tiiiiiiime :D
 				}
 				return;

@@ -22,8 +22,12 @@
 	<paths>
 		<path code="music"><![CDATA[{v_ressourcesPath}sounds/music.mp3?v={v_version}]]></path>
 		<path code="infectService"><![CDATA[{v_wsPath}php/services/atchoum.php?id={UID}&key={KEY}&v={v_version}]]></path>
+		<path code="userProfile"><![CDATA[http://muxxu.com/user/{UID}]]></path>
+		<path code="appURL"><![CDATA[http://muxxu.com/a/mushcontagion]]></path>
 	</paths>
 	
-	<dependencies />
+	<dependencies>
+		<dependency id="status" type="text"><![CDATA[xml/status.xml?v={v_version}]]></dependency>
+	</dependencies>
 	
 </root>

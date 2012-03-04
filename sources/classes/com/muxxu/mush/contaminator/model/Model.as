@@ -1,4 +1,6 @@
 package com.muxxu.mush.contaminator.model {
+	import com.nurun.structure.environnement.dependency.DependencyStorage;
+	import com.muxxu.mush.contaminator.vo.StatusCollection;
 	import com.muxxu.mush.contaminator.cmd.InfectCmd;
 	import com.muxxu.mush.contaminator.events.LightEvent;
 	import com.muxxu.mush.contaminator.throwables.ContaminatorError;
@@ -24,6 +26,8 @@ package com.muxxu.mush.contaminator.model {
 		private var _playIntro:Boolean;
 		private var _soundEnabled:Boolean;
 		private var _infectedUsers:UserCollection;
+		private var _contaminationComplete:Boolean;
+		private var _status:StatusCollection;
 		
 		
 		
@@ -54,9 +58,19 @@ package com.muxxu.mush.contaminator.model {
 		public function get soundEnabled():Boolean { return _soundEnabled; }
 		
 		/**
+		 * Gets if the contamination is complete
+		 */
+		public function get contaminationComplete():Boolean { return _contaminationComplete; }
+		
+		/**
 		 * Gets the infected users
 		 */
 		public function get infectedUsers():UserCollection { return _infectedUsers; }
+		
+		/**
+		 * Gets the status data.
+		 */
+		public function get status():StatusCollection { return _status; }
 		
 
 
@@ -98,6 +112,14 @@ package com.muxxu.mush.contaminator.model {
 		public function introComplete():void {
 			_so.data["introPlayed"] = true;
 		}
+		
+		/**
+		 * Called when contamination completes
+		 */
+		public function setContaminationComplete():void {
+			_contaminationComplete = true;
+			update();
+		}
 
 
 		
@@ -111,6 +133,8 @@ package com.muxxu.mush.contaminator.model {
 		private function initialize():void {
 			_so = SharedObject.getLocal("mushcontagion", "/");
 			_soundEnabled = _so.data["sound"] !== false;
+			_status = new StatusCollection();
+			_status.populate(DependencyStorage.getInstance().getDependencyById("status").xml);
 			SoundMixer.soundTransform = new SoundTransform(_soundEnabled? 1 : 0);
 		}
 		
@@ -139,6 +163,7 @@ package com.muxxu.mush.contaminator.model {
 		private function infectCompleteHandler(event:CommandEvent):void {
 			_infectedUsers = new UserCollection();
 			_infectedUsers.populate(event.data as XML);
+			_status.infectedUsers = _infectedUsers;
 			update();
 		}
 		
@@ -147,7 +172,7 @@ package com.muxxu.mush.contaminator.model {
 		 * Called if a command fails
 		 */
 		private function commandErrorHandler(event:CommandEvent):void {
-			 throw new ContaminatorError(event.data as String);
+			throw new ContaminatorError(event.data as String);
 		}
 	}
 }

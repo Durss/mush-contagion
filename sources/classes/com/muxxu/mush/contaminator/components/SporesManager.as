@@ -131,7 +131,7 @@ package com.muxxu.mush.contaminator.components {
 					}
 				}
 				if(_slowingDown) {
-					_offsetY = Math.max(0, _offsetY-5);
+					_offsetY = Math.max(0, _offsetY-8);
 				}else{
 					_offsetY = Math.min(500, _offsetY+7);
 				}
@@ -157,8 +157,10 @@ package com.muxxu.mush.contaminator.components {
 			var targets:Array = _mushroomsView.getTargets();
 			
 			particle = _firstParticle;
+			var tot:int;
 			while(particle != null && i++ < _len) {
 				if(particle.launched) {
+					tot ++;
 					target = ArrayUtils.getRandom(targets) as Twinoid;
 					target.targeted ++;
 					particle.lockTarget( target );

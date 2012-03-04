@@ -143,6 +143,7 @@ package com.muxxu.mush.contaminator.views {
 		 * Throws the spores
 		 */
 		private function throwSporesHandler(event:LightEvent):void {
+			stage.removeEventListener(Event.RESIZE, computePositions);
 			if(!_autoRotation) {
 				_speedR = .0005;
 				_speed = 5;

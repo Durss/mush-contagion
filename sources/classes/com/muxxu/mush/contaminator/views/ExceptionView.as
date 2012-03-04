@@ -1,4 +1,5 @@
 package com.muxxu.mush.contaminator.views {
+	import flash.text.TextFieldAutoSize;
 	import flash.display.Sprite;
 	import com.nurun.utils.draw.createRect;
 	import com.muxxu.mush.contaminator.model.Model;
@@ -102,6 +103,8 @@ package com.muxxu.mush.contaminator.views {
 
 			var margin:int = 10;
 			_tf.x = _tf.y = margin;
+			_tf.autoSize = TextFieldAutoSize.LEFT;
+			if(_tf.width > stage.stageWidth - 200) _tf.width = stage.stageWidth - 200;
 			_popin.graphics.clear();
 			_popin.graphics.beginFill(0xffffff, 1);
 			_popin.graphics.drawRoundRect(0, 0, _tf.width + margin * 2, _tf.height + margin * 2, 15, 15);
