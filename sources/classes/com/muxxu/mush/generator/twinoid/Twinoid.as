@@ -123,6 +123,13 @@ package com.muxxu.mush.generator.twinoid {
 			_body.validate();
 		}
 
+		public function setAvatarPosition():void {
+			_body.rotationX = 0;
+			_body.rotationY = 20;
+			_body.validate();
+		}
+
+
 
 
 		
