@@ -70,7 +70,7 @@ package com.muxxu.mush.language {
 					_isHack ||= !/^http:\/\/fevermap.org\/mushcontagion/gi.test(loaderInfo.url);
 				}
 			}else{
-//				trace(MushCrypto.decrypt("sfd sfsdf sdfsd▌ f▓sd f◄▀►◄▀f ds▄f▐sd▄►sd▒ds▀▄►►■►▼▼▲▄◄▼░▼▀►▐▄◄▼▼▼▄▄►▄▄▒▲▲░▀◄▼▒▀►►█◄▐►▄►▀▒▲▄◄▀■◄◙▀▀▄▐▄▀▲▄░◄░■►●■▐█▼█▐▐▀▌◙◙▄■◙▼◄▌◙◙◘■█▌▲▐◙▓◄◙◄■▀◄►◙■▐▼█◙▌█▓▓◄■▐▼██■▐█◙▌▒▓▄▐▀▓◘▒◘◙◄►▄►▄▐►▒▼►►■►▐▲▓▼◙▼▄▄▄►▀▄▲►■►▌▲►►◙▼▓▼▌▒▀░■▀▀"));
+//				trace(MushCrypto.decrypt("▌▄● ▀►░▲▄▌▀▀▀"));
 			}
 		}
 		

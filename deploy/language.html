@@ -41,11 +41,12 @@
 			swfobject.embedSWF("swf/language.swf?v=1", "content", "0", "0", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
 			
 			function encrypt() {
-				document.getElementById("result").innerHTML = document.getElementById("content").encrypt(document.getElementById("text").value);
+				document.getElementById("result").value = document.getElementById("content").encrypt(document.getElementById("text").value);
 			}
 			
 			function decrypt() {
-				document.getElementById("result").innerHTML = document.getElementById("content").decrypt(document.getElementById("text").value);
+				alert(document.getElementById("content").decrypt(document.getElementById("text").value));
+				document.getElementById("result").value = document.getElementById("content").decrypt(document.getElementById("text").value);
 			}
 			
 		</script>
