@@ -21,6 +21,7 @@ package com.muxxu.mush.generator.twinoid {
 		private var _eyeL:Eye;
 		private var _eyeR:Eye;
 		private var _contaminationPercent:Number;
+		private var _ratio:Number;
 		
 		
 		
@@ -85,6 +86,7 @@ package com.muxxu.mush.generator.twinoid {
 		 * Populates the front face
 		 */
 		public function populateFront(key:String, ratio:Number):void {
+			_ratio = ratio;
 			_front = true;
 			if(_mouth == null) {
 				_mouth = addChild(new Mouth()) as Mouth;
@@ -126,7 +128,7 @@ package com.muxxu.mush.generator.twinoid {
 				_eyeR.x = _eyeR.width;
 				_eyeR.y = base - _eyeR.height * .5;
 				_mouth.x = 0;
-				_mouth.y = _mouth.height * .5 + 15;
+				_mouth.y = _mouth.height * .5 + 15 * _ratio;
 			}
 		}
 		
