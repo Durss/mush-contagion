@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 <!-- definition of simple type elements -->
-	<xsd:element name="s" type="xsd:string" />
 	
 <!-- definition of attributes -->
 	<xsd:attribute name="code" type="xsd:string" />
+	<xsd:attribute name="a" type="xsd:string" />
+	<xsd:attribute name="p" type="xsd:string" />
 
 <!-- definition of complex type elements -->
 	<xsd:element name="root">
@@ -30,7 +31,13 @@
 			<xsd:attribute ref="code" use="optional" />
 		</xsd:complexType>
 	</xsd:element>
-
+	
+	<xsd:element name="s">
+		<xsd:complexType mixed="true">
+			<xsd:attribute ref="a" use="optional" />
+			<xsd:attribute ref="p" use="optional" />
+		</xsd:complexType>
+	</xsd:element>
 <!-- definition of restricted type -->
 
 </xsd:schema>
