@@ -69,10 +69,13 @@ package com.muxxu.mush.generator.twinoid {
 		public function populate(key:String, ratio:Number):void {
 			_ratio = ratio;
 			_key = key;
-			_body.width = ratio * 100;
-			_body.height = ratio * 90;
-			_body.depth = ratio * 90;
+			_body.width = ratio * 110;
+			_body.height = ratio * 80;
+			_body.depth = ratio * 70;
 			TwinoidFace(_body.frontFace).populateFront(key, ratio);
+//			TwinoidFace(_body.leftFace).populateside();
+//			TwinoidFace(_body.rightFace).populateside();
+//			TwinoidFace(_body.backFace).populateside();
 		}
 		
 		/**
@@ -82,7 +85,7 @@ package com.muxxu.mush.generator.twinoid {
 		 */
 		public function jump(left:Boolean):void {
 			_isJumping = true;
-			_body.rotationY = 0;
+			_body.rotationY = 10;
 			
 			TweenLite.to(_body, .2, {scaleY:.8, y:90*_ratio*.15});
 			TweenLite.to(_body, .5, {scaleY:1, ease:Elastic.easeOut, easeParams:[5, .25], delay:.2});
@@ -91,11 +94,11 @@ package com.muxxu.mush.generator.twinoid {
 			TweenLite.to(_body, .1, {scaleY:.7, y:90*_ratio*.2, ease:Sine.easeOut, delay:.7});
 			TweenLite.to(_body, .2, {scaleY:1, y:0, ease:Sine.easeOut, delay:.8, onComplete:onJumpComplete});
 			if(left) {
-				TweenLite.to(this, .65, {x:"-"+(150*_ratio), ease:Sine.easeOut, delay:.2});
-				TweenLite.to(_body, .8, {overwrite:0, rotationY:-360, ease:Sine.easeOut, delay:.1, onUpdate:_body.validate});
+//				TweenLite.to(this, .65, {x:"-"+(150*_ratio), ease:Sine.easeOut, delay:.2});
+				TweenLite.to(_body, .8, {overwrite:0, rotationY:-345, ease:Sine.easeOut, delay:.1, onUpdate:_body.validate});
 			}else{
-				TweenLite.to(this, .65, {x:"+"+(150*_ratio), ease:Sine.easeOut, delay:.2});
-				TweenLite.to(_body, .8, {overwrite:0, rotationY:360, ease:Sine.easeOut, delay:.1, onUpdate:_body.validate});
+//				TweenLite.to(this, .65, {x:"+"+(150*_ratio), ease:Sine.easeOut, delay:.2});
+				TweenLite.to(_body, .8, {overwrite:0, rotationY:345, ease:Sine.easeOut, delay:.1, onUpdate:_body.validate});
 			}
 		}
 		

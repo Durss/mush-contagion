@@ -209,14 +209,14 @@ package com.muxxu.mush.contaminator.views {
 				if(Math.random() > .85 && !_twinoids[i].isJumping) {
 					if(_twinoids[i].x < 150) {
 						_twinoids[i].jump(false);
-						_mushrooms[i].jump(false);
+						if(contains(_mushrooms[i])) _mushrooms[i].jump(false);
 					}else if(_twinoids[i].x > stage.stageWidth - 150 - _twinoids[i].width) {
 						_twinoids[i].jump(true);
-						_mushrooms[i].jump(true);
+						if(contains(_mushrooms[i])) _mushrooms[i].jump(true);
 					} else {
 						var left:Boolean = Math.random() > .475;
 						_twinoids[i].jump(left);
-						_mushrooms[i].jump(left);
+						if(contains(_mushrooms[i])) _mushrooms[i].jump(left);
 					}
 					break;
 				}

@@ -1,11 +1,11 @@
 package com.muxxu.mush.contaminator.model {
-	import com.nurun.structure.environnement.dependency.DependencyStorage;
-	import com.muxxu.mush.contaminator.vo.StatusCollection;
 	import com.muxxu.mush.contaminator.cmd.InfectCmd;
 	import com.muxxu.mush.contaminator.events.LightEvent;
 	import com.muxxu.mush.contaminator.throwables.ContaminatorError;
+	import com.muxxu.mush.contaminator.vo.StatusCollection;
 	import com.muxxu.mush.contaminator.vo.UserCollection;
 	import com.nurun.core.commands.events.CommandEvent;
+	import com.nurun.structure.environnement.dependency.DependencyStorage;
 	import com.nurun.structure.mvc.model.IModel;
 	import com.nurun.structure.mvc.model.events.ModelEvent;
 	import com.nurun.structure.mvc.views.ViewLocator;
@@ -83,6 +83,7 @@ package com.muxxu.mush.contaminator.model {
 		 */
 		public function start():void {
 			_playIntro = _so.data["introPlayed"] == undefined;
+			trace(DependencyStorage.getInstance().getDependencyById("infos").xml)
 			update();
 		}
 		

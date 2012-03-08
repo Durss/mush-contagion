@@ -101,6 +101,10 @@ package com.muxxu.mush.generator.twinoid {
 			_eyeR.scaleX = -1;
 		}
 
+		public function populateside():void {
+			_back.gotoAndStop(2);
+		}
+
 
 		
 		
@@ -112,6 +116,7 @@ package com.muxxu.mush.generator.twinoid {
 		 */
 		private function initialize():void {
 			_back = addChild(new TwinoidFaceGraphic()) as TwinoidFaceGraphic;
+			_back.stop();
 		}
 		
 		/**

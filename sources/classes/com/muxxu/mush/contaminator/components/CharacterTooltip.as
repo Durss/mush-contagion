@@ -63,7 +63,7 @@ package com.muxxu.mush.contaminator.components {
 				labels = _labels.(attribute("p") == undefined);
 				label = labels[Math.floor(Math.random() * labels.length())];
 			}
-			_tf.text = pseudo + ": <span class='"+_style+"'>" + label + "</span>";
+			_tf.text = "<span class='pseudo'>"+pseudo + " :</span><br /><span class='"+_style+"'>" + label + "</span>";
 			_tf.x = _tf.y = 5;
 			if(_tf.width > 150) _tf.width = 150;
 			
@@ -97,7 +97,7 @@ package com.muxxu.mush.contaminator.components {
 		 * Initialize the class.
 		 */
 		private function initialize():void {
-			_tf = addChild(new CssTextField("pseudo")) as CssTextField;
+			_tf = addChild(new CssTextField()) as CssTextField;
 			_labels = new XML(Label.getLabel("twinoids")).child("s");
 			_style = "chatTwin";
 			
