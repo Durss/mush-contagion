@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Mush Contagion</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="shortcut icon" href="favicon.ico" />
+		<style type="text/css">
+		<!-- mush  - contagion -->
+		html, body {
+			overflow:hidden;
+			height:100%;
+			margin:0;
+			padding:0;
+			font-family: Trebuchet MS,Arial,sans-serif;
+		}
+		body {
+			font: 86 % Arial, "Helvetica Neue", sans - serif;
+			color:#000000;
+			margin: 0;                
+		}
+		</style>
+		
+		<script type="text/javascript" src="js/swfobject.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var attributes = {};
+			var params = {};
+			params['allowScriptAccess'] = 'always';
+			params['menu'] = 'false';
+			
+			/* GORE MODE
+			for(var i = 0; i <500; ++i) {
+				var div = document.createElement("div");
+				div.id = "avatar_"+i;
+				document.body.appendChild(div);
+				var flashvars = {};
+				flashvars["uid"] = Math.round(Math.random()*99999999);
+				flashvars["pseudo"] = Math.random();
+				flashvars["infected"] = Math.random()>.5;
+				flashvars["buildDelay"] = i;
+				flashvars["canDownload"] = "false";
+				swfobject.embedSWF("swf/avatar.swf?v=1", "avatar_"+i, "80", "80", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
+			}
+			*/
+			
+			function flashReady() {
+				console.log("ready");
+				addImage();
+			}
+			
+			function addImage() {
+				var flash = document.getElementById("flash");
+				var img = document.createElement("img");
+				img.src = "data:image/png;base64,"+flash.getImage(Math.round(Math.random()*9999999999)+"", Math.random()+"", Math.random()>.5);
+				document.body.appendChild(img);
+				
+				setTimeout(addImage, 30);
+			}
+			
+			var div = document.createElement("div");
+			div.id = "flash";
+			document.body.appendChild(div);
+			var flashvars = {};
+			flashvars["canDownload"] = "false";
+			swfobject.embedSWF("swf/avatar.swf?v=1", "flash", "0", "0", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
+			
+		</script>
+	</body>
+</html>
