@@ -5,7 +5,7 @@
 
 .speak { font-family:Visitor; font-size:22; color:#CC0000;}
 
-.pseudo { font-family:Visitor; font-size:17; color:#000000;}
+.pseudo { font-family:Arial; font-weight:bold; font-size:13; color:#000000; }
 .chatTwin { font-family:Arial; font-size:13; color:#DAB00C;}
 .chatMush { font-family:Arial; font-size:13; color:#C62209;}
 
