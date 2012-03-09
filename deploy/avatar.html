@@ -29,7 +29,6 @@
 			params['allowScriptAccess'] = 'always';
 			params['menu'] = 'false';
 			
-			/* GORE MODE
 			for(var i = 0; i <50; ++i) {
 				var div = document.createElement("div");
 				div.id = "avatar_"+i;
@@ -40,11 +39,11 @@
 				flashvars["infected"] = Math.random()>.5;
 				flashvars["buildDelay"] = i*60;//millisecondes
 				flashvars["canDownload"] = "false";
-				swfobject.embedSWF("swf/avatar.swf?v=1", "avatar_"+i, "80", "80", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
+				swfobject.embedSWF("swf/avatar.swf?v=1", "avatar_"+i, "80", "120", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
 			}
-			*/
 			
 			/* MORE SUBTILE MODE */
+			/*
 			//Appelé quand le flash est prêt à être utilisé
 			function flashReady() {
 				console.log("ready");
@@ -68,7 +67,7 @@
 			var flashvars = {};
 			flashvars["canDownload"] = "false";//masque le bouton de DL
 			swfobject.embedSWF("swf/avatar.swf?v=1", "flash", "0", "0", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
-			
+			*/
 		</script>
 	</body>
 </html>
