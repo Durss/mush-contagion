@@ -88,7 +88,7 @@ package com.muxxu.mush.avatar {
 			_back = _holder.addChild(new AvatarBaseGraphic()) as AvatarBaseGraphic;
 			_button = addChild(new MButton("Télécharger")) as MButton;
 			
-			if(!String(loaderInfo.parameters["canDownload"]).toLowerCase() === "false") {
+			if(String(loaderInfo.parameters["canDownload"]).toLowerCase() === "false") {
 				buttonMode = mouseChildren = tabChildren = tabEnabled = false;
 				removeChild(_button);
 			}
