@@ -1,4 +1,5 @@
 package com.muxxu.mush.contaminator.model {
+	import flash.utils.getTimer;
 	import com.muxxu.mush.contaminator.cmd.InfectCmd;
 	import com.muxxu.mush.contaminator.events.LightEvent;
 	import com.muxxu.mush.contaminator.throwables.ContaminatorError;
@@ -28,6 +29,8 @@ package com.muxxu.mush.contaminator.model {
 		private var _infectedUsers:UserCollection;
 		private var _contaminationComplete:Boolean;
 		private var _status:StatusCollection;
+		private var _waitFor:Number;
+		private var _start:int;
 		
 		
 		
@@ -83,7 +86,8 @@ package com.muxxu.mush.contaminator.model {
 		 */
 		public function start():void {
 			_playIntro = _so.data["introPlayed"] == undefined;
-			trace(DependencyStorage.getInstance().getDependencyById("infos").xml)
+			_waitFor = parseInt(XML(DependencyStorage.getInstance().getDependencyById("infos").xml.child("user")[0]).child("delay")[0].@wait);
+			_start = getTimer();
 			update();
 		}
 		
@@ -91,11 +95,15 @@ package com.muxxu.mush.contaminator.model {
 		 * Starts the application.
 		 */
 		public function throwSpores():void {
-			var cmd:InfectCmd = new InfectCmd();
-			cmd.addEventListener(CommandEvent.COMPLETE, infectCompleteHandler);
-			cmd.addEventListener(CommandEvent.ERROR, commandErrorHandler);
-			cmd.execute();
-			dispatchLight(LightEvent.THROW_SPORES);
+			if(getTimer() - _start > _waitFor * 1000) {
+				var cmd:InfectCmd = new InfectCmd();
+				cmd.addEventListener(CommandEvent.COMPLETE, infectCompleteHandler);
+				cmd.addEventListener(CommandEvent.ERROR, commandErrorHandler);
+				cmd.execute();
+				dispatchLight(LightEvent.THROW_SPORES);
+			}else{
+				dispatchLight(LightEvent.CANT_THROW_SPORES);
+			}
 		}
 		
 		/**

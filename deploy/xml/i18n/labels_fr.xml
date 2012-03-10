@@ -30,6 +30,10 @@
 		<label code="contaminationComplete"><![CDATA[<b>Brave petit humain, c'est bien, le mush est fier de toi!</b><br />Pour prouver un peu plus ton adhésion au mush n'hésite pas à te vanter de cette contamination auprès de tous tes amis en copiant/collant ceci en statut :]]></label>		
 		
 		<!-- Main mushroom dialogs -->	
+		<label code="slowDownDude">
+			<s><![CDATA[Wow<wait.2 /> wow<wait.2 /> wow!!!<wait1 /><br />Tu m'as pris pour une<br />usine à spore ou quoi?]]></s>
+			<s><![CDATA[Tu seras mignon d'attendre<br />un brin que j'en produise<br />à nouveau p'tit père!<br ><br /><wait1 />			 Merci!<wait1 />]]></s>
+		</label>
 		<label code="intro">
 			<s><![CDATA[				<sneeze/>*ATCHA*<wait1 /><br /><br />RAAAH C'EST POUR QUOI ENCORE???!!!]]></s>
 			<s><![CDATA[Tu QUOI?!!??!!<wait1 /><br />Tu souhaites te convertir<br />au mush???!!!???!!!<wait1 /><br />Ohh...... <wait.5 />C'est pas banal ça...]]></s>

@@ -1,17 +1,16 @@
 package com.muxxu.mush.contaminator.views {
-	import flash.utils.getTimer;
-	import com.muxxu.mush.contaminator.controler.FrontControler;
-	import com.muxxu.mush.contaminator.components.CursorStreak;
-	import graphics_fla.MushroomGraphic_5;
-	import graphics_fla.MushroomGraphic_6;
+	import graphics_fla.MushroomGraphic_7;
+	import graphics_fla.MushroomGraphic_8;
 
 	import gs.TweenLite;
 	import gs.TweenMax;
 	import gs.easing.Elastic;
 	import gs.easing.Sine;
 
+	import com.muxxu.mush.contaminator.components.CursorStreak;
 	import com.muxxu.mush.contaminator.components.SpeakToolTip;
 	import com.muxxu.mush.contaminator.components.SporesManager;
+	import com.muxxu.mush.contaminator.controler.FrontControler;
 	import com.muxxu.mush.contaminator.events.LightEvent;
 	import com.muxxu.mush.contaminator.events.SpeakEvent;
 	import com.muxxu.mush.contaminator.model.Model;
@@ -32,6 +31,7 @@ package com.muxxu.mush.contaminator.views {
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.media.Sound;
+	import flash.utils.getTimer;
 	import flash.utils.setTimeout;
 
 	/**
@@ -66,6 +66,7 @@ package com.muxxu.mush.contaminator.views {
 		private var _sneezeHistory:Array;
 		private var _dialogDone:Object;
 		private var _disabled:Boolean;
+		private var _hitStrength : Number;
 		
 		
 		
@@ -166,6 +167,7 @@ package com.muxxu.mush.contaminator.views {
 			_speak.addEventListener(SpeakEvent.SPEAK_COMPLETE, speakEventHandler);
 			_speak.addEventListener(SpeakEvent.SNEEZE, speakEventHandler);
 			ViewLocator.getInstance().addEventListener(LightEvent.THROW_SPORES, throwSporesHandler);
+			ViewLocator.getInstance().addEventListener(LightEvent.CANT_THROW_SPORES, cantThrowSporesHandler);
 		}
 		
 		/**
@@ -195,8 +197,8 @@ package com.muxxu.mush.contaminator.views {
 		 */
 		private function speakEventHandler(event:SpeakEvent):void {
 			var mouth:MovieClip = _mushroom.bottom.getChildByName("mouth") as MovieClip;
-			var eyeL:MushroomGraphic_6 = MushroomGraphic_5(_mushroom.top).left as MushroomGraphic_6;
-			var eyeR:MushroomGraphic_6 = MushroomGraphic_5(_mushroom.top).right as MushroomGraphic_6;
+			var eyeL:MushroomGraphic_8 = MushroomGraphic_7(_mushroom.top).left as MushroomGraphic_8;
+			var eyeR:MushroomGraphic_8 = MushroomGraphic_7(_mushroom.top).right as MushroomGraphic_8;
 			
 			if(event.type == SpeakEvent.SPEAK) {
 				mouth.gotoAndStop(mouth.totalFrames - Math.round(Math.random() * 3));
@@ -238,8 +240,18 @@ package com.muxxu.mush.contaminator.views {
 		 * Called when the spores are thrown
 		 */
 		private function throwSporesHandler(event:LightEvent):void {
+			_disabled = true;
+			_streak.disable();
+			_particles.throwParticles(new Point(_mushroom.x, _mushroom.y - 75), _hitStrength);
 			stage.removeEventListener(Event.RESIZE, computePositions);
 			scroll();
+		}
+		
+		/**
+		 * Called if user tried to throw spore while he has to wait
+		 */
+		private function cantThrowSporesHandler(event:LightEvent):void {
+			_speak.populate("slowDownDude", false);	
 		}
 		
 		/**
@@ -260,7 +272,7 @@ package com.muxxu.mush.contaminator.views {
 			_a3 = strength * .15;
 			_mushroom.scaleY = 1-strengthY/50;
 			TweenLite.to(_mushroom, 1, {scaleY:1, ease:Elastic.easeOut});
-			_particles.throwParticles(new Point(_mushroom.x, _mushroom.y - 75), strength*2);
+			_hitStrength = strength*2;
 			
 			if(sound) {
 				//Random sneeze sound
@@ -287,8 +299,6 @@ package com.muxxu.mush.contaminator.views {
 					if(_dialogDone["harder"] === true && _dialogDone["better"] == undefined) {
 						_speak.populate("better", false);
 					}else{
-						_disabled = true;
-						_streak.disable();
 						FrontControler.getInstance().throwSpores();
 					}
 					_dialogDone["better"] = true;

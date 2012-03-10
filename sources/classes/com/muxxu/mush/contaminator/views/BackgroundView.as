@@ -1,4 +1,10 @@
 package com.muxxu.mush.contaminator.views {
+	import flash.filters.ColorMatrixFilter;
+	import com.nurun.structure.environnement.configuration.Config;
+	import flash.display.Sprite;
+	import com.nurun.utils.input.keyboard.events.KeyboardSequenceEvent;
+	import com.nurun.utils.input.keyboard.KeyboardSequenceDetector;
+	import com.muxxu.mush.graphics.RocketGraphic;
 	import com.nurun.utils.math.MathUtils;
 	import gs.TweenLite;
 	import gs.easing.Sine;
@@ -35,6 +41,9 @@ package com.muxxu.mush.contaminator.views {
 		private var _rotation:Number;
 		private var _speedR:Number;
 		private var _result:Boolean;
+		private var _rocket:RocketGraphic;
+		private var _ks:KeyboardSequenceDetector;
+		private var _holder:Sprite;
 		
 		
 		
@@ -120,11 +129,19 @@ package com.muxxu.mush.contaminator.views {
 		 */
 		private function initialize():void {
 			_sky = addChild(new WrappingBitmap(new SkyBmp(NaN, NaN))) as WrappingBitmap;
-			_ground = addChild(new Bitmap(new GroundBack(NaN, NaN))) as Bitmap;
+			_holder = addChild(new Sprite()) as Sprite;
+			_ground = _holder.addChild(new Bitmap(new GroundBack(NaN, NaN))) as Bitmap;
+			_rocket = _holder.addChild(new RocketGraphic()) as RocketGraphic;
 			_mushrooms = addChild(new Bitmap(new MushroomsBmp(NaN, NaN))) as Bitmap;
+			
+			_rocket.stop();
 			
 			_offsetX = _sky.width;
 			_offsetY = 0;
+			
+			if(Config.getBooleanVariable("maintenance")) {
+				_sky.filters = [new ColorMatrixFilter([-0.43937185406684875,0.5917701721191406,0.8476016521453857,0,0,0.4568214416503906,0.6498579978942871,-0.10667942464351654,0,0,-0.276028573513031,1.718625545501709,-0.44259706139564514,0,0,0,0,0,1,0])];
+			}
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			ViewLocator.getInstance().addEventListener(LightEvent.THROW_SPORES, throwSporesHandler);
@@ -136,7 +153,19 @@ package com.muxxu.mush.contaminator.views {
 		private function addedToStageHandler(event:Event):void {
 			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			stage.addEventListener(Event.RESIZE, computePositions);
+			
+			_ks = new KeyboardSequenceDetector(stage);
+			_ks.addEventListener(KeyboardSequenceEvent.SEQUENCE, keySequenceHandler);
+			_ks.addSequence("konami", KeyboardSequenceDetector.KONAMI_CODE);
+			
 			computePositions();
+		}
+		
+		/**
+		 * Called when a keyboard sequence is detected
+		 */
+		private function keySequenceHandler(event:KeyboardSequenceEvent):void {
+			if(_rocket.currentFrame == 1 && !_result) _rocket.play();
 		}
 		
 		/**
@@ -157,8 +186,10 @@ package com.muxxu.mush.contaminator.views {
 		 * Resize and replace the elements.
 		 */
 		private function computePositions(event:Event = null):void {
-			PosUtils.alignToBottomOf(_ground, stage);
+			PosUtils.alignToBottomOf(_holder, stage);
 			PosUtils.alignToBottomOf(_mushrooms, stage);
+			_rocket.x = _ground.width - 73;
+			_rocket.y = _ground.height - 52;
 		}
 		
 		
@@ -170,7 +201,7 @@ package com.muxxu.mush.contaminator.views {
 		 * Makes the landskape scrolling vertically.
 		 */
 		private function scroll():void {
-			TweenLite.to(_ground, 3, {y:stage.stageHeight+330, ease:Sine.easeIn});
+			TweenLite.to(_holder, 3, {y:stage.stageHeight+330, ease:Sine.easeIn});
 			TweenLite.to(_mushrooms, 3, {y:stage.stageHeight+180, ease:Sine.easeIn});
 			TweenLite.to(this, 4, {ease:Sine.easeIn, offsetY:-400, onComplete:startAutoRotation});
 			addEventListener(Event.ENTER_FRAME, enterFrameHandler);
