@@ -32,7 +32,7 @@ package com.muxxu.mush.avatar {
 	 * @date 4 mars 2012;
 	 */
 	 
-	[SWF(width="90", height="150", backgroundColor="0xFFFFFF", frameRate="31")]
+	[SWF(width="90", height="120", backgroundColor="0xFFFFFF", frameRate="31")]
 	public class AvatarApplication extends MovieClip {
 		private var _holder:Sprite;
 		private var _back:AvatarBaseGraphic;
@@ -80,6 +80,7 @@ package com.muxxu.mush.avatar {
 		 */
 		private function initialize():void {
 			stage.align = StageAlign.TOP_LEFT;
+			stage.showDefaultContextMenu = false;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			
 			CssManager.getInstance().setCss(".button {font-family:Trbuchet, Arial; font-size:14px; color:#cc0000; font-weight:bold; flash-bitmap:true; }");

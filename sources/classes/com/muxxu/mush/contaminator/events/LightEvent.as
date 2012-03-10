@@ -10,6 +10,7 @@ package com.muxxu.mush.contaminator.events {
 	public class LightEvent extends Event {
 		
 		public static const THROW_SPORES:String = "throwSpores";
+		public static const CANT_THROW_SPORES:String = "cantThrowSpores";
 		public static const INFECTION_COMPLETE:String = "infectionComplete";
 		
 		
