@@ -6,6 +6,7 @@
 	<xsd:attribute name="code" type="xsd:string" />
 	<xsd:attribute name="a" type="xsd:string" />
 	<xsd:attribute name="p" type="xsd:string" />
+	<xsd:attribute name="uid" type="xsd:int" />
 
 <!-- definition of complex type elements -->
 	<xsd:element name="root">
@@ -36,6 +37,7 @@
 		<xsd:complexType mixed="true">
 			<xsd:attribute ref="a" use="optional" />
 			<xsd:attribute ref="p" use="optional" />
+			<xsd:attribute ref="uid" use="optional" />
 		</xsd:complexType>
 	</xsd:element>
 <!-- definition of restricted type -->

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <root	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:noNamespaceSchemaLocation='http://localhost/mushcontagion/xml/schema/labels.xsd'>
+		xsi:noNamespaceSchemaLocation='http://papayoulou.free.fr/xsd/labels.xsd'>
 	<labels>
 		<!-- Erreurs -->
 		<label code="APP_FULL_INFECTED"><![CDATA[Aucune cible à contaminer n'est disponible pour l'instant.]]></label>

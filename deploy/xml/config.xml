@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <root	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:noNamespaceSchemaLocation='http://localhost/mushcontagion/xml/schema/config.xsd'>
+		xsi:noNamespaceSchemaLocation='http://papayoulou.free.fr/xsd/config.xsd'>
 	
 	<styleSheets>
 		<styleSheet><![CDATA[{v_ressourcesPath}css/flashstyles.css?v={v_version}]]></styleSheet>
