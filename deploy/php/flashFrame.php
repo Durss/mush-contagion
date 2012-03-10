@@ -16,7 +16,6 @@ $key = isset($user->key['friends']) ? $user->key['friends'] : null; // NOTE: Et 
 $version= "1";
 
 //Paramètres de la page
-$page->addStyleSheet('css/base.css');
 $page->addScriptFile('js/swfobject.js');
 $page->addScriptFile('js/SWFAddress.js');
 $page->addScriptFile('js/swfwheel.js');
