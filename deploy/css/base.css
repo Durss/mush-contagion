@@ -2,81 +2,58 @@
 /*
  * Base
  */
-html, body
-{
-overflow:hidden;
-height:100%;
-margin:0;
-padding:0;
-font-family: Trebuchet MS, Arial, sans-serif;
+html, body {
+	overflow:hidden;
+	height:100%;
+	margin:0;
+	padding:0;
+	font-family: Trebuchet MS, Arial, sans-serif;
 }
-body
-{
-font: 12px Trebuchet MS, Arial, sans-serif;
-color: #FFF;
-margin: 0;
+body {
+	font: 12px Trebuchet MS, Arial, sans-serif;
+	margin: 0;
 }
 
 /*
  * ADV : Flash & JS needed
  */
-body #content1 #content
-{
-width: 650px;
-margin: 250px auto;
+body #content1 #content {
+	width: 650px;
+	margin: 250px auto;
 }
-body #content1 #content p
-{
-font: 18px Trebuchet MS, Arial, sans-serif;
-color: #FFF;
-text-shadow: 2px 2px 2px #000;
+body #content1 #content p {
+	font: 18px Trebuchet MS, Arial, sans-serif;
 }
 body #content1 #content a,
-body #content1 #content a:visited
-{
-display: block;
-width: 350px;
-margin: 0 auto;
-padding: 3px 5px;
-border: solid 1px #F80;
-font: 24px Trebuchet MS, Arial, sans-serif;
-color: #F80;
-text-align: center;
-text-decoration: none;
-cursor: pointer;
-text-shadow: 3px 3px 3px #000;
+body #content1 #content a:visited {
+	display: block;
+	width: 350px;
+	margin: 0 auto;
+	padding: 3px 5px;
+	font: 24px Trebuchet MS, Arial, sans-serif;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
 }
-body #content1 #content a:hover
-{
-padding: 4px 4px 2px 6px;
-border: solid 1px #FF0;
-color: #FF0;
-text-shadow: 2px 2px 1px #000;
+body #content1 #content a:hover {
+	padding: 4px 4px 2px 6px;
 }
 
 /*
  * BETA-TEST
  */
-body.beta
-{
+body.beta {
 	width: 700px;
 	margin: 16px auto;
 }
-body.beta .floatLeft
-{
-float: left;
-margin-right: 8px;
+body.beta .floatLeft {
+	float: left;
+	margin-right: 8px;
 }
 body.beta a,
-body.beta a:visited
-{
-color: #FF0;
-text-shadow: 2px 2px 3px #000;
+body.beta a:visited {
 }
-body.beta a:hover
-{
-color: #FC0;
-text-shadow: 1px 1px 1px #000;
+body.beta a:hover {
 }
 body.beta img.avatar40
 {
@@ -84,8 +61,7 @@ body.beta img.avatar40
 	width: 40px;
 	height: 40px;
 }
-body.beta textarea
-{
-width: 600px;
-height: 250px;
+body.beta textarea {
+	width: 600px;
+	height: 250px;
 }
