@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xml	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:noNamespaceSchemaLocation='http://localhost/mushcontagion/xml/schema/status.xsd'>
+		xsi:noNamespaceSchemaLocation='http://papayoulou.free.fr/xsd/status.xsd'>
 	<header link="http://muxxu.com/a/mushcontagion"/>
 	<status>
 		<s id="1"><![CDATA[La [lien=<link/>]contagion[/lien] progresse!
