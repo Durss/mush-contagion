@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Mush Contagion</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="shortcut icon" href="favicon.ico" />
+		<style type="text/css">
+		html, body {
+			overflow:hidden;
+			height:100%;
+			margin:0;
+			padding:0;
+			font-family: Trebuchet MS,Arial,sans-serif;
+		}
+		body {
+			font: 86% Arial, "Helvetica Neue", sans-serif;
+			color:#000000;
+			margin: 0;                
+		}
+		</style>
+		
+		<script type="text/javascript" src="js/swfobject.js"></script>
+		<script type="text/javascript" src="js/avatar.js"></script>
+		<script type="text/javascript">
+		var table = [
+		[[21,'Pierre',0],[42,'Paul',1],[84,'Jean',1],[168,'Martin',1],[336,'Raoul',1]],
+		[[17,'Lucie',1],[27,'Marie',0],[37,'Patrice',1],[47,'Filip',1],[57,'Patate',1]],
+		[[217,'Mich',1],[227,'Switch',1],[237,'Cool',1],[247,'Bob',1],[257,'Mush',1]],
+		[[5770,'Franz',1],[6487,'Tel',1]]
+		];
+
+
+		avatar(0, 2, 'Null', true);
+		avatar(1, 21, 'Pierre',	false);
+		avatar(2, 42, 'Paul',	true);
+		avatar(3, 84, 'Jean', 	true);
+		avatar(4, 168, 'Martin',true);
+		</script>
+	</head>
+	<body>
+<table>
+<tr>
+	<td><div id="avatar_0"></div></td>
+	<td id="uid_0">2</td>
+	<td id="pseudo_0">Null</td>
+</tr>
+<tr>
+	<td><div id="avatar_1"></div></td>
+	<td id="uid_1">21</td>
+	<td id="pseudo_1">Pierre</td>
+</tr>
+<tr>
+<td><div id="avatar_2"></div></td>
+<td id="uid_2">42</td>
+<td id="pseudo_2">Paul</td>
+</tr>
+<tr>
+<td><div id="avatar_3"></div></td>
+<td id="uid_3">84</td>
+<td id="pseudo_3">Jean</td>
+</tr>
+<tr>
+<td><div id="avatar_4"></div></td>
+<td id="uid_4">168</td>
+<td id="pseudo_4">Martin</td>
+</tr>
+</table>
+<hr />
+<ul>
+<li><a href="javascript:page(0);">page 0</a></li>
+<li><a href="javascript:page(1);">page 1</a></li>
+<li><a href="javascript:page(2);">page 2</a></li>
+<li><a href="javascript:page(3);">page 3</a></li>
+</ul>
+	</body>
+</html>

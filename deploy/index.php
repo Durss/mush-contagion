@@ -27,6 +27,9 @@ require('php/class/nsunTpl.php');
 $page = new nsunTpl();
 $page->title = "Mush Contagion";
 $page->addMetaTag("ROBOTS", "NOINDEX, NOFOLLOW");
+$page->addStyleSheet('css/base.css');
+#$page->addStyleSheet('css/baseMush.css');
+$page->addStyleSheet('css/baseMuxxu.css');
 
 //Parametres
 $ini = parse_ini_file('params.ini',1);
@@ -77,23 +80,36 @@ if($_GET['act'] == 'admin')
 	
 }
 //--menu
+if(preg_match('#^u/([1-9][0-9]*)$#', $_GET['act'], $matches))
+{
+	$_GET['act'] = 'user';
+	$targetUID = intval($matches[1]);
+}
+else $targetUID = false;
+
+require_once('php/start.php');
+
 switch($_GET['act'])
 {	
+	case 'user':
+		if($targetUID) $page->c .= "<h1>Page profil #{$targetUID}</h1><p>La page profil de quelqu'un d'autre</p>";
+		else $page->c .= "<h1>Mon profil</h1><p>Ma page à moi (rien qu'à moi)</p>";
+		include('php/profil.php');
+		break;
 	case 'php': //Dev: nSun
 		if(DEVMODE)
 		{
-			if(!BETA) require_once('php/start.php');
-			die();
+			if(!BETA) die();
 		}
 	default:
 		if(BETA)
 		{
-			require_once('php/start.php');
+			#require_once('php/start.php');
 			include('beta.php');
 		}
 		else
 		{
-			require_once('php/start.php');
+			#require_once('php/start.php');
 			include('php/flashFrame.php');
 		}
 }
