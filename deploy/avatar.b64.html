@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Insert title here</title>
+	<style type="text/css">
+		* {font-family: verdana, sans-serif;}
+		img{border: solid 1px #8C8;}
+		.avatar80{display: block; width: 100px; height: 100px; background: transparent url('gfx/image-x-generic.png') center center no-repeat;}
+		.avatar40{display: block; width: 60px; height: 60px; background: transparent url('gfx/image-x-generic.png') center center no-repeat;}
+		dl, dt, dd, .pagination{list-style: none; padding: 0; margin: 0; font-size: 12px;}
+		.pagination li{display: inline; padding: 0 8px;}
+		.pagination li a{width: 80px; height: 16px; border: solid 1px red; padding: 4px; font-size: 10px;}
+		h1, h2, #p, table{width: 600px; margin: 0 auto;}
+		td{border: solid 1px #CCC; text-align: center;}
+	</style>
+
+	<script type="text/javascript" src="js/swfobject.js"></script>
+	<script type="text/javascript" src="js/avatar.b64.js"></script>
+	<script type="text/javascript">
+	var table = [[[21,'Pierre',0],[42,'Paul',1],[84,'Jean',1],[168,'Martin',1],[336,'Raoul',1],[556,'Fra',1],[656,'Jack',0],[228,'Maude',1],[854,'Eric',1],[777,'Bill',1],[227,'Puffy',1],[444,'Nox',1]],
+[[17,'Lucie',1],[27,'Marie',0],[37,'Patrice',1],[47,'Filip',1],[57,'Patate',1],[217,'Mich',1],[227,'Switch',1],[237,'Cool',1],[247,'Bob',1],[257,'Mush',1],[5770,'Franz',1],[6487,'Tel',1]],
+[[5623,'Valy',1],[7298,'Lombric',1],[541,'Ogre',1],[123,'Momo',1],[321,'Drake',1],[404,'filou',1],[109,'Travis',1],[602,'Gaou',1],[808,'Ultra',0],[101,'Tufle',0],[202,'Xavy',1],[909,'Seb',1]],
+[[23,'Niels',0],[728,'Kiki',1],[41,'Jobar',1],[11,'Pelo',0],[2,'Barakuda',0],[74,'Noel',1],[25,'Dede',1]]];
+
+	function flashReady() {
+		console.log("ready");
+		avatar('user', 3916, 'newSunshine', false);
+		page(0);
+	}
+	</script>
+</head>
+<body>
+<h1>User</h1>
+<div id="p"><div id="flash"></div>
+<img class="avatar80" id="avatar_user"/>
+</div>
+<h2>Childs</h2>
+<table>
+<thead>
+<tr>
+	<td colspan="4">
+		<ul class="pagination">
+			<li><a href="javascript:page(0);">page 0</a></li>
+			<li><a href="javascript:page(1);">page 1</a></li>
+			<li><a href="javascript:page(2);">page 2</a></li>
+			<li><a href="javascript:page(3);">page 3</a></li>
+		</ul>
+	</td>
+</tr>
+</thead>
+<tbody>
+	<tr>
+		<td><dl><dt><img class="avatar40" id="avatar_0"/></dt><dd id="uid_0">21</dd><dd id="pseudo_0">Pierre</dd></dl></td>
+		<td><dl><dt><img class="avatar40" id="avatar_1"/></dt><dd id="uid_1">42</dd><dd id="pseudo_1">Paul</dd></dl></td>
+		<td><dl><dt><img class="avatar40" id="avatar_2"/></dt><dd id="uid_2">84</dd><dd id="pseudo_2">Jean</dd></dl></td>
+		<td><dl><dt><img class="avatar40" id="avatar_3"/></dt><dd id="uid_3">168</dd><dd id="pseudo_3">Martin</dd></dl></td>
+	</tr>
+	<tr>
+
+		<td><dl><dt><img class="avatar40" id="avatar_4"/></dt><dd id="uid_4">336</dd><dd id="pseudo_4">Raoul</dd></dl></td>
+		<td><dl><dt><img class="avatar40" id="avatar_5"/></dt><dd id="uid_5">556</dd><dd id="pseudo_5">Fra</dd></dl></td>
+		<td><dl><dt><img class="avatar40" id="avatar_6"/></dt><dd id="uid_6">656</dd><dd id="pseudo_6">Jack</dd></dl></td>
+		<td><dl><dt><img class="avatar40" id="avatar_7"/></dt><dd id="uid_7">228</dd><dd id="pseudo_7">Maude</dd></dl></td>
+	</tr>
+	<tr>
+
+		<td><dl><dt><img class="avatar40" id="avatar_8"/></dt><dd id="uid_8">854</dd><dd id="pseudo_8">Eric</dd></dl></td>
+		<td><dl><dt><img class="avatar40" id="avatar_9"/></dt><dd id="uid_9">777</dd><dd id="pseudo_9">Bill</dd></dl></td>
+		<td><dl><dt><img class="avatar40" id="avatar_10"/></dt><dd id="uid_10">227</dd><dd id="pseudo_10">Puffy</dd></dl></td>
+		<td><dl><dt><img class="avatar40" id="avatar_11"/></dt><dd id="uid_11">444</dd><dd id="pseudo_11">Nox</dd></dl></td>
+	</tr>
+</tbody>
+<tfoot>
+<tr>
+	<td colspan="4">
+		<ul class="pagination">
+			<li><a href="javascript:page(0);">page 0</a></li>
+			<li><a href="javascript:page(1);">page 1</a></li>
+			<li><a href="javascript:page(2);">page 2</a></li>
+			<li><a href="javascript:page(3);">page 3</a></li>
+		</ul>
+	</td>
+</tr>
+</tfoot>
+</table>
+</body>
+</html>
