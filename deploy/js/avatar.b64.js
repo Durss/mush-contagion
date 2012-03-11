@@ -19,7 +19,6 @@ swfobject.embedSWF("swf/avatar.swf?v=1", "avatar", "80", "80", "10.2", "swf/expr
 */
 //Créé le flash invisible
 var attributes = {};
-attributes['id'] = 'flash';
 var params = {};
 params['allowScriptAccess'] = 'always';
 params['menu'] = 'false';

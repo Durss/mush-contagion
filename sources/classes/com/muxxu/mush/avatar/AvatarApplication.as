@@ -98,7 +98,7 @@ package com.muxxu.mush.avatar {
 			PosUtils.hCenterIn(_button, stage);
 			_button.y = _back.height + 10;
 
-			var infected:Boolean = true;//parseBoolean(loaderInfo.parameters["infected"]);
+			var infected:Boolean = parseBoolean(loaderInfo.parameters["infected"]);
 			var uid:String = loaderInfo.parameters["uid"] == null ? "89" : loaderInfo.parameters["uid"];
 			var pseudo:String = loaderInfo.parameters["pseudo"] == null ? "durss" : String(loaderInfo.parameters["pseudo"]).toLowerCase();
 			var key:String = MD5.hash(pseudo+"."+uid);
