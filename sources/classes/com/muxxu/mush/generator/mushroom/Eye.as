@@ -1,5 +1,6 @@
 package com.muxxu.mush.generator.mushroom {
-	import flash.display.Shape;
+	import com.muxxu.mush.graphics.MushroomEyeGraphic;
+
 	import flash.filters.DropShadowFilter;
 	
 	/**
@@ -7,7 +8,7 @@ package com.muxxu.mush.generator.mushroom {
 	 * @author Francois
 	 * @date 21 janv. 2012;
 	 */
-	public class Eye extends Shape {
+	public class Eye extends MushroomEyeGraphic {
 		
 		private var _key:String;
 		private var _sizeRatio:Number;
@@ -65,6 +66,10 @@ package com.muxxu.mush.generator.mushroom {
 		 * Updates the component's rendering
 		 */
 		private function update():void {
+			var frame:int = Math.floor(parseInt(_key.charAt(10), 16)/0xf * (totalFrames-1)) + 1;
+			gotoAndStop(frame);
+			scaleX = scaleY = _sizeRatio/40;
+			/*
 			var colorsLists:Array, shapes:Array, eyes:Array;
 			eyes = [];
 			colorsLists = [];
@@ -257,10 +262,10 @@ package com.muxxu.mush.generator.mushroom {
 //			graphics.clear();
 //			graphics.beginFill(0xffffff, 1);
 //			graphics.drawPath(commands, data);
+			*/
 			filters = [new DropShadowFilter(_sizeRatio*.1, -45, 0, .0, _sizeRatio*.05, _sizeRatio*.05, 1, 3, true),
 					   new DropShadowFilter(_sizeRatio*.15, 40, 0, .5, _sizeRatio*.1, _sizeRatio*.1, .5, 3, true),
 					   new DropShadowFilter(0, 0, 0, .5, _sizeRatio*.15, _sizeRatio*.15, .5, 3)];
-			
 		}
 		
 	}

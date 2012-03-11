@@ -67,7 +67,7 @@ package com.muxxu.mush.generator.mushroom {
 			_eyeR.populate(key, ((parseInt(key.charAt(17),16)/0xf)*10 + 20)*ratio);
 			_mouth.populate(key, ((parseInt(key.charAt(18),16)/0xf)*10 + 30)*ratio);
 			
-			_eyeR.scaleX = -1;
+			_eyeR.scaleX = -_eyeR.scaleX;
 			
 			placeElements();
 		}
