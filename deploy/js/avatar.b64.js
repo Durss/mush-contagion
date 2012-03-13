@@ -43,7 +43,6 @@ function avatar(id, uid, pseudo, infected)
 	setTimeout(addImage, 30); */
 }
 
-var limit = 12;
 /**
  * Pagination
  * @param	f	(int) offset de référence du tableau
@@ -52,7 +51,7 @@ function page(f)
 {
 	for(var i= 0; i < table[f].length; i++)
 	{
-		tdUpdate(i, table[f][i][0], table[f][i][1], table[f][i][2]);
+		tdUpdate(i, table[f][i][0], table[f][i][1], table[f][i][2], table[f][i][3]);
 	}
 	if(table[f].length < limit)
 	{
@@ -67,7 +66,7 @@ function page(f)
  * @param	pseudo		(string) nom du joueur
  * @param	infected	(bool) level du joueur (true == infecté)
  */
-function tdUpdate(id, uid, pseudo, infected)
+function tdUpdate(id, uid, pseudo, infected, date)
 {
 	if(uid == 0)
 	{
@@ -75,12 +74,14 @@ function tdUpdate(id, uid, pseudo, infected)
 		document.getElementById('avatar_'+id).src = "";
 		document.getElementById('uid_'+id).innerHTML = "";
 		document.getElementById('pseudo_'+id).innerHTML = "";
+		document.getElementById('date_'+id).innerHTML = "";
 	}
 	else
 	{
 		document.getElementById('avatar_'+id).style.visibility = 'visible';
 		avatar(id, uid, pseudo, infected);
 		document.getElementById('uid_'+id).innerHTML = uid;
-		document.getElementById('pseudo_'+id).innerHTML = pseudo;
+		document.getElementById('pseudo_'+id).innerHTML = '<a href="?'+userLink+'&act=u/'+uid+'">'+pseudo+'</a>';
+		document.getElementById('date_'+id).innerHTML = date;
 	}
 }

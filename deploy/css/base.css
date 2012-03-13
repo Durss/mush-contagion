@@ -65,3 +65,62 @@ body.beta textarea {
 	width: 600px;
 	height: 250px;
 }
+
+/*
+ * Avatar
+ */
+img.avatar {
+	display: block;
+	background: transparent url('../gfx/image-x-generic.png') center center no-repeat;
+}
+img.avatar.ft32 {
+	width: 32px;
+	height: 32px;
+}
+img.avatar.ft40 {
+	width: 40px;
+	height: 40px;
+}
+img.avatar.ft60 {
+	width: 60px;
+	height: 60px;
+}
+img.avatar.ft80 {
+	width: 80px;
+	height: 80px;
+}
+
+/*
+ * Diagnostic
+ */
+body.user {
+	width: 700px;
+	margin: 0 auto;
+}
+
+/*
+ * Pandemie
+ * img{border: solid 1px #8C8;}
+ */
+#spores td {
+	border: solid 1px #CCC;
+	text-align: center;
+}
+#spores dl, #spores dt, #spores dd, .pagination {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	font-size: 12px;
+}
+#spores .pagination li {
+	display: inline;
+	padding: 0 8px;
+}
+#spores .pagination li a {
+	width: 80px;
+	height: 16px;
+	border: solid 1px red;
+	padding: 4px;
+	font-size: 10px;
+}
+ 
