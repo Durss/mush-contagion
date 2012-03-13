@@ -9,9 +9,8 @@ if(!isset($page))
 	die();
 }
 
-//Params
-$grid = array('x' => 6, 'y' => 2);
-$limit = array_product($grid);
+require('php/func/fr_strftime.php');
+require('php/func/dateRelative.php');
 
 //Données d'accès au service
 if($targetUID) $id = $targetUID;
@@ -32,22 +31,33 @@ $version= "1";
 //init
 $i = $f = 0;
 $pagination = $aPagi = $aUsers = $dlSpore = array();
+$js = null;
+$userLink = "uid=".UID."&pubkey=".PUBKEY;
 
-$js = "avatar('main', {$id}, '{$pseudo}', {$infected}, true);\n";
+//Params
+$grid = array('x' => 6, 'y' => 3);
+$limit = array_product($grid);
+
+$js .= "var limit = {$limit};
+var userLink = '{$userLink}';\n";
+
 foreach($userinfos->user->child->spore as $spore)
 {
+	$date = dateRelative(intval($spore['ts']));
 	if(!count($aPagi))
 	{
-		$js .= "avatar({$i},{$spore['uid']},'{$spore->name}',1,false);\n";
+		#$js .= "avatar({$i},{$spore['uid']},'{$spore->name}',1,false);\n";
+		//Fiche d'une personne de la liste des infectés (childs)
 		$dlSpore[] = <<<EOTD
 <dl class='fiche'>
-	<dt><div id="avatar_{$i}"></div></dt>
+	<dt><img class="avatar ft60" id="avatar_{$i}" alt="" /></dt>
 	<dd class='uid' id="uid_{$i}">{$spore['uid']}</dd>
-	<dd class='pseudo' id="pseudo_{$i}">{$spore->name}</dd>
+	<dd class='pseudo' id="pseudo_{$i}"><a href="?{$userLink}&act=u/{$spore['uid']}">{$spore->name}</a></dd>
+	<dd class='date' id="date_{$i}">{$date}</dd>
 </dl>
 EOTD;
 	}
-	$aUsers[] = "[{$spore['uid']},'{$spore->name}',1]";
+	$aUsers[] = "[{$spore['uid']},'{$spore->name}',1,\"{$date}\"]";
 	if(count($aUsers) >= $limit)
 	{
 		$aPagi[] = '['.implode(',',$aUsers).']';
@@ -62,16 +72,34 @@ if(count($aUsers))
 	$pagination[] = "<li><a href=\"javascript:page({$f});\">page {$f}</a></li>";
 }
 //Pagination
-if(count($pagination) > 1)
+if(count($pagination) >= 1)
 {
+	//Liste de liens : Pagination 
+	if(count($pagination) > 1) $pagination = "<tr>\n<td colspan='6'>\n<ul class='pagination'>\n".implode("\n", $pagination)."\n</ul>\n</td>\n</tr>\n";
+	else $pagination = null;
+	//Concaténation finale tu tableau de données JS
 	$js .= "var table = [".implode(',',$aPagi)."];\n";
-	$pagination = "<tr>\n<td colspan='3'>\n<ul>\n".implode("\n", $pagination)."\n</ul>\n</td>\n</tr>\n";
+	//Instruction pour initialiser l'affichage de la première page
+	$jsPagInit = "page(0);";
 }
-else $pagination = null;
+else
+{
+	$jsPagInit = $pagination = null;
+}
+
+//Init de l'instance de flash
+$js .= <<<EOJS
+function flashReady() {
+	console.log("ready");
+	avatar('user', {$id}, '{$pseudo}', {$infected});
+	{$jsPagInit}
+}
+EOJS;
 
 //Paramètres de la page
+$page->addBodyClass('user');
 $page->addScriptFile('js/swfobject.js');
-$page->addScriptFile('js/avatar.js');
+$page->addScriptFile('js/avatar.b64.js');
 $page->addScript($js);
 
 /*
@@ -79,11 +107,8 @@ $page->addScript($js);
  */
 //Contenu
 $altMainAvatar = <<<EOHTML
-		<div id="avatar_main">	
-			<!-- p>In order to view this page you need JavaScript and Flash Player 10.2+ support!</p -->
-			<p>Afin de visualiser cette page, vous devez activer JavaScript et Flash Player 10.2+</p>
-			<a href="http://get.adobe.com/fr/flashplayer/">Installer flash</a>
-		</div>
+	<div id="flash">Afin de visualiser cette page, vous devez activer JavaScript et Flash Player 10.2+</div>
+	<img id="avatar_user" class="avatar ft80" alt="" />
 EOHTML;
 
 //Tableau des spores
@@ -104,6 +129,7 @@ if(count($dlSpore))
 else $tableSpores = "<p>Personne n'a été touché par les spores de {$pseudo}.</p>";
 
 $page->c = $altMainAvatar."\n".$tableSpores;
+
 #$page->c .= "<script type='text/javascript'>\n".$swfAvatar->embedSWF()."\n</script>";
 
 /*
