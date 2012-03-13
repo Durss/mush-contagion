@@ -66,7 +66,7 @@ package com.muxxu.mush.generator.mushroom {
 		 * Updates the component's rendering
 		 */
 		private function update():void {
-			var frame:int = Math.floor(parseInt(_key.charAt(10), 16)/0xf * (totalFrames-1)) + 1;
+			var frame:int = Math.floor(parseInt(_key.substr(10,2), 16)/0xff * (totalFrames-1)) + 1;
 			gotoAndStop(frame);
 			scaleX = scaleY = _sizeRatio/40;
 			/*

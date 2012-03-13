@@ -24,7 +24,7 @@
 <booleanAttribute key="START_SWF_ENABLED" value="true"/>
 <stringAttribute key="START_SWF_LOCATION" value="deploy/swf/contaminator.swf"/>
 <stringAttribute key="START_SWF_WITH" value="Adobe Flash Player"/>
-<booleanAttribute key="USE_PROJECT_COMPILER_ARGUMENTS" value="true"/>
+<booleanAttribute key="USE_PROJECT_COMPILER_ARGUMENTS" value="false"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/MushContagion"/>
 </listAttribute>

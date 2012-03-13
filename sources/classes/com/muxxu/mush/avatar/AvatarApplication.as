@@ -83,7 +83,7 @@ package com.muxxu.mush.avatar {
 			stage.showDefaultContextMenu = false;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			
-			CssManager.getInstance().setCss(".button {font-family:Trbuchet, Arial; font-size:14px; color:#cc0000; font-weight:bold; flash-bitmap:true; }");
+			CssManager.getInstance().setCss(".button {font-family:Trebuchet, Arial; font-size:14px; color:#cc0000; font-weight:bold; flash-bitmap:true; }");
 			
 			_holder = addChild(new Sprite()) as Sprite;
 			_back = _holder.addChild(new AvatarBaseGraphic()) as AvatarBaseGraphic;
