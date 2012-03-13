@@ -1,16 +1,16 @@
 package com.muxxu.mush.contaminator {
-	import com.muxxu.mush.contaminator.views.StatusView;
 	import gs.plugins.TransformAroundCenterPlugin;
 	import gs.plugins.TransformAroundPointPlugin;
 	import gs.plugins.TweenPlugin;
-	import com.muxxu.mush.contaminator.views.ExceptionView;
-	import com.muxxu.mush.contaminator.views.ContaminationView;
-	import net.hires.debug.Stats;
-	import com.muxxu.mush.contaminator.views.SoundView;
-	import com.muxxu.mush.contaminator.views.MushroomView;
+
 	import com.muxxu.mush.contaminator.controler.FrontControler;
 	import com.muxxu.mush.contaminator.model.Model;
 	import com.muxxu.mush.contaminator.views.BackgroundView;
+	import com.muxxu.mush.contaminator.views.ContaminationView;
+	import com.muxxu.mush.contaminator.views.ExceptionView;
+	import com.muxxu.mush.contaminator.views.MushroomView;
+	import com.muxxu.mush.contaminator.views.SoundView;
+	import com.muxxu.mush.contaminator.views.StatusView;
 	import com.nurun.structure.mvc.views.ViewLocator;
 
 	import flash.display.MovieClip;
@@ -80,7 +80,7 @@ package com.muxxu.mush.contaminator {
 			addChild(new SoundView());
 			addChild(new ExceptionView());
 			
-			addChild(new Stats());
+//			addChild(new Stats());
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}
