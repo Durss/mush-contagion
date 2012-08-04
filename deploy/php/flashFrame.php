@@ -48,7 +48,7 @@ $page->c .= <<<EOHTML
 			var params = {};
 			params['allowFullScreen'] = 'true';
 			params['menu'] = 'false';
-			params['wmode'] = 'direct';
+			params['wmode'] = 'opaque';
 			
 			swfobject.embedSWF("swf/contaminator.swf?v={$version}", "content", "100%", "100%", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
 			

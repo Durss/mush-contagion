@@ -1,4 +1,8 @@
 package com.muxxu.mush.generator.mushroom {
+	import flash.geom.Matrix;
+	import flash.geom.Rectangle;
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import gs.TweenLite;
 	import gs.easing.Back;
 	import gs.easing.Elastic;
@@ -93,7 +97,7 @@ package com.muxxu.mush.generator.mushroom {
 				TweenLite.to(_head, 1.5, {transformAroundPoint:{point:new Point(_head.width*.5, _head.height), rotation:0}, ease:Elastic.easeOut, easeParams:[3,.6], delay:.5, onComplete:onJumpComplete});
 			}
 		}
-
+		
 
 
 		
@@ -136,6 +140,11 @@ package com.muxxu.mush.generator.mushroom {
 		 */
 		private function onJumpComplete():void {
 			_isJumping = false;
+			_holder.rotation = _head.rotation = 0;
+			_holder.x = _holder.y = 0;
+			_head.x = _head.y = 0;
+			
+			placeElements();
 		}
 		
 	}

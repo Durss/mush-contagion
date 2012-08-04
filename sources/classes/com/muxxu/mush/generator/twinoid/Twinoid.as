@@ -152,6 +152,7 @@ package com.muxxu.mush.generator.twinoid {
 
 			var pp:PerspectiveProjection = new PerspectiveProjection();
 			pp.projectionCenter = new Point(0,0);
+			pp.fieldOfView = 20;
 			_body.transform.perspectiveProjection = pp;
 		}
 		
