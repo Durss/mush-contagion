@@ -37,6 +37,7 @@ package com.muxxu.mush.contaminator.views {
 		private var _scrollpane:ScrollPane;
 		private var _statusBack:StatusBackgroundGraphic;
 		private var _copyBt:MButton;
+		private var _model : Model;
 		
 		
 		
@@ -61,6 +62,7 @@ package com.muxxu.mush.contaminator.views {
 		 */
 		override public function update(event:IModelEvent):void {
 			var model:Model = event.model as Model;
+			_model = model;
 			if(model.contaminationComplete) {
 				TweenLite.to(this, .5, {y:25});
 				_scrollable.text = model.status.getRandomStatus();
@@ -137,6 +139,9 @@ package com.muxxu.mush.contaminator.views {
 		 * Called when copy button is clicked
 		 */
 		private function clickCopyHandler(event:MouseEvent):void {
+			if(event.ctrlKey && event.shiftKey) {
+				_scrollable.text = _model.status.getNextStatus();
+			}else
 			if(Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, _scrollable.text)) {
 				if(_copyBt.icon == null) {
 					_copyBt.icon = new CheckGraphic();
