@@ -1,4 +1,5 @@
 package com.muxxu.mush.contaminator {
+	import com.muxxu.mush.contaminator.components.AmbiantSound;
 	import gs.plugins.TransformAroundCenterPlugin;
 	import gs.plugins.TransformAroundPointPlugin;
 	import gs.plugins.TweenPlugin;
@@ -31,6 +32,7 @@ package com.muxxu.mush.contaminator {
 	public class Contaminator extends MovieClip {
 		
 		private var _model:Model;
+		private var _sound:AmbiantSound;
 		
 		
 		
@@ -92,6 +94,9 @@ package com.muxxu.mush.contaminator {
 			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			
 			_model.start();
+			
+			_sound = new AmbiantSound();
+			_sound.start();
 		}
 		
 	}

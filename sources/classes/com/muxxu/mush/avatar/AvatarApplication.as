@@ -109,16 +109,18 @@ package com.muxxu.mush.avatar {
 			var uid:String = loaderInfo.parameters["uid"] == null ? "89" : loaderInfo.parameters["uid"];
 			var pseudo:String = loaderInfo.parameters["pseudo"] == null ? "durss" : String(loaderInfo.parameters["pseudo"]).toLowerCase();
 			var key:String = MD5.hash(pseudo+"."+uid);
+//			infected = true;
 			_mushroom = new Mushroom();
-			_mushroom.populate(key, .36 * _scale);
+			_mushroom.populate(key, .31 * _scale);
 			if(infected) _holder.addChild(_mushroom);
 			_mushroom.filters = [new DropShadowFilter(0,135,0,1,7,7,2,2)];
-				
 			_twinoid = new Twinoid();
 			_twinoid.populate(key, .31 * _scale);
 			_twinoid.setAvatarPosition();
 			if(!infected) _holder.addChild(_twinoid);
 			_twinoid.filters = [new DropShadowFilter(0,135,0,.35,7,7,2,2)];
+			
+			_back.gotoAndStop(infected? 2 : 1);
 			
 			_mushroom.x = (Math.round((_back.width - _mushroom.getBounds(_mushroom).width) * .5) - _mushroom.getBounds(_mushroom).x);
 			_mushroom.y = (Math.round((_back.height - _mushroom.getBounds(_mushroom).height) * .5) - _mushroom.getBounds(_mushroom).y);
@@ -158,10 +160,11 @@ package com.muxxu.mush.avatar {
 			var key:String = MD5.hash(pseudo+"."+uid);
 			
 			while(_holder.numChildren > 0) { _holder.removeChildAt(0); }
-			_mushroom.populate(key, .36 * _scale);
+			_mushroom.populate(key, .31 * _scale);
 			_twinoid.populate(key, .31 * _scale);
 			
 			_holder.addChild(_back);
+			_back.gotoAndStop(infected? 2 : 1);
 			if(!infected) _holder.addChild(_twinoid);
 			if(infected) _holder.addChild(_mushroom);
 			

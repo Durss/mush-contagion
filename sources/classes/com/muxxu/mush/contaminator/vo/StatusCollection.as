@@ -15,6 +15,7 @@ package com.muxxu.mush.contaminator.vo {
 		private var _collection:Vector.<String>;
 		private var _infectedUsers:UserCollection;
 		private var _usersToStatus:Array;
+		private var _lastStatusIndex:int;
 
 		
 		
@@ -82,8 +83,19 @@ package com.muxxu.mush.contaminator.vo {
 		/**
 		 * Gets a random status.
 		 */
+		public function getNextStatus():String {
+			var len:int = (_usersToStatus[_infectedUsers.length] as Array).length;
+			return parseStatus(_usersToStatus[_infectedUsers.length][(_lastStatusIndex ++)%len]);
+		}
+		
+		/**
+		 * Gets a random status.
+		 */
 		public function getRandomStatus():String {
-			var status:String = ArrayUtils.getRandom(_usersToStatus[_infectedUsers.length]);
+			return parseStatus(ArrayUtils.getRandom(_usersToStatus[_infectedUsers.length]));
+		}
+
+		private function parseStatus(status:String):String {
 			var replacements:Array = ["xxx", "yyy", "zzz"];
 			var i:int, len:int, url:String, user:User;
 			len = _infectedUsers.length;
@@ -91,9 +103,8 @@ package com.muxxu.mush.contaminator.vo {
 				user = _infectedUsers.getUserAtIndex(i);
 				url = Config.getPath("userProfile");
 				url = url.replace(/\{UID\}/gi, user.uid);
-				status = status.replace(new RegExp("<"+replacements[i]+" ?/>", "gi"), "[lien="+url+"']"+user.name+"[/lien]");
+				status = status.replace(new RegExp("<"+replacements[i]+" ?/>", "gi"), "[lien="+url+"]"+user.name+"[/lien]");
 			}
-			
 			return status.replace(/\r\n/gi, "\n").replace(/<link ?\/>/gi, Config.getPath("appURL"));
 		}
 

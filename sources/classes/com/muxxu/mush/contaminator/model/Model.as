@@ -141,7 +141,7 @@ package com.muxxu.mush.contaminator.model {
 		 */
 		private function initialize():void {
 			_so = SharedObject.getLocal("mushcontagion", "/");
-			_so.clear();
+//			_so.clear();//TODO remove!
 			_soundEnabled = _so.data["sound"] !== false;
 			_status = new StatusCollection();
 			_status.populate(DependencyStorage.getInstance().getDependencyById("status").xml);
