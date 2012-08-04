@@ -60,14 +60,14 @@ function tdUpdate(id, uid, pseudo, infected)
 	if(uid == 0)
 	{
 		document.getElementById('avatar_'+id).style.visibility = 'hidden';
-		document.getElementById('avatar_'+id).update(0,0,0,0);
+		document.getElementById('avatar_'+id).update(0,0,0);
 		document.getElementById('uid_'+id).innerHTML = "";
 		document.getElementById('pseudo_'+id).innerHTML = "";
 	}
 	else
 	{
 		document.getElementById('avatar_'+id).style.visibility = 'visible';
-		document.getElementById('avatar_'+id).update(uid, pseudo, infected, 0);
+		document.getElementById('avatar_'+id).update(uid, pseudo, infected);
 		document.getElementById('uid_'+id).innerHTML = uid;
 		document.getElementById('pseudo_'+id).innerHTML = pseudo;
 	}
@@ -86,6 +86,6 @@ function page(f)
 	}
 	if(table[f].length < limit)
 	{
-		for(i; i < limit; i++) tdUpdate(i, 0, "", 0);
+		for(i; i < limit; i++) tdUpdate(i, 0, "");
 	}
 }

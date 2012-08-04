@@ -18,6 +18,7 @@ avatarFlashvars["canDownload"] = true;
 swfobject.embedSWF("swf/avatar.swf?v=1", "avatar", "80", "80", "10.2", "swf/expressinstall.swf", avatarFlashvars, avatarParams, avatarAttributes);
 */
 //Créé le flash invisible
+var userLink = "";
 var attributes = {};
 var params = {};
 params['allowScriptAccess'] = 'always';
@@ -47,6 +48,7 @@ function avatar(id, uid, pseudo, infected)
  * Pagination
  * @param	f	(int) offset de référence du tableau
  */
+var limit = 5;
 function page(f)
 {
 	for(var i= 0; i < table[f].length; i++)
@@ -74,7 +76,7 @@ function tdUpdate(id, uid, pseudo, infected, date)
 		document.getElementById('avatar_'+id).src = "";
 		document.getElementById('uid_'+id).innerHTML = "";
 		document.getElementById('pseudo_'+id).innerHTML = "";
-		document.getElementById('date_'+id).innerHTML = "";
+		//document.getElementById('date_'+id).innerHTML = "";
 	}
 	else
 	{
@@ -82,6 +84,6 @@ function tdUpdate(id, uid, pseudo, infected, date)
 		avatar(id, uid, pseudo, infected);
 		document.getElementById('uid_'+id).innerHTML = uid;
 		document.getElementById('pseudo_'+id).innerHTML = '<a href="?'+userLink+'&act=u/'+uid+'">'+pseudo+'</a>';
-		document.getElementById('date_'+id).innerHTML = date;
+		//document.getElementById('date_'+id).innerHTML = date;
 	}
 }
