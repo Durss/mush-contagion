@@ -80,10 +80,15 @@ if($_GET['act'] == 'admin')
 	
 }
 //--menu
-if(preg_match('#^u/([1-9][0-9]*)$#', $_GET['act'], $matches))
-{
-	$_GET['act'] = 'user';
-	$targetUID = intval($matches[1]);
+$sections = array(
+		'u' => 'user',
+	//	'd' => 'diagnostic',
+		'p' => 'pandemie',
+);
+$pattern = '#^('.implode('|',array_keys($sections)).')/([1-9][0-9]*)$#';
+if(preg_match($pattern, $_GET['act'], $matches)){
+	$_GET['act'] = $sections[$matches[1]];
+	$targetUID = intval($matches[2]);
 }
 else $targetUID = false;
 
@@ -92,9 +97,27 @@ require_once('php/start.php');
 switch($_GET['act'])
 {	
 	case 'user':
-		if($targetUID) $page->c .= "<h1>Page profil #{$targetUID}</h1><p>La page profil de quelqu'un d'autre</p>";
-		else $page->c .= "<h1>Mon profil</h1><p>Ma page à moi (rien qu'à moi)</p>";
 		include('php/profil.php');
+		break;	
+/*
+ 	case 'diagnostic':
+		if($targetUID) $page->c .= "<h1>Page diagnostic de #{$targetUID}</h1><p>La page de diagnostic de quelqu'un d'autre</p>";
+		else $page->c .= "<h1>Mon Diagnostique</h1><p>Ma diagnostic à moi (rien qu'à moi)</p>";
+		#include('php/pandemie.php');
+		break;
+ */	
+	case 'pandemie':
+		if($targetUID)
+		{
+			$page->c .= "<h1>Page pandemie de #{$targetUID}</h1><p>La page de pandemie de quelqu'un d'autre</p>";
+			include(('php/pandemieLocal.php'));
+		}
+		else
+		{
+			$page->c .= "<h1>La pandemie</h1><p>Apperçu statistique de la pandémie globale.</p>";
+			include('php/pandemieGlobal.php');
+		}
+		#include('php/pandemie.php');
 		break;
 	case 'php': //Dev: nSun
 		if(DEVMODE)

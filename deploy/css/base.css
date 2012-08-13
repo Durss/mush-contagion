@@ -1,14 +1,16 @@
 @CHARSET "UTF-8";
+
 /*
  * Base
  */
-html, body {
-	overflow:hidden;
-	height:100%;
-	margin:0;
-	padding:0;
+html,body {
+	overflow: hidden;
+	height: 100%;
+	margin: 0;
+	padding: 0;
 	font-family: Trebuchet MS, Arial, sans-serif;
 }
+
 body {
 	font: 12px Trebuchet MS, Arial, sans-serif;
 	margin: 0;
@@ -21,11 +23,12 @@ body #content1 #content {
 	width: 650px;
 	margin: 250px auto;
 }
+
 body #content1 #content p {
 	font: 18px Trebuchet MS, Arial, sans-serif;
 }
-body #content1 #content a,
-body #content1 #content a:visited {
+
+body #content1 #content a,body #content1 #content a:visited {
 	display: block;
 	width: 350px;
 	margin: 0 auto;
@@ -35,6 +38,7 @@ body #content1 #content a:visited {
 	text-decoration: none;
 	cursor: pointer;
 }
+
 body #content1 #content a:hover {
 	padding: 4px 4px 2px 6px;
 }
@@ -46,21 +50,26 @@ body.beta {
 	width: 700px;
 	margin: 16px auto;
 }
+
 body.beta .floatLeft {
 	float: left;
 	margin-right: 8px;
 }
-body.beta a,
-body.beta a:visited {
+
+body.beta a,body.beta a:visited {
+	
 }
+
 body.beta a:hover {
+	
 }
-body.beta img.avatar40
-{
+
+body.beta img.avatar40 {
 	border: none;
 	width: 40px;
 	height: 40px;
 }
+
 body.beta textarea {
 	width: 600px;
 	height: 250px;
@@ -71,51 +80,147 @@ body.beta textarea {
  */
 img.avatar {
 	display: block;
-	background: transparent url('../gfx/image-x-generic.png') center center no-repeat;
+	background: transparent url('../gfx/loader.gif') center center no-repeat;
 }
+
 img.avatar.ft32 {
 	width: 32px;
 	height: 32px;
 }
+
 img.avatar.ft40 {
 	width: 40px;
 	height: 40px;
 }
+
 img.avatar.ft60 {
 	width: 60px;
 	height: 60px;
 }
+
 img.avatar.ft80 {
 	width: 80px;
 	height: 80px;
+}
+
+img.avatar.ft100 {
+	width: 100px;
+	height: 100px;
+}
+
+img.avatar.ft120 {
+	width: 120px;
+	height: 120px;
 }
 
 /*
  * Diagnostic
  */
 body.user {
-	width: 700px;
+	width: 650px;
 	margin: 0 auto;
+	background: #080824 url('../gfx/tablette.jpg') top center no-repeat;
 }
 
-/*
- * Pandemie
- * img{border: solid 1px #8C8;}
- */
-#spores td {
-	border: solid 1px #CCC;
+#spores {
+	margin: 150px auto auto auto;
+	padding: 0 8px 4px 4px;
+}
+
+body.user.tablette #spores {
+	background: transparent url('../gfx/grille-pandemie.png') -147px -150px
+		no-repeat;
+}
+
+body.user.profil #ficheProfil {
+	background: transparent url('../gfx/grille-profil.png') -117px -150px
+		no-repeat;
+	display: block;
+	/* border: solid 1px red; */
+	width: 610px;
+	height: 430px;
+	margin: 150px auto auto auto;
+	padding: 0 24px;
+}
+
+#ficheProfil table.diagnostic td.fCol {
+	width: 390px;
+}
+
+#spores tbody td { /* border: solid 1px #CCC; */
+	padding: 1px 2px 1px 1px;
 	text-align: center;
 }
-#spores dl, #spores dt, #spores dd, .pagination {
+
+#spores #avatar_user,#ficheProfil #uAvatar {
+	float: left;
+}
+
+#spores p.userName,#spores p.userStatus,#ficheProfil p.userName,#ficheProfil p.userStatus
+	{
+	text-align: left;
+	font-size: 18px;
+}
+
+#spores p.userName:before {
+	content: "Agent contaminant : ";
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+}
+
+#ficheProfil p.userName:before {
+	content: "Nom du sujet : ";
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+}
+
+#spores p.userStatus:before,#ficheProfil p.userStatus:before {
+	content: "Bilan fongique : ";
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+}
+
+#spores .ft80+p,#spores .ft80+p+p,#ficheProfil .ft80+p,#ficheProfil .ft80+p+p
+	{
+	margin-left: 95px;
+}
+
+#spores .ft100+p,#spores .ft100+p+p,#ficheProfil .ft100+p,#ficheProfil .ft100+p+p
+	{
+	margin-left: 115px;
+}
+
+#spores .ft120+p,#spores .ft120+p+p,#ficheProfil .ft120+p,#ficheProfil .ft120+p+p
+	{
+	margin-left: 135px;
+}
+
+span.red {
+	color: #E00;
+}
+
+span.green {
+	color: #0B0;
+}
+
+#spores dl,#spores dt,#spores dd,.pagination {
 	list-style: none;
 	padding: 0;
 	margin: 0;
 	font-size: 12px;
 }
+
 #spores .pagination li {
 	display: inline;
 	padding: 0 8px;
 }
+
 #spores .pagination li a {
 	width: 80px;
 	height: 16px;
@@ -123,4 +228,69 @@ body.user {
 	padding: 4px;
 	font-size: 10px;
 }
- 
+
+table.diagnostic {
+	width: 100%;
+}
+
+textarea.mushTranscryptor { /* display: block;
+	float: left; */
+	padding: 16px;
+	width: 258px;
+	height: 200px;
+	border: solid 1px #000;
+}
+
+#ficheProfil .TM {
+	text-align: center;
+}
+
+#ficheProfil .TM_menu {
+	text-align: center;
+	padding-right: 148px;
+}
+
+#ficheProfil .TM_menu span {
+	float: left;
+	width: 150px;
+}
+
+#ficheProfil .TM_menu img {
+	vertical-align: -7px;
+}
+
+#ficheProfil textarea#text {
+	color: #000;
+	background: transparent url('../gfx/bg.transMush2.png') top center;
+}
+
+#ficheProfil textarea#result {
+	color: #FFF;
+	background: #080824 url('../gfx/bg.transMush1.png') top center;
+}
+
+.btn {
+	display: inline-block;
+	background: url("../gfx/btnbg.png") left top no-repeat;
+	width: 90px;
+	height: 21px;
+	text-align: center;
+	font-variant: small-caps;
+	color: white;
+	line-height: 0px;
+	font-size: 14px;
+	white-space: nowrap;
+	font-weight: bold;
+	text-decoration: none;
+	border: none;
+	text-shadow: -1px 0 2px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.5),
+		1px 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.btn:hover {
+	background: url("../gfx/btnbgHover.png") left top no-repeat;
+}
+
+.btn:active {
+	margin: 2px -2px -2px 2px;
+}

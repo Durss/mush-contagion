@@ -52,6 +52,7 @@ else
 }
 
 //--Option de pandémie
+define('PARENT_INFOS', (bool) isset($_GET['parent']));
 define('FULL_INFOS', (bool) isset($_GET['pandemie']));
 
 //Initialisation du gestionnaire DB
@@ -86,13 +87,15 @@ if(! mysql_num_rows($db->result)) $lastInfection = false;
 else
 {
 	$row = mysql_fetch_assoc($db->result);
-	$lastInfection = intval($row['date']);
+	//Convertir la date en timestamp..
+	$lastInfection = strtotime($row['date']);
 }
 
-if(FULL_INFOS)
-	{
+//Si le détail du parent est demandé
+if(PARENT_INFOS || FULL_INFOS)
+{
 	//init
-	$parentData = $childData = array();
+	$parentData = array();
 	
 	//Recherche une infection parent
 	if($userData['infected'])
@@ -107,6 +110,14 @@ if(FULL_INFOS)
 			while($row = mysql_fetch_assoc($db->result)) $parentData[] = $row;
 		}
 	}
+}
+
+//Si une information complète est demandée
+if(FULL_INFOS)
+{
+	//init
+	$childData = array();
+	
 	//Recherche une infection enfant
 	if(! $db->selectChilds(UID)) //En cas d'erreur SQL
 	{
@@ -152,7 +163,8 @@ if($lastInfection)
 	$delay->addAttribute('lastInfection', $lastInfection);
 }
 
-if(FULL_INFOS)
+//Information sur le parent
+if(PARENT_INFOS || FULL_INFOS)
 {
 	$parent = $user->addChild('parent');
 	if(count($parentData))
@@ -161,13 +173,16 @@ if(FULL_INFOS)
 		{
 			$spore = $parent->addChild('spore');
 			$spore->addAttribute('uid', $s['parent']);
-			$spore->addAttribute('ts', $s['date']);
+			$spore->addAttribute('ts', strtotime($s['date']));
 			$spore->addChild('name', $s['name']);
 			if(strlen($s['avatar'])) $spore->addChild('avatar', $s['avatar']);
 			else $spore->addChild('avatar');
 		}
 	}
-	
+}
+//Information sur les enfants
+if(FULL_INFOS)
+{	
 	$child = $user->addChild('child');
 	if(count($childData))
 	{
@@ -175,7 +190,7 @@ if(FULL_INFOS)
 		{
 			$spore = $child->addChild('spore');
 			$spore->addAttribute('uid', $s['child']);
-			$spore->addAttribute('ts', $s['date']);
+			$spore->addAttribute('ts', strtotime($s['date']));
 			$spore->addChild('name', $s['name']);
 			if(strlen($s['avatar'])) $spore->addChild('avatar', $s['avatar']);
 			else $spore->addChild('avatar');

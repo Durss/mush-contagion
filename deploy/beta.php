@@ -10,7 +10,7 @@
 <?php
 	$score = false;	
 			
-	if($_GET['act'] == 'infecter' && isset($_GET['id']) && isset($_GET['key']))
+	if($_GET['act'] == 'infecter' && isset($_GET['id'], $_GET['key']))
 	{
 		$atchoum = website."php/services/atchoum.php?id={$_GET['id']}&key={$_GET['key']}";
 		$action = simplexml_load_file($atchoum, 'SimpleXMLElement', LIBXML_NOCDATA);

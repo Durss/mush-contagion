@@ -1,22 +1,7 @@
 /*
  * Init
  */
-/*
-var avatarAttributes = {};
-avatarAttributes['id'] = 'avatar';
-var avatarParams = {};
-avatarParams['allowFullScreen'] = 'false';
-avatarParams['allowScriptAccess'] = 'always';
-avatarParams['menu'] = 'true';
-avatarParams['scale'] = 'default';
-avatarParams['wmode'] = 'transparent';
-var avatarFlashvars = {};
-avatarFlashvars["uid"] = 3916;
-avatarFlashvars["pseudo"] = 'newSunshine';
-avatarFlashvars["infected"] = false;
-avatarFlashvars["canDownload"] = true;
-swfobject.embedSWF("swf/avatar.swf?v=1", "avatar", "80", "80", "10.2", "swf/expressinstall.swf", avatarFlashvars, avatarParams, avatarAttributes);
-*/
+
 //Créé le flash invisible
 var userLink = "";
 var attributes = {};
@@ -39,9 +24,6 @@ function avatar(id, uid, pseudo, infected)
 	var flash = document.getElementById('flash');
 	var img = document.getElementById('avatar_'+id);
 	img.src = "data:image/png;base64,"+flash.getImage(uid, pseudo, infected);
-	/* document.body.appendChild(img);
-	
-	setTimeout(addImage, 30); */
 }
 
 /**
@@ -76,7 +58,7 @@ function tdUpdate(id, uid, pseudo, infected, date)
 		document.getElementById('avatar_'+id).src = "";
 		document.getElementById('uid_'+id).innerHTML = "";
 		document.getElementById('pseudo_'+id).innerHTML = "";
-		//document.getElementById('date_'+id).innerHTML = "";
+		document.getElementById('date_'+id).innerHTML = "";
 	}
 	else
 	{
@@ -84,6 +66,6 @@ function tdUpdate(id, uid, pseudo, infected, date)
 		avatar(id, uid, pseudo, infected);
 		document.getElementById('uid_'+id).innerHTML = uid;
 		document.getElementById('pseudo_'+id).innerHTML = '<a href="?'+userLink+'&act=u/'+uid+'">'+pseudo+'</a>';
-		//document.getElementById('date_'+id).innerHTML = date;
+		document.getElementById('date_'+id).innerHTML = date;
 	}
 }
