@@ -1,0 +1,4 @@
+Ajout d'une flashvar :
+	flashvars['maintenance'] = 0 (état normal, tout le monde accède à l'app)
+	flashvars['maintenance'] = 1 (état fermé pour maintenance, seuls les admins accèdent à l'app)
+--

@@ -98,6 +98,8 @@ class mysqlManager
 		}
 		//Sélection de la base
 		mysql_select_db($this->db) or $this->error('Impossible de sélectionner la base de données');
+		//Définition de l'encodage des échanges
+		mysql_query("SET NAMES 'utf8'");
 		
 		return $this->_connected = true;
 	}

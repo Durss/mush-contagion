@@ -1,6 +1,0 @@
-[2012-01-29 15h45:59]	127.0.0.1	uid=89&name=Durss&pubkey=65ebda35&act=admin	admin_access
-[2012-01-29 15h48:05]	127.0.0.1	uid=89&name=Durss&pubkey=65ebda35&act=admin	admin_access
-[2012-01-29 15h49:05]	127.0.0.1	uid=89&name=Durss&pubkey=65ebda35&act=admin	admin_access
-[2012-01-29 15h49:06]	127.0.0.1	uid=89&name=Durss&pubkey=65ebda35&act=admin	admin_access
-[2012-01-29 15h49:07]	127.0.0.1	uid=89&name=Durss&pubkey=65ebda35&act=admin	admin_access
-[2012-02-18 11h51:30]	127.0.0.1	uid=89&name=Durss&pubkey=0e66a953&act=admin	admin_access

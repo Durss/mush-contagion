@@ -24,15 +24,14 @@ class mushSQL extends mysqlManager
 	 */
 	public function insertUser($uid, $pubkey, $friendsKey, $name, $avatar)
 	{
-		$time = time();
 		$sql = <<<EOSQL
 -- Nouvel user ou MAJ
 INSERT INTO `{$this->db}`.`{$this->tbl['user']}`
-(`uid`, `pubkey`, `friends`, `name`, `lastvisit`, `avatar`) VALUES
-('{$uid}', '{$pubkey}', '{$friendsKey}', '{$name}', '{$time}', '{$avatar}')
+(`uid`, `pubkey`, `friends`, `name`, `avatar`) VALUES
+('{$uid}', '{$pubkey}', '{$friendsKey}', '{$name}', '{$avatar}')
 -- Si l'utilisateur est déjà enregistré, mon met à jour toutes les données
 ON DUPLICATE KEY UPDATE
-`pubkey` = '{$pubkey}', `friends` = '{$friendsKey}', `name` = '{$name}', `lastvisit` = '{$time}', `avatar` = '{$avatar}';
+`pubkey` = '{$pubkey}', `friends` = '{$friendsKey}', `name` = '{$name}', `avatar` = '{$avatar}';
 EOSQL;
 		return $this->query($sql) or $this->error(mysql_error());
 	}
@@ -60,7 +59,7 @@ ON DUPLICATE KEY UPDATE
 EOSQL;
 		return $this->query($sql) or $this->error(mysql_error());
 	}
-	
+
 	/**
 	 * Enregistre un lien infectieux dans la table 'link'
 	 * @param	array	$list	-Liste d'identifiants des personnes infectées : <code>array( int id, int id, ... )</code> 
@@ -69,17 +68,32 @@ EOSQL;
 	 */
 	public function insertLink($list, $parent=0)
 	{
-		$time = time();
-		
 		$list = "('{$parent}', '"
-		.implode("', '{$time}'),\n('{$parent}', '", $list)
-		."', '{$time}')";
+		.implode("'),\n('{$parent}', '", $list)."')";
 		
 		$sql = <<<EOSQL
 -- Origine de l'infection
 INSERT INTO `{$this->db}`.`{$this->tbl['link']}`
-(`parent`, `child`, `date`) VALUES
+(`parent`, `child`) VALUES
 {$list};
+EOSQL;
+		return $this->query($sql) or $this->error(mysql_error());
+	}
+
+	/**
+	 * Enregistre un relevé statistique dans la table 'stat'
+	 * @param	int	$realUsers	-Nombre réel de visiteurs 
+	 * @param	int	$users		-Nombre de profils enregistrés
+	 * @param	int	$infect		-Nombre de personnes infectées
+	 * @return	bool
+	 */
+	public function insertStat($realUsers, $users, $infect)
+	{		
+		$sql = <<<EOSQL
+-- Relevé statistique
+INSERT INTO `{$this->db}`.`{$this->tbl['stat']}`
+(`realUsers`, `users`, `infect`) VALUES
+({$realUsers}, {$users}, {$infect});
 EOSQL;
 		return $this->query($sql) or $this->error(mysql_error());
 	}
@@ -100,9 +114,6 @@ UPDATE  `{$this->db}`.`{$this->tbl['user']}`
 SET  `infected` = infected+1
 WHERE  `{$this->tbl['user']}`.`uid` {$target};
 EOSQL;
-
-		#DEBUG
-		#file_put_contents('query.sql', $sql."\n\n", FILE_APPEND);
 		
 		return $this->query($sql) or $this->error(mysql_error());
 	}
@@ -247,7 +258,21 @@ EOSQL;
 		
 		return $this->query($sql) or $this->error(mysql_error());
 	}
-	
+
+	/**
+	 * Nombre de profils enregistrés
+	 * @return	ressource
+	 */
+	public function countUsers()
+	{
+		$sql = <<<EOSQL
+-- Dernier ID de la table 'user'
+SELECT `id` as 'countUsers' FROM `{$this->tbl['user']}` ORDER BY `id` DESC LIMIT 1;
+EOSQL;
+		
+		return $this->query($sql) or $this->error(mysql_error());
+	}
+		
 	/**
 	 * Nombre de visiteurs
 	 * @return	ressource
@@ -315,4 +340,43 @@ EOSQL;
 		
 		return $this->query($sql) or $this->error(mysql_error());
 	}
+
+	/**
+	 * Récupération des statistiques
+	 * @param	int	$start	-(default=0) début du relevé
+	 * @param	int	$lenght	-(default=0) longueur du relevé
+	 * @return	ressource
+	 */
+	public function selectStats($start=0, $lenght=0)
+	{
+		if(!$start && !$lenght) $limit = null;
+		else $limit = "\nLIMIT {$start},{$lenght}";
+		
+		$sql = <<<EOSQL
+-- Relevé des stats
+SELECT `date`, realUsers`, `users`, `infect`
+FROM `{$this->tbl['stat']}`
+ORDER BY `{$this->tbl['stat']}`.`id` ASC{$limit};
+EOSQL;
+		
+		return $this->query($sql) or $this->error(mysql_error());
+	}
+
+	/**
+	 * Date de la dernière stat enregistrée
+	 * @return	ressource
+	 */
+	public function selectLastStatDate()
+	{
+		$sql = <<<EOSQL
+-- Date de la dernière stat enregistrée
+SELECT `date`
+FROM `{$this->tbl['stat']}`
+ORDER BY `{$this->tbl['stat']}`.`id` DESC
+LIMIT 1;
+EOSQL;
+		
+		return $this->query($sql) or $this->error(mysql_error());
+	}
 }
+?>

@@ -1,0 +1,70 @@
+[13][1344858022]	Impossible de se connecter : Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+
+[13][1344858025]	Echec de la requÃªte : Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+ -- SÃ©lection de profils 
+SELECT `uid`, `name`, `avatar`, `infected`
+FROM `mushteasing_user`
+WHERE `uid` = 3916
+LIMIT 1;
+[13][1344858025]	Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+
+[13][1344858037]	Impossible de se connecter : Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+
+[13][1344858037]	Impossible de se connecter : Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+
+[13][1344858037]	Impossible de se connecter : Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+
+[13][1344858037]	Impossible de se connecter : Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+
+[13][1344858040]	Echec de la requÃªte : Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+ -- SÃ©lection de profils 
+SELECT `uid`, `name`, `avatar`, `infected`
+FROM `mushteasing_user`
+WHERE `uid` = 2
+LIMIT 1;
+[13][1344858040]	Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+
+[13][1344858040]	Echec de la requÃªte : Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+ -- SÃ©lection de profils 
+SELECT `uid`, `name`, `avatar`, `infected`
+FROM `mushteasing_user`
+WHERE `uid` = 3916
+LIMIT 1;
+[13][1344858040]	Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+
+[13][1344858040]	Echec de la requÃªte : Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+ -- SÃ©lection de profils 
+SELECT `uid`, `name`, `avatar`, `infected`
+FROM `mushteasing_user`
+WHERE `uid` = 3916
+LIMIT 1;
+[13][1344858040]	Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+
+[13][1344858040]	Echec de la requÃªte : Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+ -- SÃ©lection de profils 
+SELECT `uid`, `name`, `avatar`, `infected`
+FROM `mushteasing_user`
+WHERE `uid` = 2
+LIMIT 1;
+[13][1344858040]	Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+
+[13][1344858058]	Impossible de se connecter : Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+
+[13][1344858062]	Echec de la requÃªte : Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+ -- SÃ©lection de profils 
+SELECT `uid`, `name`, `avatar`, `infected`
+FROM `mushteasing_user`
+WHERE `uid` = 3916
+LIMIT 1;
+[13][1344858062]	Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+
+[13][1344858079]	Impossible de se connecter : Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+
+[13][1344858082]	Echec de la requÃªte : Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+ -- SÃ©lection de profils 
+SELECT `uid`, `name`, `avatar`, `infected`
+FROM `mushteasing_user`
+WHERE `uid` = 3916
+LIMIT 1;
+[13][1344858097]	Aucune connexion n'a pu être établie car l'ordinateur cible l'a expressément refusée.
+

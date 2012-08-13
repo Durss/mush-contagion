@@ -3,8 +3,8 @@
  */
 var iterator = 1;
 var laps = 125;
-var width = 80;
-var height = 80;
+var width = 100;
+var height = 100;
 var avatarAttributes = {};
 var avatarParams = {};
 avatarParams['allowFullScreen'] = 'false';
@@ -22,11 +22,6 @@ avatarParams['wmode'] = 'transparent';
  */
 function avatar(id, uid, pseudo, infected, dl)
 {
-	/*
-	var div = document.createElement("div");
-	div.id = id;
-	document.body.appendChild(div);
-	*/
 	if(dl)
 	{
 		//width = 80;
@@ -35,7 +30,7 @@ function avatar(id, uid, pseudo, infected, dl)
 	else
 	{
 		//width = 80;
-		height = 80;
+		height = 100;
 	}
 	
 	var avatarFlashvars = {};
@@ -55,7 +50,7 @@ function avatar(id, uid, pseudo, infected, dl)
  * @param	infected	(bool) level du joueur (true == infecté)
  * @param	dl			(bool) option de téléchargement
  */
-function tdUpdate(id, uid, pseudo, infected)
+function tdUpdate(id, uid, pseudo, infected, date)
 {
 	if(uid == 0)
 	{
@@ -63,13 +58,14 @@ function tdUpdate(id, uid, pseudo, infected)
 		document.getElementById('avatar_'+id).update(0,0,0);
 		document.getElementById('uid_'+id).innerHTML = "";
 		document.getElementById('pseudo_'+id).innerHTML = "";
+		document.getElementById('date_'+id).innerHTML = "";
 	}
 	else
 	{
 		document.getElementById('avatar_'+id).style.visibility = 'visible';
 		document.getElementById('avatar_'+id).update(uid, pseudo, infected);
 		document.getElementById('uid_'+id).innerHTML = uid;
-		document.getElementById('pseudo_'+id).innerHTML = pseudo;
+		document.getElementById('date_'+id).innerHTML = date;
 	}
 }
 
@@ -82,7 +78,7 @@ function page(f)
 {
 	for(var i= 0; i < table[f].length; i++)
 	{
-		tdUpdate(i, table[f][i][0], table[f][i][1], table[f][i][2]);
+		tdUpdate(i, table[f][i][0], table[f][i][1], table[f][i][2], table[f][i][3]);
 	}
 	if(table[f].length < limit)
 	{
