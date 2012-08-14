@@ -156,11 +156,15 @@ if($lastInfection)
 	else
 	{
 		//Veuillez patienter
-		$wait = ($lastInfection + intval($ini['infectDelay'])) - time();
+		$wait = $lastInfection + intval($ini['infectDelay']) - time();
 	}
 	$delay = $user->addChild('delay');
 	$delay->addAttribute('wait', $wait);
 	$delay->addAttribute('lastInfection', $lastInfection);
+}
+else {
+	$delay = $user->addChild('delay');
+	$delay->addAttribute('wait', '0');
 }
 
 //Information sur le parent
