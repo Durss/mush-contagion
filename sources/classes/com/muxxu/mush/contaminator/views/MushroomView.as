@@ -47,6 +47,10 @@ package com.muxxu.mush.contaminator.views {
 		private var _sneeze2:Class;
 		[Embed(source="../../../../../../assets/sounds/sneeze3.mp3")]
 		private var _sneeze3:Class;
+		[Embed(source="../../../../../../assets/sounds/flopflop.mp3")]
+		private var _flopflop:Class;
+		[Embed(source="../../../../../../assets/sounds/flop.mp3")]
+		private var _flop:Class;
 		
 		private var _mushroom:MushroomGraphic;
 		private var _frontLandscape:Bitmap;
@@ -302,6 +306,9 @@ package com.muxxu.mush.contaminator.views {
 						FrontControler.getInstance().throwSpores();
 					}
 					_dialogDone["better"] = true;
+					(new _flopflop() as Sound).play();
+				}else{
+					(new _flop() as Sound).play();
 				}
 			}
 		}

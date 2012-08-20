@@ -33,7 +33,6 @@ package com.muxxu.mush.contaminator.views {
 		private var _ground:Bitmap;
 		private var _sky:WrappingBitmap;
 		private var _autoRotation:Boolean;
-		private var _endRotation:Boolean;
 		private var _mushrooms:Bitmap;
 		private var _speed:Number;
 		private var _offsetX:Number;
@@ -177,8 +176,6 @@ package com.muxxu.mush.contaminator.views {
 				_speedR = .0005;
 				_speed = 5;
 				scroll();
-			}else{
-				_endRotation = true;
 			}
 		}
 		
