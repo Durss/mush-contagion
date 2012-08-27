@@ -88,6 +88,7 @@ else
 {
 	$row = mysql_fetch_assoc($db->result);
 	//Convertir la date en timestamp..
+	date_default_timezone_set('Europe/Paris');
 	$lastInfection = strtotime($row['date']);
 }
 
