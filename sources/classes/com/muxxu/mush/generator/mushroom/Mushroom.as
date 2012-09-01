@@ -1,8 +1,4 @@
 package com.muxxu.mush.generator.mushroom {
-	import flash.geom.Matrix;
-	import flash.geom.Rectangle;
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
 	import gs.TweenLite;
 	import gs.easing.Back;
 	import gs.easing.Elastic;
