@@ -42,7 +42,6 @@ $js = <<<EOJS
 	swfobject.embedSWF("swf/avatar.swf?v=1", "flash", "0", "0", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
 	
 	function flashReady() {
-		console.log("ready");
 		var flash = document.getElementById('flash');
 		var img = document.getElementById('uAvatar');
 		img.src = "data:image/png;base64,"+flash.getImage({$userVars});
@@ -95,12 +94,11 @@ if($id == UID && $infected == 'true'){
 			}
 			
 			function decrypt() {
-				document.getElementById("result").value = document.getElementById("content").decrypt(document.getElementById("text").value);
+				document.getElementById("text").value = document.getElementById("content").decrypt(document.getElementById("result").value);
 			}
-			function select_all() {
-				var text_val= document.getElementById("result");
-				text_val.focus();
-				text_val.select();
+			function select_all(target) {
+				target.focus();
+				target.select();
 			}
 EOJS;
 	$page->addScript($js);
@@ -120,8 +118,8 @@ EOJS;
 					<p>Afin de visualiser cette page, vous devez activer JavaScript et Flash Player 10.2+</p>
 					<a href="http://get.adobe.com/fr/flashplayer/">Installer flash</a>
 				</div>
-				<textarea class="mushTranscryptor" id="text">Utilisez le transcrypteur pour communiquer entre Mushs à l'insu de ces horribles humains.</textarea>
-				<textarea class="mushTranscryptor" id="result" readonly="readonly" onClick="select_all();"></textarea>
+				<textarea class="mushTranscryptor" id="text" onClick="select_all(this);">Utilisez le transcrypteur pour communiquer entre Mushs à l'insu de ces horribles humains.</textarea>
+				<textarea class="mushTranscryptor" id="result" onClick="select_all(this);"></textarea>
 			</td>
 		</tr>
 EOHTML;
