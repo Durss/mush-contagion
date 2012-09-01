@@ -28,7 +28,7 @@ $pseudoLink = $twinID ? "<a href='http://twinoid.com/user/{$twinID}' target='twi
 $infected = (bool) intval($userinfos->user['level']) ? 'true' : 'false';
 $version= "1";
 
-$userVars = UID.", '{$pseudo}', {$infected}";
+$userVars = "{$id}, '{$pseudo}', {$infected}";
 
 $js = <<<EOJS
 	//Créé le flash invisible
