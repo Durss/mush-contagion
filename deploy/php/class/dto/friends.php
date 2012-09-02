@@ -10,7 +10,7 @@ class friends extends base_dto
 	/**
 	 * Liste d'amis
 	 * @var array
-	 * @example	<code>$this->frineds[</code> (int) <i>id</i> <code>] = </code> (string) <i>userName</i>
+	 * @example	<code>$this->friends[</code> (int) <i>id</i> <code>] = </code> (string) <i>userName</i>
 	 */
 	public $list;
 	

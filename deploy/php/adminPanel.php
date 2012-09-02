@@ -26,6 +26,95 @@ if(!isset($page)) $page = new nsunTpl();
 $page->title = "Admin : Mush Contagion";
 $page->addStyleSheet('css/admin.css');
 
+//Examen d'un utilisateur
+if(isset($_POST['getUser']))
+{	
+	//init
+	$lookUID = false;
+	$lookPseudo = false;
+	$data = false;
+	$dataLinks = false;
+	$userInfos = array();
+	//Tri des paramètres
+	if(isset($_POST['lookUID'])
+	&& is_numeric($_POST['lookUID'])
+	&& intval($_POST['lookUID'])){
+		$lookUID = intval($_POST['lookUID']);
+	}
+	if(isset($_POST['lookPseudo'])
+	&& is_string($_POST['lookPseudo'])
+	&& !empty($_POST['lookPseudo'])){
+		$lookPseudo = strval($_POST['lookPseudo']);
+	}
+	
+	if($lookUID || $lookPseudo){
+		require_once('c/config.php');
+		require('c/mysql.php');
+		require_once('php/class/mysqlManager.php');
+		require_once('php/class/mushSQL.php');
+			
+		$db = new mushSQL($mysql_vars,1);
+		
+		//Données table user
+		$db->findUsers($lookUID, $lookPseudo);
+		if($db->result)
+		{
+			$count = mysql_num_rows($db->result);
+			if($count == 1){
+				$row = mysql_fetch_assoc($db->result);
+				$data = print_r($row,1);
+				if($row['friends'] && !empty($row['friends'])) $friendsKey = $row['friends'];
+			}
+			elseif($count > 1){
+				$data = null;
+				while($row = mysql_fetch_assoc($db->result)) $data .= print_r($row,1)."\n";
+			}
+			
+		}
+		//Liste table link
+		if($lookUID){
+			$dataLinks = null;
+			$db->selectParents($lookUID);
+			if($db->result)
+			{
+				$countParent = mysql_num_rows($db->result);
+				$dataLinks .= "Parents (u/{$lookUID}) : ------------------------\n";
+				while($row = mysql_fetch_assoc($db->result)) $dataLinks .= print_r($row,1)."\n";
+				
+			}
+			$db->selectChilds($lookUID);
+			if($db->result)
+			{
+				$countChilds = mysql_num_rows($db->result);
+				$dataLinks .= "Childs (u/{$lookUID}) : -------------------------\n";
+				while($row = mysql_fetch_assoc($db->result)) $dataLinks .= print_r($row,1)."\n";
+				
+			}
+			
+			$dataLinks = "Parents({$countParent}) | Childs({$countChilds})\n".$dataLinks;
+		}
+		
+		
+		if($data) $userInfos[] = "<dd><textarea cols='64' rows='2'>{$data}</textarea></dd>";
+		if($dataLinks) $userInfos[] = "<dd><textarea cols='64' rows='2'>{$dataLinks}</textarea></dd>";
+		
+		//Lien userinfos
+		if($lookUID) $userInfos[] = "<dd>".website."php/services/userinfos.php?id={$lookUID}&parent&pandemie</dd>";
+		else $userInfos[] = "<dd>".website."php/services/userinfos.php?id=[ UID ? ]&parent&pandemie</dd>";
+		//Lien atchoum
+		if($lookUID && isset($friendsKey)) $userInfos[] = "<dd>".website."php/services/atchoum.php?id={$lookUID}&key={$friendsKey}</dd>";
+		else $userInfos[] = "<dd>".website."php/services/atchoum.php?id=[ UID ? ]&key=[ friends key ? ]</dd>";
+	}
+	$db->__destruct();
+	
+	if(count($userInfos)) $userInfos = "<dl>\n\t<dd>".implode("</dd>\n\t<dd>", $userInfos)."</dd>\n</dl>";
+	else $userInfos = false;
+	
+}
+else $userInfos = false;
+
+
+//Relevé statistiques
 if(isset($_POST['stats']))
 {
 	$stats = array();
@@ -322,6 +411,8 @@ EOINI;
 }
 
 //Configure le formulaire
+$lookUID = isset($lookUID) ? " value='{$lookUID}'" : null;
+$lookPseudo = isset($lookPseudo) ? " value='{$lookPseudo}'" : null;
 $maintenance = ($ini['status']['maintenance'] == 1)
 	? ' checked="checked"'
 	: null;
@@ -339,6 +430,9 @@ $infectDelay = $ini['params']['infectDelay'];
 //Liste les admins
 $adminList = "<li>".implode("</li>\n\t\t\t\t\t<li>",$adminList)."</li>";
 
+//Résultat d'une recherche User
+if(!$userInfos) $userInfos = null;
+
 //Statistiques
 if(!$stats) $stats = '<input type="submit" name="stats" value="Statistiques générales" />';
 
@@ -346,6 +440,15 @@ if(!$stats) $stats = '<input type="submit" name="stats" value="Statistiques gén
 $page->c .= <<<EOHTML
 		<h1>Admin</h1>
 		<form method="post" action="?{$_SERVER['QUERY_STRING']}">
+			<fieldset>
+				<legend>Examiner un utilisateur</legend>
+				<label><input type="text" name="lookUID"{$lookUID} /> N° identifiant utilisateur (muxxu_UID)</label>
+				<label><input type="text" name="lookPseudo"{$lookPseudo} /> Nom d'utilisateur (plusieurs résultats possibles)</label>
+				</fieldset>
+			<fieldset>
+				<input type="submit" name="getUser" value="Rechercher" />
+				{$userInfos}
+			</fieldset>
 			<fieldset>
 				<legend>Statut</legend>
 				<label><input type="checkbox" name="maintenance"{$maintenance} /> Maintenance (cocher pour désactiver le site au public)</label>
