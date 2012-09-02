@@ -119,6 +119,31 @@ EOSQL;
 	}
 	
 	/**
+	 * Recherche un ou plusieurs profils dans la table 'user'
+	 * @param	int	$uid				-N°identifiant utilisateur (passer à false pour ignorer)
+	 * @param	string	$pseudo			-Nom de l'utilisateur
+	 * @return	ressource
+	 */
+	public function findUsers($uid,$pseudo=false)
+	{
+		if($pseudo && $_SERVER['REMOTE_ADDR'] == '127.0.0.1') $pseudo = mysql_real_escape_string($pseudo);
+		
+		if($uid && $pseudo) $where = "WHERE uid={$uid} OR name='{$pseudo}'";
+		elseif($uid) $where = "WHERE uid={$uid}";
+		elseif($pseudo) $where = "WHERE name='{$pseudo}'";
+		else return false;
+		
+		$sql = <<<EOSQL
+-- Sélection un profil
+SELECT `id`,`uid`,`pubkey`,`friends`,`name`,`lastvisit`,`avatar`,`infected`
+FROM `{$this->tbl['user']}`
+{$where}
+EOSQL;
+		
+		return $this->query($sql) or $this->error(mysql_error());
+	}
+	
+	/**
 	 * Sélectionne des profils dans la table 'user'
 	 * @param	bool	$in				-Comment traiter la liste d'utilisateur indiquée : <code>true => IN (list); false => NOT IN (list)</code>
 	 * @param	array	$list			-Liste d'utilisateur : <code>array( int id, int id, ... )</code> 
@@ -337,7 +362,7 @@ WHERE `parent` = {$uid}
 ORDER BY `{$this->tbl['link']}`.`id` DESC
 LIMIT 1
 EOSQL;
-		
+	
 		return $this->query($sql) or $this->error(mysql_error());
 	}
 
