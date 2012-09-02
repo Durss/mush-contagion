@@ -299,3 +299,24 @@ textarea.mushTranscryptor { /* display: block;
 .btn:active {
 	margin: 2px -2px -2px 2px;
 }
+
+/* pandemie */
+body.user a,
+body.user a:visited  {
+	font-weight: bold;
+	font-family: Arial, sans-serif; 
+	color: #2c4143;
+	text-decoration: underline;
+	text-shadow: 0px 0px 3px #cba481;
+}
+body.user a:hover {
+	text-decoration: none;
+	text-shadow: none;
+}
+body.user.tablette #spores .pseudo a {
+	font-size: 12px;
+}
+body.user.tablette #spores .date{
+	color: #333;
+	font: 11px Arial, sans-serif;
+}
