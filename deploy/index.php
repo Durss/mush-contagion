@@ -107,18 +107,11 @@ switch($_GET['act'])
 		break;
  */	
 	case 'pandemie':
-		if($targetUID)
-		{
-			$page->c .= "<h1>Page pandemie de #{$targetUID}</h1><p>La page de pandemie de quelqu'un d'autre</p>";
-			include(('php/pandemieLocal.php'));
-		}
-		else
-		{
-			$page->c .= "<h1>La pandemie</h1><p>Apperçu statistique de la pandémie globale.</p>";
-			include('php/pandemieGlobal.php');
-		}
+		include(('php/pandemieLocal.php'));
 		#include('php/pandemie.php');
 		break;
+	case 'warning':
+		include('php/pandemieGlobal.php');
 	case 'php': //Dev: nSun
 		if(DEVMODE)
 		{
