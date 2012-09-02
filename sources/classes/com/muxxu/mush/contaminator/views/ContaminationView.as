@@ -69,8 +69,8 @@ package com.muxxu.mush.contaminator.views {
 					_mushrooms[i] = new Mushroom();
 					_pseudos[i] = new CharacterTooltip();
 					_pseudos[i].populate(u.getUserAtIndex(i).name);
-					setTimeout(_twinoids[i].populate, i*1 + 5, MD5.hash(u.getUserAtIndex(i).name+"."+u.getUserAtIndex(i).uid), 1);
-					setTimeout(_mushrooms[i].populate, i*1.5 + 5, MD5.hash(u.getUserAtIndex(i).name+"."+u.getUserAtIndex(i).uid), 1);
+					setTimeout(_twinoids[i].populate, i*1 + 5, MD5.hash(u.getUserAtIndex(i).name+"-_-"+u.getUserAtIndex(i).uid), 1);
+					setTimeout(_mushrooms[i].populate, i*1.5 + 5, MD5.hash(u.getUserAtIndex(i).name+"-_-"+u.getUserAtIndex(i).uid), 1);
 					_twinoids[i].addEventListener(InfectionEvent.INFECTED, infectionCompleteHandler);
 				}
 				setTimeout(placeMushrooms, 25);
