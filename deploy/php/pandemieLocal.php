@@ -51,7 +51,7 @@ foreach($userinfos->user->child->spore as $spore)
 		//Fiche d'une personne de la liste des infectés (childs)
 		$dlSpore[] = <<<EOTD
 <dl class='fiche'>
-	<dt><img class="avatar ft100" id="avatar_{$i}" alt="uid_{$i} : {$spore['uid']}" /></dt>
+	<dt><img class="avatar ft100" id="avatar_{$i}" alt="{$spore->name}" /></dt>
 	<dd class='uid' id="uid_{$i}" style="display: none;">{$spore['uid']}</dd>
 	<dd class='pseudo' id="pseudo_{$i}"><a href="?{$userLink}&act=u/{$spore['uid']}">{$spore->name}</a></dd>
 	<dd class='date' id="date_{$i}">{$date}</dd>
@@ -92,7 +92,7 @@ else
 //Init de l'instance de flash
 $js .= <<<EOJS
 function flashReady() {
-	avatar('user', {$id}, '{$pseudo}', {$infected}, true);
+	avatar('user', {$id}, '{$pseudo}', {$infected}, true, false);
 	{$jsPagInit}
 }
 EOJS;
@@ -101,6 +101,7 @@ EOJS;
 $page->addBodyClass('user tablette');
 $page->addScriptFile('js/swfobject.js');
 $page->addScriptFile('js/avatar.b64.js?v=1.2');
+$page->addScriptFile('js/avatarToggle.js?v=1');
 $page->addScript($js);
 
 /*
@@ -117,6 +118,12 @@ $altMainAvatar = <<<EOHTML
 	<p class='userName'>{$pseudoLink}</p>
 	<p class='userStatus'>{$altMainStatus}</p>
 EOHTML;
+
+if($infected == 'true') {
+$altMainAvatar .= <<<EOHTML
+	<img id="toggleAvatar" src="gfx/toggleTwino.png?uid={$id}&name={$pseudo}&infected={$infected}" alt="Basculer l'avatar" />
+EOHTML;
+}
 
 //Tableau des spores
 if(count($dlSpore))

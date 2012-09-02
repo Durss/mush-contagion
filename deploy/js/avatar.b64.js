@@ -18,18 +18,20 @@ swfobject.embedSWF("swf/avatar.swf?v=1.3", "flash", "0", "0", "10.2", "swf/expre
  * @param	uid			(int) identifiant du joueur
  * @param	pseudo		(string) nom du joueur
  * @param	infected	(bool) level du joueur (true == infecté)
+ * @param	hd			(bool) Version haute def ou basse def
+ * @param	overlay		(bool) affichage ou non de l'overlay "archive"
  */
-function avatar(id, uid, pseudo, infected, clikable)
+function avatar(id, uid, pseudo, infected, hd, overlay)
 {
 	var flash = document.getElementById('flash');
 	var img = document.getElementById('avatar_'+id);
-	if(clikable) {
+	if(hd) {
 		img.style.cursor = "pointer";
 		img.onclick = function() {
 			window.open(this.src,'_avatar');
 		}
 	}
-	img.src = "data:image/png;base64,"+flash.getImage(uid, pseudo, infected, clikable);
+	img.src = "data:image/png;base64,"+flash.getImage(uid, pseudo, infected, hd, overlay);
 }
 
 /**
@@ -42,7 +44,7 @@ var timeouts = [];
 function page(f)
 {
 	for(var i = 0; i < timeouts.length; ++i) clearTimeout(timeouts[i]);
-	delay = 0;
+	delay = f * 500;
 	timeouts = [];
 	for(var i= 0; i < table[f].length; i++)
 	{
@@ -76,7 +78,7 @@ function tdUpdate(id, uid, pseudo, infected, date)
 		document.getElementById('avatar_'+id).style.visibility = 'visible';
 		//Si on met une source vide chrome laisse l'ancienne image et le loader de background ne ré-apparait pas :/. Donc on met le bon vieux pixel transparent
 		document.getElementById('avatar_'+id).src = "./gfx/pixel.gif";
-		timeouts.push(setTimeout(avatar, delay, id, uid, pseudo, infected));
+		timeouts.push(setTimeout(avatar, delay, id, uid, pseudo, infected, false));
 		delay += 60;
 		document.getElementById('avatar_'+id).style.cursor = "pointer";
 		document.getElementById('avatar_'+id).onclick = function() {

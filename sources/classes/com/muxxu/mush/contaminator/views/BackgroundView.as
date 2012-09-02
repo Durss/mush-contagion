@@ -1,34 +1,44 @@
 package com.muxxu.mush.contaminator.views {
-	import flash.filters.ColorMatrixFilter;
-	import com.nurun.structure.environnement.configuration.Config;
-	import flash.display.Sprite;
-	import com.nurun.utils.input.keyboard.events.KeyboardSequenceEvent;
-	import com.nurun.utils.input.keyboard.KeyboardSequenceDetector;
-	import com.muxxu.mush.graphics.RocketGraphic;
-	import com.nurun.utils.math.MathUtils;
 	import gs.TweenLite;
 	import gs.easing.Sine;
 
 	import com.innerdrivestudios.visualeffect.WrappingBitmap;
 	import com.muxxu.mush.contaminator.events.LightEvent;
 	import com.muxxu.mush.contaminator.model.Model;
+	import com.muxxu.mush.graphics.CountDownGraphic;
 	import com.muxxu.mush.graphics.GroundBack;
 	import com.muxxu.mush.graphics.MushroomsBmp;
+	import com.muxxu.mush.graphics.RocketGraphic;
 	import com.muxxu.mush.graphics.SkyBmp;
+	import com.nurun.structure.environnement.configuration.Config;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
 	import com.nurun.structure.mvc.views.ViewLocator;
+	import com.nurun.utils.input.keyboard.KeyboardSequenceDetector;
+	import com.nurun.utils.input.keyboard.events.KeyboardSequenceEvent;
+	import com.nurun.utils.math.MathUtils;
 	import com.nurun.utils.pos.PosUtils;
 
 	import flash.display.Bitmap;
+	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.events.Event;
-
+	import flash.filters.ColorMatrixFilter;
+	import flash.filters.DropShadowFilter;
+	import flash.media.Sound;
+	import flash.utils.setTimeout;
+	
 	/**
 	 * 
 	 * @author Francois
 	 * @date 14 janv. 2012;
 	 */
 	public class BackgroundView extends AbstractView {
+		
+		[Embed(source="../../../../../../assets/sounds/fart_short.mp3")]
+		private var _fartShort:Class;
+		[Embed(source="../../../../../../assets/sounds/fart_long.mp3")]
+		private var _fartLong:Class;
 		
 		private var _ground:Bitmap;
 		private var _sky:WrappingBitmap;
@@ -164,7 +174,15 @@ package com.muxxu.mush.contaminator.views {
 		 * Called when a keyboard sequence is detected
 		 */
 		private function keySequenceHandler(event:KeyboardSequenceEvent):void {
-			if(_rocket.currentFrame == 1 && !_result) _rocket.play();
+			if(_rocket.currentFrame == 1 && !_result) {
+				var cd:MovieClip = stage.addChild(new CountDownGraphic()) as MovieClip;
+				cd.scaleX = cd.scaleY = 2;
+				cd.filters = [new DropShadowFilter(0,0,0,1,10,10,1,3)];
+				PosUtils.centerInStage(cd);
+				setTimeout(Sound(new _fartShort()).play, 3000);
+				setTimeout(Sound(new _fartLong()).play, 3100);
+				setTimeout(_rocket.play, 3000);
+			}
 		}
 		
 		/**

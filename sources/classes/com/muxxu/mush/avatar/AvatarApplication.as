@@ -1,6 +1,4 @@
 package com.muxxu.mush.avatar {
-	import com.nurun.utils.bitmap.BitmapUtils;
-	import flash.display.Bitmap;
 	import by.blooddy.crypto.Base64;
 	import by.blooddy.crypto.MD5;
 	import by.blooddy.crypto.image.PNGEncoder;
@@ -8,11 +6,14 @@ package com.muxxu.mush.avatar {
 	import com.muxxu.mush.contaminator.components.MButton;
 	import com.muxxu.mush.generator.mushroom.Mushroom;
 	import com.muxxu.mush.generator.twinoid.Twinoid;
+	import com.muxxu.mush.graphics.ArchiveGraphic;
 	import com.muxxu.mush.graphics.AvatarBaseGraphic;
 	import com.nurun.core.lang.boolean.parseBoolean;
+	import com.nurun.utils.bitmap.BitmapUtils;
 	import com.nurun.utils.pos.PosUtils;
 	import com.nurun.utils.text.CssManager;
 
+	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
@@ -44,6 +45,7 @@ package com.muxxu.mush.avatar {
 		private var _scale:Number;
 		private var _screenshot:Bitmap;
 		private var _screenshotSmall:Bitmap;
+		private var _overlay:ArchiveGraphic;
 		
 		
 		
@@ -90,10 +92,11 @@ package com.muxxu.mush.avatar {
 			
 			CssManager.getInstance().setCss(".button {font-family:Trebuchet, Arial; font-size:14px; color:#cc0000; font-weight:bold; flash-bitmap:true; }");
 
-			_scale = 5;
+			_scale = 1;
 			
 			_holder = addChild(new Sprite()) as Sprite;
 			_back = _holder.addChild(new AvatarBaseGraphic()) as AvatarBaseGraphic;
+			_overlay = new ArchiveGraphic();
 			_button = addChild(new MButton("Télécharger en HD")) as MButton;
 			
 			if(String(loaderInfo.parameters["canDownload"]).toLowerCase() === "false") {
@@ -102,6 +105,7 @@ package com.muxxu.mush.avatar {
 			}
 			
 			_back.scaleX = _back.scaleY = _scale;
+			_overlay.scaleX = _overlay.scaleY = _scale;
 			_button.y = _back.height / _scale + 10;
 			PosUtils.hCenterIn(_button, stage);
 
@@ -119,6 +123,10 @@ package com.muxxu.mush.avatar {
 			_twinoid.setAvatarPosition();
 			if(!infected) _holder.addChild(_twinoid);
 			_twinoid.filters = [new DropShadowFilter(0,135,0,.35,7,7,2,2)];
+			_overlay.filters = [new DropShadowFilter(0,135,0,.35,3,3,1,3)];
+			if(parseBoolean(loaderInfo.parameters["overlay"])) {
+				_holder.addChild(_overlay);
+			}
 			
 			_back.gotoAndStop(infected? 2 : 1);
 			
@@ -155,28 +163,30 @@ package com.muxxu.mush.avatar {
 		/**
 		 * Updates the content
 		 */
-		private function update(uid:String, pseudo:String, infected:Boolean, hd:Boolean = false):void {
+		private function update(uid:String, pseudo:String, infected:Boolean, hd:Boolean = false, overlay:Boolean = false):void {
 			var key:String = MD5.hash(pseudo+"-_-"+uid);
 			
 			while(_holder.numChildren > 0) { _holder.removeChildAt(0); }
-			_scale = hd? 5 : 1.5;
-			_back.scaleX = _back.scaleY = _scale;
-			if(infected) {
-				_mushroom.populate(key, .31 * _scale);
-			}else{
-				_twinoid.populate(key, .31 * _scale);
-			}
-			
-			_mushroom.x = (Math.round((_back.width - _mushroom.getBounds(_mushroom).width) * .5) - _mushroom.getBounds(_mushroom).x);
-			_mushroom.y = (Math.round((_back.height - _mushroom.getBounds(_mushroom).height) * .5) - _mushroom.getBounds(_mushroom).y);
-			
-			_twinoid.x = (Math.round((_back.width - _twinoid.getBounds(_twinoid).width) * .5) - _twinoid.getBounds(_twinoid).x);
-			_twinoid.y = (Math.round((_back.height - _twinoid.getBounds(_twinoid).height) * .5) - _twinoid.getBounds(_twinoid).y);
-			
 			_holder.addChild(_back);
-			_back.gotoAndStop(infected? 2 : 1);
 			if(!infected) _holder.addChild(_twinoid);
 			if(infected) _holder.addChild(_mushroom);
+			if(overlay) _holder.addChild(_overlay);
+			
+			_scale = hd? 5 : 1.5;
+			_back.scaleX = _back.scaleY = _scale;
+			_overlay.scaleX = _overlay.scaleY = _scale;
+			_back.gotoAndStop(infected? 2 : 1);
+			
+			if(infected) {
+				_mushroom.populate(key, .31 * _scale);
+				_mushroom.x = (Math.round((_back.width - _mushroom.getBounds(_mushroom).width) * .5) - _mushroom.getBounds(_mushroom).x);
+				_mushroom.y = (Math.round((_back.height - _mushroom.getBounds(_mushroom).height) * .5) - _mushroom.getBounds(_mushroom).y);
+			}else{
+				_twinoid.populate(key, .31 * _scale);
+				_twinoid.setAvatarPosition();
+				_twinoid.x = (Math.round((_back.width - _twinoid.getBounds(_twinoid).width) * .5) - _twinoid.getBounds(_twinoid).x);
+				_twinoid.y = (Math.round((_back.height - _twinoid.getBounds(_twinoid).height) * .5) - _twinoid.getBounds(_twinoid).y);
+			}
 			
 			var bmd:BitmapData = new BitmapData(_holder.width, _holder.height, true, 0);
 			bmd.draw(_holder);
@@ -190,8 +200,8 @@ package com.muxxu.mush.avatar {
 		/**
 		 * Gets the image's base64 data.
 		 */
-		private function getImage(uid:String, pseudo:String, infected:Boolean, hd:Boolean = false):String {
-			update(uid, pseudo, infected, hd);
+		private function getImage(uid:String, pseudo:String, infected:Boolean, hd:Boolean = false, overlay:Boolean = false):String {
+			update(uid, pseudo, infected, hd, overlay);
 			
 			return Base64.encode(PNGEncoder.encode(_screenshot.bitmapData));
 		}

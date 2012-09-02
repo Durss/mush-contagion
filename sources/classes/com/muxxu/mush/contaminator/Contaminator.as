@@ -27,7 +27,7 @@ package com.muxxu.mush.contaminator {
 	 * @date 7 janv. 2012;
 	 */
 	 
-	[SWF(width="870", height="560", backgroundColor="0x000000", frameRate="31")]
+	[SWF(width="870", height="600", backgroundColor="0x000000", frameRate="31")]
 	[Frame(factoryClass="com.muxxu.mush.contaminator.ContaminatorLoader")]
 	public class Contaminator extends MovieClip {
 		

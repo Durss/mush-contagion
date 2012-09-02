@@ -57,10 +57,10 @@
 			<s><![CDATA[Mais arrête tes caresses;<wait.5 /> ça<br />en devient très...<wait.5 /> très...<wait.5 /> gênant...!<br />			  <sneeze />*ATCHA*<wait1 />]]></s>
 		</label>
 		<label code="cook">
-			<s><![CDATA[* je vais me le faire en omelette *<wait1 /><br />Garde ton clique enfoncé non<br />d'un bollet!<wait2 />]]></s>
+			<s><![CDATA[* je vais me le faire en omelette *<wait1 /><br />Garde ton clique enfoncé non<br />d'un bolet!<wait2 />]]></s>
 		</label>
 		<label code="better">
-			<s><![CDATA[Et ben voilà qui est mieux!<br />Allez, remets moi donc un coup,<br />les prochaines spores sont en<br />partance directe pour tes amis...<br />kr<wait.2 />kr<wait.2 />kr<wait.2 />kr<wait.2 />kr<wait.2 />kr<wait2 />]]></s>
+			<s><![CDATA[Et ben voilà qui est mieux!<br />Allez, remets-moi donc un coup,<br />les prochaines spores sont en<br />partance directe pour tes amis...<br />kr<wait.2 />kr<wait.2 />kr<wait.2 />kr<wait.2 />kr<wait.2 />kr<wait2 />]]></s>
 		</label>
 		
 		<!-- Twinoids dialogs -->
