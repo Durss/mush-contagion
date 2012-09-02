@@ -142,7 +142,7 @@ foreach($chunkFriendsID as $f)
 	$select = false;
 	#echo ++$i;
 	//Sélectionne tous les amis qui ne sont pas encore infectés.
-	if(! $db->selectUsers(1, $f, $max - count($list), $ini['infectCeil']))
+	if(! $db->selectUsers(1, $f, $max - count($list), $ini['infectCeil'],1))
 	{
 		//En cas d'erreur SQL
 		xmlError($root, 'MYSQL_QUERY_FAIL_1');
