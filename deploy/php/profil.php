@@ -24,7 +24,7 @@ $userService = website."php/services/userinfos.php?id={$id}&parent";
 $userinfos = simplexml_load_file($userService, 'SimpleXMLElement', LIBXML_NOCDATA);
 $twinID = (strval($userinfos->user->avatar) != null) ? getTwinID(strval($userinfos->user->avatar)) : false;
 $pseudo = strval($userinfos->user->name);
-$pseudoLink = $twinID ? "<a href='http://twinoid.com/user/{$twinID}' target='twinoid'>{$pseudo}</a>" : $pseudo;
+$pseudoLink = $twinID ? "<a href='http://twinoid.com/user/{$twinID}' target='twinoid'>{$pseudo}</a>" : "<a href='http://muxxu.com/user/{$id}' target='twinoid'>{$pseudo}</a>";
 $infected = (bool) intval($userinfos->user['level']) ? 'true' : 'false';
 $version= "1";
 

@@ -320,3 +320,26 @@ body.user.tablette #spores .date{
 	color: #333;
 	font: 11px Arial, sans-serif;
 }
+/* liens profils internes */
+a[href^="?uid="]:before {
+	content: url("../gfx/notes.gif");
+	width: 16px;
+	height: 16px;
+	margin-right: 3px;
+	vertical-align: -2px;
+}
+/* liens profils twinoid */
+a[href^="http://twinoid.com/user/"]:before{
+	content: url("../gfx/twinoid.png");
+	width: 16px;
+	height: 16px;
+	vertical-align: -4px;
+}
+/* liens profils muxxu */
+a[href^="http://muxxu.com/user/"]:before{
+	content: url("../gfx/muxxu.png");
+	width: 16px;
+	height: 16px;
+	margin-right: 2px;
+	vertical-align: -4px;
+}	
