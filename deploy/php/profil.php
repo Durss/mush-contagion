@@ -40,7 +40,7 @@ $js = <<<EOJS
 	var flashvars = {};
 	flashvars["canDownload"] = "false";
 	swfobject.embedSWF("swf/avatar.swf?v=1.1", "flash", "0", "0", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
-	
+
 	function flashReady() {
 		var flash = document.getElementById('flash');
 		var img = document.getElementById('uAvatar');
@@ -48,13 +48,14 @@ $js = <<<EOJS
 		img.onclick = function() {
 			window.open(this.src,'_avatar');
 		}
-		img.src = "data:image/png;base64,"+flash.getImage({$userVars});
+		img.src = "data:image/png;base64,"+flash.getImage({$userVars}, false);
 	}
 EOJS;
 
 //Paramètres de la page
 $page->addBodyClass('user profil');
 $page->addScriptFile('js/swfobject.js');
+$page->addScriptFile('js/avatarToggle.js?v=1');
 $page->addScript($js);
 /*
  * CONFECTION DES ELEMENTS
@@ -78,6 +79,12 @@ $altMainAvatar = <<<EOHTML
 	<p class='userName'>{$pseudoLink}</p>
 	<p class='userStatus'>{$altMainStatus}</p>
 EOHTML;
+
+if($infected == 'true') {
+$altMainAvatar .= <<<EOHTML
+	<img id="toggleAvatar" src="gfx/toggleTwino.png?uid={$id}&name={$pseudo}&infected={$infected}" alt="Basculer l'avatar" />
+EOHTML;
+}
 
 //Transcodeur mush
 if($id == UID && $infected == 'true'){

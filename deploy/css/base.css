@@ -156,6 +156,11 @@ body.user.profil #ficheProfil {
 	float: left;
 }
 
+#toggleAvatar {
+	float: left;
+	cursor:pointer;
+}
+
 #spores p.userName,#spores p.userStatus,#ficheProfil p.userName,#ficheProfil p.userStatus
 	{
 	text-align: left;

@@ -64,8 +64,8 @@ package com.muxxu.mush.contaminator {
 		 */
 		private function initialize():void {
 			stop();
-			stage.align		= StageAlign.TOP_LEFT;
-			stage.scaleMode	= StageScaleMode.NO_SCALE;
+//			stage.align		= StageAlign.TOP_LEFT;
+//			stage.scaleMode	= StageScaleMode.NO_SCALE;
 			stage.showDefaultContextMenu = false;
 			
 			_backColor		= parseInt(getFV("bgColor", "000000"), 16);
