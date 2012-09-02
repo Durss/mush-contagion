@@ -71,7 +71,8 @@ function tdUpdate(id, uid, pseudo, infected, date)
 	else
 	{
 		document.getElementById('avatar_'+id).style.visibility = 'visible';
-		document.getElementById('avatar_'+id).src = "";
+		//Si on met une source vide chrome laisse l'ancienne image et le loader de background ne ré-apparait pas :/. Donc on met le bon vieux pixel transparent
+		document.getElementById('avatar_'+id).src = "./gfx/pixel.gif";
 		setTimeout(avatar, delay, id, uid, pseudo, infected);
 		delay += 60;
 		document.getElementById('avatar_'+id).style.cursor = "pointer";
