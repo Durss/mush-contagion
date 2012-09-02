@@ -22,7 +22,7 @@ $userService = website."php/services/userinfos.php?id={$id}&pandemie";
 $userinfos = simplexml_load_file($userService, 'SimpleXMLElement', LIBXML_NOCDATA);
 $twinID = (strval($userinfos->user->avatar) != null) ? getTwinID(strval($userinfos->user->avatar)) : false;
 $pseudo = strval($userinfos->user->name);
-$pseudoLink = $twinID ? "<a href='http://twinoid.com/user/{$twinID}' target='twinoid'>{$pseudo}</a>" : $pseudo;
+$pseudoLink = $twinID ? "<a href='http://twinoid.com/user/{$twinID}' target='twinoid'>{$pseudo}</a>" : "<a href='http://muxxu.com/user/{$id}' target='twinoid'>{$pseudo}</a>";
 $infected = (bool) intval($userinfos->user['level']) ? 'true' : 'false';
 $version= "1";
 
@@ -139,7 +139,13 @@ if(count($dlSpore))
 	."<tbody>\n{$tbody}\n</tbody>\n"
 	."</table>\n";
 }
-else $tableSpores = "<p>Personne n'a été touché par les spores de {$pseudo}.</p>";
+else{
+	$tableSpores = "<table id='spores'>\n"
+	."<thead>\n<tr><td colspan='4'>{$altMainAvatar}</td>\n<td colspan='2'>{$pagination}</td></tr></thead>\n"
+	."<tbody>\n\n</tbody>\n"
+	."</table>\n";
+	//$tableSpores = "<p>Personne n'a été touché par les spores de {$pseudo}.</p>";
+}
 
 $page->c = $tableSpores;
 ?>
