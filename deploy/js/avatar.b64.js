@@ -38,9 +38,12 @@ function avatar(id, uid, pseudo, infected, clikable)
  */
 var limit = 5;
 var delay = 0;
+var timeouts = [];
 function page(f)
 {
+	for(var i = 0; i < timeouts.length; ++i) clearTimeout(timeouts[i]);
 	delay = 0;
+	timeouts = [];
 	for(var i= 0; i < table[f].length; i++)
 	{
 		tdUpdate(i, table[f][i][0], table[f][i][1], table[f][i][2], table[f][i][3]);
@@ -73,7 +76,7 @@ function tdUpdate(id, uid, pseudo, infected, date)
 		document.getElementById('avatar_'+id).style.visibility = 'visible';
 		//Si on met une source vide chrome laisse l'ancienne image et le loader de background ne ré-apparait pas :/. Donc on met le bon vieux pixel transparent
 		document.getElementById('avatar_'+id).src = "./gfx/pixel.gif";
-		setTimeout(avatar, delay, id, uid, pseudo, infected);
+		timeouts.push(setTimeout(avatar, delay, id, uid, pseudo, infected));
 		delay += 60;
 		document.getElementById('avatar_'+id).style.cursor = "pointer";
 		document.getElementById('avatar_'+id).onclick = function() {
