@@ -13,7 +13,7 @@ if(!isset($page))
 $id = UID ? UID : null;
 $key = isset($user->key['friends']) ? $user->key['friends'] : null; // NOTE: Et OUI, il ne s'agit pas du pubkey ;)
 
-$version= "1";
+$version= "1.4";
 
 //Paramètres de la page
 $page->addScriptFile('js/swfobject.js');

@@ -28,7 +28,7 @@ $pseudoLink = $twinID ? "<a href='http://twinoid.com/user/{$twinID}' target='twi
 $infected = (bool) intval($userinfos->user['level']) ? 'true' : 'false';
 $version= "1";
 
-$userVars = "{$id}, '{$pseudo}', {$infected}";
+$userVars = "'{$id}', '{$pseudo}', {$infected}";
 
 $js = <<<EOJS
 	//Créé le flash invisible
@@ -94,7 +94,7 @@ if($id == UID && $infected == 'true'){
 			}
 			
 			function decrypt() {
-				document.getElementById("text").value = document.getElementById("content").decrypt(document.getElementById("result").value);
+				document.getElementById("result").value = document.getElementById("content").decrypt(document.getElementById("text").value);
 			}
 			function select_all(target) {
 				target.focus();
@@ -119,7 +119,7 @@ EOJS;
 					<a href="http://get.adobe.com/fr/flashplayer/">Installer flash</a>
 				</div>
 				<textarea class="mushTranscryptor" id="text" onClick="select_all(this);">Utilisez le transcrypteur pour communiquer entre Mushs à l'insu de ces horribles humains.</textarea>
-				<textarea class="mushTranscryptor" id="result" onClick="select_all(this);"></textarea>
+				<textarea class="mushTranscryptor" id="result" readonly="readonly" onClick="select_all(this);"></textarea>
 			</td>
 		</tr>
 EOHTML;

@@ -15,7 +15,7 @@
 	</labels>
 		
 	<vars>
-		<var code="wsPath"><![CDATA[http://localhost/mushcontagion/]]></var>
+		<var code="wsPath"><![CDATA[http://fevermap.org/mushcontagion/]]></var>
 		<var code="ressourcesPath"><![CDATA[./]]></var>
 		<var code="id"><![CDATA[89]]></var>
 	</vars>
@@ -25,8 +25,9 @@
 		<path code="ambiantSounds"><![CDATA[{v_ressourcesPath}sounds/ambiant/]]></path>
 		<path code="infectService"><![CDATA[{v_wsPath}php/services/atchoum.php?id={UID}&key={KEY}&v={v_version}]]></path>
 		<path code="userInfoService"><![CDATA[{v_wsPath}php/services/userinfos.php?id={UID}&key={KEY}&v={v_version}]]></path>
-		<path code="userProfile"><![CDATA[http://muxxu.com/user/{UID}]]></path>
-		<path code="appURL"><![CDATA[http://muxxu.com/a/mushcontagion]]></path>
+		<path code="userProfileMuxxu"><![CDATA[http://muxxu.com/user/{UID}]]></path>
+		<path code="userProfileTwino"><![CDATA[http://twinoid.com/user/{UID}]]></path>
+		<path code="appURL"><![CDATA[http://muxxu.com/a/mush-teasing-beta]]></path>
 	</paths>
 	
 	<dependencies>

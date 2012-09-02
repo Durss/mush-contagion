@@ -107,7 +107,7 @@ package com.muxxu.mush.avatar {
 
 			var infected:Boolean = parseBoolean(loaderInfo.parameters["infected"]);
 			var uid:String = loaderInfo.parameters["uid"] == null ? "89" : loaderInfo.parameters["uid"];
-			var pseudo:String = loaderInfo.parameters["pseudo"] == null ? "durss" : String(loaderInfo.parameters["pseudo"]).toLowerCase();
+			var pseudo:String = loaderInfo.parameters["pseudo"] == null ? "durss" : String(loaderInfo.parameters["pseudo"]);
 			var key:String = MD5.hash(pseudo+"."+uid);
 //			infected = true;
 			_mushroom = new Mushroom();
@@ -156,12 +156,15 @@ package com.muxxu.mush.avatar {
 		 * Updates the content
 		 */
 		private function update(uid:String, pseudo:String, infected:Boolean):void {
-			pseudo = pseudo.toLowerCase();
+			pseudo = pseudo;
 			var key:String = MD5.hash(pseudo+"."+uid);
 			
 			while(_holder.numChildren > 0) { _holder.removeChildAt(0); }
-			_mushroom.populate(key, .31 * _scale);
-			_twinoid.populate(key, .31 * _scale);
+			if(infected) {
+				_mushroom.populate(key, .31 * _scale);
+			}else{
+				_twinoid.populate(key, .31 * _scale);
+			}
 			
 			_holder.addChild(_back);
 			_back.gotoAndStop(infected? 2 : 1);
