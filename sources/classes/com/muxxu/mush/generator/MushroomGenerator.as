@@ -95,7 +95,9 @@ package com.muxxu.mush.generator {
 			_mushroomBig = addChild(new Mushroom()) as Mushroom;
 			_twinoidBig = addChild(new Twinoid()) as Twinoid;
 			_input = addChild(new TextField()) as TextField;
-
+			
+			_avatar.stop();
+			
 			_input.defaultTextFormat = new TextFormat("Arial", 20, 0, true, null, null, null, null, TextFormatAlign.CENTER);
 			_input.border = true;
 			_input.background = true;
@@ -104,7 +106,7 @@ package com.muxxu.mush.generator {
 			_input.width = 300;
 			_input.autoSize = TextFieldAutoSize.NONE;
 			_input.text = "durss.89";
-			_input.restrict = "[0-9][a-z]\.";
+			_input.restrict = "[0-9][a-z][A-Z]\.";
 			
 			_avatar.buttonMode = true;
 			_avatar.x = 200;
@@ -148,7 +150,7 @@ package com.muxxu.mush.generator {
 			_twinoidBig.targeted = 20;
 			_twinoidBig.touch();
 			
-			var key:String = MD5.hash(_input.text.toLowerCase());//uname.uid
+			var key:String = MD5.hash(_input.text);
 			_mushroomSmall.populate(key, .36);
 			_mushroomBig.populate(key, 1.5);
 			_mushroomBig.x = 25;

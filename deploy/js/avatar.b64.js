@@ -10,7 +10,7 @@ params['allowScriptAccess'] = 'always';
 params['menu'] = 'false';
 var flashvars = {};
 flashvars["canDownload"] = "false";//masque le bouton de DL
-swfobject.embedSWF("swf/avatar.swf?v=1", "flash", "0", "0", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
+swfobject.embedSWF("swf/avatar.swf?v=1.2", "flash", "0", "0", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
 
 /**
  * Insertion d'un avatar

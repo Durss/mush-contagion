@@ -1,8 +1,8 @@
 package com.muxxu.mush.contaminator.vo {
-
-	import com.nurun.core.lang.boolean.parseBoolean;
 	import com.nurun.core.collection.Element;
+	import com.nurun.core.lang.boolean.parseBoolean;
 	import com.nurun.core.lang.vo.XMLValueObject;
+	import com.nurun.structure.environnement.configuration.Config;
 	import com.nurun.structure.mvc.vo.ValueObjectElement;
 	
 	/**
@@ -16,6 +16,7 @@ package com.muxxu.mush.contaminator.vo {
 		private var _isFriend:Boolean;
 		private var _name:String;
 		private var _avatar:String;
+		private var _profileURL:String;
 		
 		
 		
@@ -49,6 +50,10 @@ package com.muxxu.mush.contaminator.vo {
 		public function get avatar():String {
 			return _avatar;
 		}
+
+		public function get profileURL():String {
+			return _profileURL;
+		}
 		 
 
 
@@ -64,13 +69,18 @@ package com.muxxu.mush.contaminator.vo {
 			_isFriend = parseBoolean(xml.@isFriend);
 			_name = xml.child("name")[0];
 			_avatar = xml.child("avatar")[0];
+			var tid:String = _avatar.replace(/.+twinoid\/(?:[0-9a-f]\/[0-9a-f]\/[0-9a-f]+_)([1-9][0-9]*)\.jpg$/gi, "$1");
+			var hasTwinoid:Boolean = tid != _avatar;
+			var url:String = hasTwinoid? Config.getPath("userProfileTwino") : Config.getPath("userProfileMuxxu");
+			url = url.replace(/\{UID\}/gi, hasTwinoid? tid : _uid);
+			_profileURL = url;
 		}
 		
 		/**
 		 * Gets a string representation of the value object.
 		 */
 		public function toString():String {
-			return "[User :: uid='"+uid+"', name='"+name+"']";
+			return "[User :: uid='" + uid + "', name='" + name + "']";
 		}
 
 		

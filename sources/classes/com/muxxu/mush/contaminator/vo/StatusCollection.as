@@ -97,13 +97,11 @@ package com.muxxu.mush.contaminator.vo {
 
 		private function parseStatus(status:String):String {
 			var replacements:Array = ["xxx", "yyy", "zzz"];
-			var i:int, len:int, url:String, user:User;
+			var i:int, len:int, user:User;
 			len = _infectedUsers.length;
 			for(i = 0; i < len; ++i) {
 				user = _infectedUsers.getUserAtIndex(i);
-				url = Config.getPath("userProfile");
-				url = url.replace(/\{UID\}/gi, user.uid);
-				status = status.replace(new RegExp("<"+replacements[i]+" ?/>", "gi"), "[lien="+url+"]"+user.name+"[/lien]");
+				status = status.replace(new RegExp("<"+replacements[i]+" ?/>", "gi"), "[lien="+user.profileURL+"]"+user.name+"[/lien]");
 			}
 			return status.replace(/\r\n/gi, "\n").replace(/<link ?\/>/gi, Config.getPath("appURL"));
 		}
