@@ -104,6 +104,7 @@ package com.muxxu.mush.contaminator.components {
 			mouseChildren = false;
 			
 			alpha = 0;
+			visible = false;
 			_reg = new RegExp("</?\w+((\s+\w+(\s*=\s*(?:\".*?\"|'.*?'|[^'\">\s]+))?)+\s*|\s*)/?>", "gi");
 			_tf.multiline = true;
 			filters = [new DropShadowFilter(5,135,0,.5,5,5,1.5,2)];

@@ -59,7 +59,7 @@ package com.muxxu.mush.generator.mushroom {
 			_key = key;
 			_texture.populate(key);
 			_m = new Matrix();
-			_m.scale(_sizeRatio*.01, _sizeRatio*.01);
+			_m.scale(_sizeRatio*(1.2/_texture.width), _sizeRatio*(1.2/_texture.width));
 			update();
 		}
 

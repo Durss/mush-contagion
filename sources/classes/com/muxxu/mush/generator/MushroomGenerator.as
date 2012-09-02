@@ -1,9 +1,6 @@
 package com.muxxu.mush.generator {
-	import com.muxxu.mush.generator.twinoid.Twinoid;
-	import by.blooddy.crypto.image.PNGEncoder;
-	import flash.net.FileReference;
-	import flash.display.BitmapData;
 	import by.blooddy.crypto.MD5;
+	import by.blooddy.crypto.image.PNGEncoder;
 
 	import gs.TweenLite;
 	import gs.easing.Sine;
@@ -13,14 +10,17 @@ package com.muxxu.mush.generator {
 
 	import com.innerdrivestudios.visualeffect.WrappingBitmap;
 	import com.muxxu.mush.generator.mushroom.Mushroom;
+	import com.muxxu.mush.generator.twinoid.Twinoid;
 	import com.muxxu.mush.graphics.AvatarBaseGraphic;
 
 	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.MovieClip;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.filters.DropShadowFilter;
+	import flash.net.FileReference;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFieldType;
@@ -122,6 +122,7 @@ package com.muxxu.mush.generator {
 			
 			stage.addEventListener(MouseEvent.CLICK, clickHandler);
 			_input.addEventListener(Event.CHANGE, changeHandler);
+			_mushroomBig.addEventListener(MouseEvent.CLICK, clickHandler);
 			_avatar.addEventListener(MouseEvent.CLICK, clickHandler);
 			changeHandler();
 		}
@@ -133,6 +134,16 @@ package com.muxxu.mush.generator {
 				var fr:FileReference = new FileReference();
 				fr.save(PNGEncoder.encode(bmd), "avatar.png");
 				event.stopPropagation();
+			}else if (event.currentTarget == _mushroomBig) {
+//				_mushroomBig.hideElements();
+//				var bounds:Rectangle = _mushroomBig.getBounds(_mushroomBig);
+//				var m:Matrix = new Matrix();
+//				m.translate(-bounds.x, -bounds.y);
+//				var bmd:BitmapData = new BitmapData(_mushroomBig.width, _mushroomBig.height, true, 0);
+//				bmd.draw(_mushroomBig, m);
+//				var fr:FileReference = new FileReference();
+//				fr.save(PNGEncoder.encode(bmd), "mushroom.png");
+//				event.stopPropagation();
 			}else{
 				var left:Boolean = Math.random() > .5;
 				_twinoidBig.jump(left);
@@ -152,6 +163,7 @@ package com.muxxu.mush.generator {
 			
 			var key:String = MD5.hash(_input.text);
 			_mushroomSmall.populate(key, .36);
+//			_mushroomBig.populate(key, 4);
 			_mushroomBig.populate(key, 1.5);
 			_mushroomBig.x = 25;
 			_mushroomBig.y = 30;

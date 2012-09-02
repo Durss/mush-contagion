@@ -7,8 +7,6 @@ package com.muxxu.mush.contaminator {
 
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
-	import flash.display.StageAlign;
-	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.filters.DropShadowFilter;
