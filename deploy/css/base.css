@@ -161,6 +161,11 @@ body.user.profil #ficheProfil {
 	cursor:pointer;
 }
 
+table#spores{
+	width: 644px;
+	height: 398px;
+}
+
 #spores p.userName,#spores p.userStatus,#ficheProfil p.userName,#ficheProfil p.userStatus
 	{
 	text-align: left;
