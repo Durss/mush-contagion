@@ -87,6 +87,45 @@ if(UID && FRIENDS_KEY)
 //Paire invalide id/key ou flux friend indisponible
 if(!UID || !FRIENDS_KEY || !$flowOK) xmlFinish($root);
 
+//Ouverture d'une connexion avec la DB
+$db = new mushSQL($mysql_vars, isset($_GET['debug']));
+
+//dernière infection effectuée
+if(! $db->selectLastInfection(UID)) //En cas d'erreur SQL
+{
+	xmlError($userinfos, 'MYSQL_QUERY_FAIL_10', mysql_error());
+	xmlFinish($userinfos);
+}
+
+//Si UID n'a pas encore effectué d'infection
+if(! mysql_num_rows($db->result)) $lastInfection = false;
+else
+{
+	$row = mysql_fetch_assoc($db->result);
+	//Convertir la date en timestamp..
+	date_default_timezone_set('Europe/Paris');
+	$lastInfection = strtotime($row['date']);
+}
+//Controle du délai
+if($lastInfection)
+{
+	//respect du délai
+	if(time() - intval($ini['infectDelay']) >= $lastInfection)
+	{
+		//Délai respecté
+		$wait = intval(0);
+	}
+	else
+	{
+		//Veuillez patienter
+		$wait = $lastInfection + intval($ini['infectDelay']) - time();
+		$delay = $root->addChild('delay');
+		$delay->addAttribute('wait', $wait);
+		$delay->addAttribute('lastInfection', $lastInfection);
+		xmlFinish($root);
+	}
+}
+
 //Dresse la liste des amis pour une requête SQL
 $friendsID = array_keys($friends->list);
 //--mélange
@@ -97,7 +136,6 @@ $chunkFriendsID = array_chunk($friendsID, $ini['queryLimit']);
 $list = Array();
 #$i=0;
 #$temps_debut = microtime(true);
-$db = new mushSQL($mysql_vars, isset($_GET['debug']));
 
 foreach($chunkFriendsID as $f)
 {
