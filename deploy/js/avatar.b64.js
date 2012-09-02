@@ -44,7 +44,7 @@ var timeouts = [];
 function page(f)
 {
 	for(var i = 0; i < timeouts.length; ++i) clearTimeout(timeouts[i]);
-	delay = f * 500;
+	delay = 0;
 	timeouts = [];
 	for(var i= 0; i < table[f].length; i++)
 	{
