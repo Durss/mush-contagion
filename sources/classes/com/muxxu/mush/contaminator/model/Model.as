@@ -86,7 +86,7 @@ package com.muxxu.mush.contaminator.model {
 		 */
 		public function start():void {
 			_playIntro = _so.data["introPlayed"] == undefined;
-			_waitFor = parseInt(XML(DependencyStorage.getInstance().getDependencyById("infos").xml.child("user")[0]).child("delay")[0].@wait);
+			_waitFor = parseInt(XML(DependencyStorage.getInstance().getDependencyById("infos").xml.child("user")[0]).child("delay")[0].@wait) + 1;
 			_start = getTimer();
 			update();
 		}
@@ -171,10 +171,17 @@ package com.muxxu.mush.contaminator.model {
 		 * Called when infection completes
 		 */
 		private function infectCompleteHandler(event:CommandEvent):void {
-			_infectedUsers = new UserCollection();
-			_infectedUsers.populate(event.data as XML);
-			_status.infectedUsers = _infectedUsers;
-			update();
+			var data:XML = event.data as XML;
+			if(data.child("delay").length() > 0) {
+				_waitFor = parseInt(data.child("delay")[0].@wait);
+				throw new ContaminatorError("DELAY_CHEATED");
+//				dispatchLight(LightEvent.CANT_THROW_SPORES);
+			}else{
+				_infectedUsers = new UserCollection();
+				_infectedUsers.populate(XML(event.data).child("infectedUsers")[0]);
+				_status.infectedUsers = _infectedUsers;
+				update();
+			}
 		}
 		
 		

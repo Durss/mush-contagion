@@ -28,7 +28,7 @@ $pseudoLink = $twinID ? "<a href='http://twinoid.com/user/{$twinID}' target='twi
 $infected = (bool) intval($userinfos->user['level']) ? 'true' : 'false';
 $version= "1";
 
-$userVars = "'{$id}', '{$pseudo}', {$infected}";
+$userVars = "'{$id}', '{$pseudo}', {$infected}, true";
 
 $js = <<<EOJS
 	//Créé le flash invisible
@@ -39,11 +39,15 @@ $js = <<<EOJS
 	params['menu'] = 'false';
 	var flashvars = {};
 	flashvars["canDownload"] = "false";
-	swfobject.embedSWF("swf/avatar.swf?v=1", "flash", "0", "0", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
+	swfobject.embedSWF("swf/avatar.swf?v=1.1", "flash", "0", "0", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
 	
 	function flashReady() {
 		var flash = document.getElementById('flash');
 		var img = document.getElementById('uAvatar');
+		img.style.cursor = "pointer";
+		img.onclick = function() {
+			window.open(this.src,'_avatar');
+		}
 		img.src = "data:image/png;base64,"+flash.getImage({$userVars});
 	}
 EOJS;

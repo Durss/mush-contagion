@@ -41,7 +41,7 @@ package com.muxxu.mush.avatar {
 		private var _mushroom:Mushroom;
 		private var _twinoid:Twinoid;
 		private var _button:MButton;
-		private var _scale:int;
+		private var _scale:Number;
 		private var _screenshot:Bitmap;
 		private var _screenshotSmall:Bitmap;
 		
@@ -107,8 +107,8 @@ package com.muxxu.mush.avatar {
 
 			var infected:Boolean = parseBoolean(loaderInfo.parameters["infected"]);
 			var uid:String = loaderInfo.parameters["uid"] == null ? "89" : loaderInfo.parameters["uid"];
-			var pseudo:String = loaderInfo.parameters["pseudo"] == null ? "durss" : String(loaderInfo.parameters["pseudo"]);
-			var key:String = MD5.hash(pseudo+"."+uid);
+			var pseudo:String = loaderInfo.parameters["pseudo"] == null ? "Durss" : String(loaderInfo.parameters["pseudo"]);
+			var key:String = MD5.hash(pseudo+"-_-"+uid);
 //			infected = true;
 			_mushroom = new Mushroom();
 			_mushroom.populate(key, .31 * _scale);
@@ -155,16 +155,23 @@ package com.muxxu.mush.avatar {
 		/**
 		 * Updates the content
 		 */
-		private function update(uid:String, pseudo:String, infected:Boolean):void {
-			pseudo = pseudo;
-			var key:String = MD5.hash(pseudo+"."+uid);
+		private function update(uid:String, pseudo:String, infected:Boolean, hd:Boolean = false):void {
+			var key:String = MD5.hash(pseudo+"-_-"+uid);
 			
 			while(_holder.numChildren > 0) { _holder.removeChildAt(0); }
+			_scale = hd? 5 : 1.5;
+			_back.scaleX = _back.scaleY = _scale;
 			if(infected) {
 				_mushroom.populate(key, .31 * _scale);
 			}else{
 				_twinoid.populate(key, .31 * _scale);
 			}
+			
+			_mushroom.x = (Math.round((_back.width - _mushroom.getBounds(_mushroom).width) * .5) - _mushroom.getBounds(_mushroom).x);
+			_mushroom.y = (Math.round((_back.height - _mushroom.getBounds(_mushroom).height) * .5) - _mushroom.getBounds(_mushroom).y);
+			
+			_twinoid.x = (Math.round((_back.width - _twinoid.getBounds(_twinoid).width) * .5) - _twinoid.getBounds(_twinoid).x);
+			_twinoid.y = (Math.round((_back.height - _twinoid.getBounds(_twinoid).height) * .5) - _twinoid.getBounds(_twinoid).y);
 			
 			_holder.addChild(_back);
 			_back.gotoAndStop(infected? 2 : 1);
@@ -183,8 +190,8 @@ package com.muxxu.mush.avatar {
 		/**
 		 * Gets the image's base64 data.
 		 */
-		private function getImage(uid:String, pseudo:String, infected:Boolean):String {
-			update(uid, pseudo, infected);
+		private function getImage(uid:String, pseudo:String, infected:Boolean, hd:Boolean = false):String {
+			update(uid, pseudo, infected, hd);
 			
 			return Base64.encode(PNGEncoder.encode(_screenshot.bitmapData));
 		}

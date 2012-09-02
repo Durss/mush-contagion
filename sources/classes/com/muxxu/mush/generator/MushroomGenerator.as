@@ -105,8 +105,8 @@ package com.muxxu.mush.generator {
 			_input.autoSize = TextFieldAutoSize.LEFT;
 			_input.width = 300;
 			_input.autoSize = TextFieldAutoSize.NONE;
-			_input.text = "durss.89";
-			_input.restrict = "[0-9][a-z][A-Z]\.";
+			_input.text = "Durss-_-89";
+//			_input.restrict = "[0-9][a-z][A-Z]\.";
 			
 			_avatar.buttonMode = true;
 			_avatar.x = 200;
@@ -148,7 +148,7 @@ package com.muxxu.mush.generator {
 
 		private function changeHandler(event:Event = null):void {
 			_twinoidBig.targeted = 20;
-			_twinoidBig.touch();
+//			_twinoidBig.touch();
 			
 			var key:String = MD5.hash(_input.text);
 			_mushroomSmall.populate(key, .36);

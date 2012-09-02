@@ -95,6 +95,8 @@ package com.muxxu.mush.contaminator.views {
 			if (event.error is ContaminatorError) {
 				var code:String = ContaminatorError(event.error).code;
 				_tf.text = Label.getLabel(code);
+			}else if(event.error is Error){
+				_tf.text = Error(event.error).getStackTrace();
 			}else{
 				_tf.text = event.error;
 			}

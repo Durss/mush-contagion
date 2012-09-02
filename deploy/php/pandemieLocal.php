@@ -92,7 +92,7 @@ else
 //Init de l'instance de flash
 $js .= <<<EOJS
 function flashReady() {
-	avatar('user', {$id}, '{$pseudo}', {$infected});
+	avatar('user', {$id}, '{$pseudo}', {$infected}, true);
 	{$jsPagInit}
 }
 EOJS;
@@ -100,7 +100,7 @@ EOJS;
 //Paramètres de la page
 $page->addBodyClass('user tablette');
 $page->addScriptFile('js/swfobject.js');
-$page->addScriptFile('js/avatar.b64.js?v=1.1');
+$page->addScriptFile('js/avatar.b64.js?v=1.2');
 $page->addScript($js);
 
 /*

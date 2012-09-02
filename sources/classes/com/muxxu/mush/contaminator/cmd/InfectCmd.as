@@ -69,14 +69,14 @@ package com.muxxu.mush.contaminator.cmd {
 			try {
 				var data:XML = new XML(_loader.data);
 			}catch(error:Error) {
-				dispatchEvent(new CommandEvent(CommandEvent.ERROR, "UNKNOWN"));
+				dispatchEvent(new CommandEvent(CommandEvent.ERROR, "Contamination XML badly formated."));
 				return;
 			}
 			
 			if (data.child("error").length() > 0) {
 				dispatchEvent(new CommandEvent(CommandEvent.ERROR, XML(data.child("error").@code).toString()));
 			}else{
-				dispatchEvent(new CommandEvent(CommandEvent.COMPLETE, data.child("infectedUsers")[0]));
+				dispatchEvent(new CommandEvent(CommandEvent.COMPLETE, data));
 			}
 		}
 

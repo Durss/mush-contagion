@@ -5,13 +5,14 @@
 		<!-- Erreurs -->
 		<label code="APP_FULL_INFECTED"><![CDATA[Aucune cible à contaminer n'est disponible pour l'instant.]]></label>
 		<label code="APP_USER_NOT_FOUND"><![CDATA[Aucune personne n'a été enregistrée sous cet identifiant.]]></label>
+		<label code="DELAY_CHEATED"><![CDATA[Dis donc?!<br />T'aurais pas un peu essayé de cheater toi.?<br />Hop là! C'est loggé dans la base de données merci =]]]></label>
 		<!-- Erreur de paramétrage du service -->
 		<label code="GET_INVALID_UID"><![CDATA[Identifiant utilisateur invalide]]></label>
 		<label code="GET_INVALID_KEY"><![CDATA[Clé d'identification invalide]]></label>
 		<!-- Erreur de l'api Muxxu -->
 		<label code="API_MT_ERROR"><![CDATA[Connexion à l'API muxxu échouée.]]></label>
 		<label code="MUXXU_INVALID_XML"><![CDATA[L'API de Muxxu n'a pas retourné de données valides.]]></label>
-		<label code="MUXXU_API_ERROR"/>
+		<label code="MUXXU_API_ERROR"><![CDATA[Muxxu API error!]]></label>
 		<label code="MUXXU_API_NEEDAUTH"><![CDATA[Une autorisation d'accès à vos données privées est requise.]]></label>
 		<label code="MUXXU_API_NULL"><![CDATA[L'API de Muxxu ne retourne aucun résultat.]]></label>
 		<!-- Erreur MySQL -->

@@ -10,7 +10,7 @@ params['allowScriptAccess'] = 'always';
 params['menu'] = 'false';
 var flashvars = {};
 flashvars["canDownload"] = "false";//masque le bouton de DL
-swfobject.embedSWF("swf/avatar.swf?v=1.2", "flash", "0", "0", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
+swfobject.embedSWF("swf/avatar.swf?v=1.3", "flash", "0", "0", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
 
 /**
  * Insertion d'un avatar
@@ -19,11 +19,17 @@ swfobject.embedSWF("swf/avatar.swf?v=1.2", "flash", "0", "0", "10.2", "swf/expre
  * @param	pseudo		(string) nom du joueur
  * @param	infected	(bool) level du joueur (true == infecté)
  */
-function avatar(id, uid, pseudo, infected)
+function avatar(id, uid, pseudo, infected, clikable)
 {
 	var flash = document.getElementById('flash');
 	var img = document.getElementById('avatar_'+id);
-	img.src = "data:image/png;base64,"+flash.getImage(uid, pseudo, infected);
+	if(clikable) {
+		img.style.cursor = "pointer";
+		img.onclick = function() {
+			window.open(this.src,'_avatar');
+		}
+	}
+	img.src = "data:image/png;base64,"+flash.getImage(uid, pseudo, infected, clikable);
 }
 
 /**
@@ -31,8 +37,10 @@ function avatar(id, uid, pseudo, infected)
  * @param	f	(int) offset de référence du tableau
  */
 var limit = 5;
+var delay = 0;
 function page(f)
 {
+	delay = 0;
 	for(var i= 0; i < table[f].length; i++)
 	{
 		tdUpdate(i, table[f][i][0], table[f][i][1], table[f][i][2], table[f][i][3]);
@@ -63,7 +71,13 @@ function tdUpdate(id, uid, pseudo, infected, date)
 	else
 	{
 		document.getElementById('avatar_'+id).style.visibility = 'visible';
-		avatar(id, uid, pseudo, infected);
+		document.getElementById('avatar_'+id).src = "";
+		setTimeout(avatar, delay, id, uid, pseudo, infected);
+		delay += 60;
+		document.getElementById('avatar_'+id).style.cursor = "pointer";
+		document.getElementById('avatar_'+id).onclick = function() {
+			window.open('?'+userLink+'&act=u/'+uid,'_self');
+		}
 		document.getElementById('uid_'+id).innerHTML = uid;
 		document.getElementById('pseudo_'+id).innerHTML = '<a href="?'+userLink+'&act=u/'+uid+'">'+pseudo+'</a>';
 		document.getElementById('date_'+id).innerHTML = date;
