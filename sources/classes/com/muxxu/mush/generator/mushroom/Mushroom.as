@@ -142,6 +142,10 @@ package com.muxxu.mush.generator.mushroom {
 			
 			placeElements();
 		}
+
+		public function hideElements():void {
+			_eyeL.visible = _eyeR.visible = _mouth.visible = false;
+		}
 		
 	}
 }

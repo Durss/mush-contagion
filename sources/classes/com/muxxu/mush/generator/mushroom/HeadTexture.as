@@ -23,7 +23,7 @@ package com.muxxu.mush.generator.mushroom {
 		 * Creates an instance of <code>HeadTexture</code>.
 		 */
 		public function HeadTexture() {
-			super(100,100,false);
+			super(500,500,false);
 			initialize();
 		}
 
@@ -73,7 +73,7 @@ package com.muxxu.mush.generator.mushroom {
 			//Draw texture's circle
 			for(i = 0; i < len; ++i) {
 				gr.beginFill(cColor, 1);
-				w = parseInt(key.substr((i+2)%32,1), 16)/0xf * width*.05 + width * .2;
+				w = parseInt(key.substr((i+2)%32,1), 16)/0xf * width*.015 + width * .2;
 				h = w;//parseInt(key.substr((i+3)%32,1), 16)/0xf * height*.1 + width * .1;
 				
 				px = Math.round(parseInt(key.substr(i%32,1), 16)/0xf * 20)/20 * width;
