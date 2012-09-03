@@ -104,6 +104,7 @@ img.avatar.ft80 {
 }
 
 img.avatar.ft100 {
+	border: none;
 	width: 100px;
 	height: 100px;
 }
@@ -111,6 +112,12 @@ img.avatar.ft100 {
 img.avatar.ft120 {
 	width: 120px;
 	height: 120px;
+}
+
+img.avatar.ftEmpty {
+	width: 100px;
+	height: 100px;
+	visibility:hidden;
 }
 
 /*
@@ -150,6 +157,7 @@ body.user.profil #ficheProfil {
 #spores tbody td { /* border: solid 1px #CCC; */
 	padding: 1px 2px 1px 1px;
 	text-align: center;
+	height:140px;
 }
 
 #spores #avatar_user,#ficheProfil #uAvatar {
@@ -159,6 +167,8 @@ body.user.profil #ficheProfil {
 #toggleAvatar {
 	float: left;
 	cursor:pointer;
+	margin-top:3px;
+	margin-right:4px;
 }
 
 table#spores{
@@ -178,6 +188,20 @@ table#spores{
 	font-style: normal;
 	font-variant: normal;
 	font-weight: normal;
+}
+
+#ficheProfil p.downloadShare {
+	position:relative;
+	left:-125px;
+}
+
+.share {
+	margin-left:30px;
+}
+
+/* CACA ICI !! */
+input {
+	width:50px;
 }
 
 #ficheProfil p.userName:before {
@@ -293,8 +317,16 @@ textarea.mushTranscryptor { /* display: block;
 	font-weight: bold;
 	text-decoration: none;
 	border: none;
+	cursor:pointer;
 	text-shadow: -1px 0 2px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.5),
 		1px 0 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Font size plus petit pour ce connard de firefox qui sait pas gérer le small-caps */
+@-moz-document url-prefix() {
+	.btn {
+		font-size: 10px;
+	}
 }
 
 .btn:hover {
@@ -302,7 +334,7 @@ textarea.mushTranscryptor { /* display: block;
 }
 
 .btn:active {
-	margin: 2px -2px -2px 2px;
+	/*margin: 2px -2px -2px 2px;*/
 }
 
 /* pandemie */

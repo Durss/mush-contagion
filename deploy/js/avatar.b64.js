@@ -38,7 +38,8 @@ function avatar(id, uid, pseudo, infected, hd, overlay)
  * Pagination
  * @param	f	(int) offset de référence du tableau
  */
-var limit = 5;
+var minCols = 6;
+var minRows = 2;
 var delay = 0;
 var timeouts = [];
 function page(f)
@@ -50,9 +51,9 @@ function page(f)
 	{
 		tdUpdate(i, table[f][i][0], table[f][i][1], table[f][i][2], table[f][i][3]);
 	}
-	if(table[f].length < limit)
+	if(table[f].length < minCols*minRows)
 	{
-		for(i; i < limit; i++) tdUpdate(i, 0, "", 0);
+		for(i; i < minCols*minRows; i++) tdUpdate(i, 0, "", 0);
 	}
 }
 

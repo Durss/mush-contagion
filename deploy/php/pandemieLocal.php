@@ -68,6 +68,20 @@ EOTD;
 	}
 	$i++;
 }
+
+//Ajout de cases vides pour que le design soit pas pété
+while(count($dlSpore) < $limit) {
+		$dlSpore[] = <<<EOTD
+<dl class='fiche'>
+	<dt><img class="avatar ftEmpty" id="avatar_{$i}" alt="" /></dt>
+	<dd class='uid' id="uid_{$i}" style="display: none;"></dd>
+	<dd class='pseudo' id="pseudo_{$i}"></dd>
+	<dd class='date' id="date_{$i}"></dd>
+</dl>
+EOTD;
+	$i++;
+}
+
 if(count($aUsers))
 {
 	$aPagi[] = '['.implode(',',$aUsers).']';
@@ -126,7 +140,7 @@ EOHTML;
 }
 
 //Tableau des spores
-if(count($dlSpore))
+if(count($dlSpore) > 0)
 {
 	$tr = array_chunk($dlSpore, $grid['x']);
 	$tbody = null;
@@ -142,7 +156,6 @@ if(count($dlSpore))
 else{
 	$tableSpores = "<table id='spores'>\n"
 	."<thead>\n<tr><td colspan='4'>{$altMainAvatar}</td>\n<td colspan='2'>{$pagination}</td></tr></thead>\n"
-	."<tbody>\n\n</tbody>\n"
 	."</table>\n";
 	//$tableSpores = "<p>Personne n'a été touché par les spores de {$pseudo}.</p>";
 }
