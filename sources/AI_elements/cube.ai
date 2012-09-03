@@ -1,0 +1,117 @@
+%!PS-Adobe-3.0 
+%%Creator: Adobe Illustrator(r) 6.0
+%%For: (Macromedia Flash) ()
+%%Title: (C:\Users\Guillaume\workspace\mushcontagion\MushContagion\sources\AI_elements\cube.ai)
+%%CreationDate: (09/03/12) (14:25:54)
+%%BoundingBox: 0 0 175 79
+%%HiResBoundingBox: 0.0 0.0 174.5 78.0
+%%DocumentProcessColors: Cyan Magenta Yellow Black
+%%DocumentNeededResources: procset Adobe_level2_AI5 1.0 0
+%%+ procset Adobe_screens_AI5 1.0 0
+%%+ procset Adobe_typography_AI5 1.0 0
+%%+ procset Adobe_blend_AI5 1.0 0
+%%+ procset Adobe_Illustrator_AI6_vars Adobe_Illustrator_AI6
+%%+ procset Adobe_Illustrator_AI5 1.0 0
+%AI5_FileFormat 2.0
+%AI3_ColorUsage: Color
+%AI3_TemplateBox: 306 396 306 396
+%AI3_TileBox: 58 -541 892 23
+%AI3_DocumentPreview: None
+%%EndComments
+%%BeginProlog
+%%IncludeResource: procset Adobe_level2_AI5 1.0 0
+%%IncludeResource: procset Adobe_screens_AI5 1.0 0
+%%IncludeResource: procset Adobe_typography_AI5 1.0 0
+%%IncludeResource: procset Adobe_blend_AI5 1.0 0
+%%IncludeResource: procset Adobe_Illustrator_AI6_vars Adobe_Illustrator_AI6
+%%IncludeResource: procset Adobe_Illustrator_AI5 1.0 0
+%%EndProlog
+%%BeginSetup
+Adobe_level2_AI5 /initialize get exec
+Adobe_screens_AI5 /initialize get exec
+Adobe_Illustrator_AI5_vars Adobe_Illustrator_AI5 Adobe_typography_AI5 /initialize get exec
+Adobe_Illustrator_AI5_vars Adobe_Illustrator_AI5 Adobe_blend_AI5 /initialize get exec
+Adobe_ColorImage_AI6 /initialize get exec
+Adobe_Illustrator_AI5 /initialize get exec
+2 Bn
+%AI5_BeginGradient: (blend 2)
+(blend 2) 0 2 Bd
+[
+ 0.000 0.337 0.569 0.380 1 50 100.000 %_Bs
+ 0.000 0.373 0.698 0.235 1 50 0.000 %_Bs
+BD
+%AI5_EndGradient
+%AI5_BeginGradient: (blend 1)
+(blend 1) 0 2 Bd
+[
+ 0.000 0.173 0.643 0.071 1 50 100.000 %_Bs
+ 0.000 0.078 0.576 0.008 1 50 0.000 %_Bs
+BD
+%AI5_EndGradient
+%%EndSetup
+u
+*u
+0.000 0.286 0.400 0.565 k
+80.0 2.0 m
+80.0 78.0 L
+0.0 78.0 L
+0.0 2.0 L
+80.0 2.0 L
+f
+78.0 76.0 m
+78.0 4.0 L
+2.0 4.0 L
+2.0 76.0 L
+78.0 76.0 L
+f
+*U
+*u
+78.0 4.0 m
+78.0 76.0 L
+2.0 76.0 L
+2.0 4.0 L
+78.0 4.0 L
+Bb
+0 0 0 0 Bh
+1 (blend 1) -819.2 0.0 0 1638.4 0.0000 0.0458 -0.0488 0.0000 4284.250 4492.700 Bg
+f
+0 BB
+*U
+*u
+0.000 0.286 0.400 0.565 k
+174.5 76.0 m
+94.5 76.0 L
+94.5 0.0 L
+174.5 0.0 L
+174.5 76.0 L
+f
+96.5 74.0 m
+172.5 74.0 L
+172.5 2.0 L
+96.5 2.0 L
+96.5 74.0 L
+f
+*U
+*u
+172.5 74.0 m
+96.5 74.0 L
+96.5 2.0 L
+172.5 2.0 L
+172.5 74.0 L
+Bb
+0 0 0 0 Bh
+1 (blend 2) -819.2 0.0 0 1638.4 0.0000 0.0458 -0.0488 0.0000 4378.750 4494.750 Bg
+f
+0 BB
+*U
+U
+%%PageTrailer
+gsave annotatepage grestore showpage
+%%Trailer
+Adobe_Illustrator_AI5 /terminate get exec
+Adobe_ColorImage_AI6 /terminate get exec
+Adobe_blend_AI5 /terminate get exec
+Adobe_typography_AI5 /terminate get exec
+Adobe_screens_AI5 /terminate get exec
+%Adobe_level2_AI5 /terminate get exec
+%%EOF
