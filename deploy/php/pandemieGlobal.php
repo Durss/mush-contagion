@@ -6,35 +6,43 @@ require_once('php/class/mushSQL.php');
 
 $db = new mushSQL($mysql_vars,1);
 
+$page->addBodyClass('warning');
+
 $db->countRealUsers();
 if($db->result)
 {
 	$row = mysql_fetch_assoc($db->result);
-	$stats[] = "Nombre de personnes suceptibles d'avoir approché le mush : <strong>{$row['countRealUsers']}</strong>";
+	$pl1 = $row['countRealUsers'] > 1 ? 's ont' : ' a';
+	
+	$countRealUsers= "<strong>{$row['countRealUsers']}</strong>&nbsp;personne{$pl1}";
 }
-else $stats[] = "Impossible d'établir le nombre de personnes ayant approché le mush.";
+else $countRealUsers = "certaines personnes ont";
 	
 $db->countInfectedUsers();
 if($db->result)
 {
 	$row = mysql_fetch_assoc($db->result);
-	$stats[] = "Nombre de personnes contaminées par le spore : <strong>{$row['countInfectedUsers']}</strong>";
+	$pl2 = $row['countInfectedUsers'] > 1 ? 's' : null;
+	$countInfectedUsers = "déplore déjà <strong>{$row['countInfectedUsers']}</strong>&nbsp;victime{$pl2}, et ce nombre";
 }
-else $stats[] = "Impossible d'établir le nombre de personnes touchées par le spore.";
+else $countInfectedUsers= "ignore combien le mush a pu faire de victimes, mais cela ";
 
 $db->countUsers();
 if($db->result)
 {
 	$row = mysql_fetch_assoc($db->result);
-	
-	$stats[] = "Envergure probable de la pandémie : <strong>{$row['countUsers']}</strong>";
+	$pl3 = $row['countUsers'] > 1 ? 's' : null;
+	$countUsers = "passer à <strong>{$row['countUsers']}</strong>";
 }
-else $stats[] = "Détail statistique indisponible.";
+else $countUsers = "devenir ingérable";
 	
 $db->__destruct();
-	
-if(count($stats)) $stats = "<dl>\n\t<dd>".implode("</dd>\n\t<dd>", $stats)."</dd>\n</dl>";
-else $stats = false;
 
-if($stats) $page->c .= $stats;
+$page->c .= <<<EOTXT
+<div id="affiche">
+<h1>PRUDENCE !</h1>
+<p>Par inconscience, {$countRealUsers} approché un spécimen mush extrèmement
+volatile et contagieux. On {$countInfectedUsers} pourrait vite {$countUsers}&nbsp;!</p>
+</div>
+EOTXT;
 ?>

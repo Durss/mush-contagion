@@ -347,4 +347,27 @@ a[href^="http://muxxu.com/user/"]:before{
 	height: 16px;
 	margin-right: 2px;
 	vertical-align: -4px;
-}	
+}
+
+body.warning {
+	background: #e0d2c1 url("../gfx/warning.jpg") no-repeat top center;
+}
+body.warning #affiche{
+display: block;
+width: 866px;
+height: 100px;
+margin: 204px auto 0 auto;
+}
+body.warning #affiche h1{
+margin: 0 0 0 108px;
+font: bold 18px Trebuchet MS, Arial, sans-serif;
+color: #c62209;
+text-shadow: 1px 1px 1px #000;
+}
+body.warning #affiche p{
+margin: 2px 0 0 90px;
+width: 152px;
+font: 11px/16px Arial, sans-serif;
+text-align: justify;
+color: #222;
+}
