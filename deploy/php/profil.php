@@ -44,9 +44,10 @@ $js = <<<EOJS
 	function flashReady() {
 		var flash = document.getElementById('flash');
 		var img = document.getElementById('uAvatar');
+		var dlBtn =document.getElementById('avatarDownload');
 		img.style.cursor = "pointer";
-		img.onclick = function() {
-			window.open(this.src,'_avatar');
+		img.onclick = dlBtn.onclick = function() {
+			window.open(document.getElementById('uAvatar').src,'_blank');
 		}
 		img.src = "data:image/png;base64,"+flash.getImage({$userVars}, false);
 	}
@@ -78,6 +79,7 @@ $altMainAvatar = <<<EOHTML
 	<img id="uAvatar" class="avatar ft120" alt="{$pseudo}"/>
 	<p class='userName'>{$pseudoLink}</p>
 	<p class='userStatus'>{$altMainStatus}</p>
+	<p class='downloadShare'>
 EOHTML;
 
 if($infected == 'true') {
@@ -85,6 +87,10 @@ $altMainAvatar .= <<<EOHTML
 	<img id="toggleAvatar" src="gfx/toggleTwino.png?uid={$id}&name={$pseudo}&infected={$infected}" alt="Basculer l'avatar" />
 EOHTML;
 }
+
+$altMainAvatar .= <<<EOHTML
+<input type="submit" class="btn" value="Télécharger" id="avatarDownload" /><span class="share">Partager : <input type="text"></input></span></p>
+EOHTML;
 
 //Transcodeur mush
 if($id == UID && $infected == 'true'){
