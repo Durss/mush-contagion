@@ -6,7 +6,7 @@
 
 define('baseURL','../../');
 
-//ComplÃ©ments de base
+//Compléments de base
 require(baseURL.'php/msg.php');
 require(baseURL.'c/config.php');
 require(baseURL.'php/func/pReturn.php');
@@ -31,28 +31,28 @@ require(baseURL.'php/class/dto/user.php');
  */
 $ini = parse_ini_file(baseURL.'params.ini');
 
-//Fichier XML de rÃ©fÃ©rence
+//Fichier XML de référence
 $base = website.'/xml/userinfos.xml';
 //Intanciation de l'objet XML
 $userinfos = new SimpleXMLElement($base, 0, 1);
 
-//Initialise la connexion Ã  l'API
+//Initialise la connexion à l'API
 $api = new mtlib(appName, privKey);
 
-//VÃ©rifie les coordonnÃ©es
+//Vérifie les coordonnées
 //--identifiant utilisateur
 if(isset($_GET['id']) && $api->is_id($_GET['id']))
 {
 	define('UID', intval($_GET['id']));
 }
-//--identifiant erronÃ©
+//--identifiant erroné
 else
 {
 	define('UID', false);
 	xmlError($userinfos, 'GET_INVALID_UID');
 }
 
-//--Option de pandÃ©mie
+//--Option de pandémie
 define('PARENT_INFOS', (bool) isset($_GET['parent']));
 define('FULL_INFOS', (bool) isset($_GET['pandemie']));
 
@@ -66,24 +66,24 @@ if(! $db->selectUsers(1, array(UID), '1')) //En cas d'erreur SQL
 	xmlFinish($userinfos);
 }
 
-//Si UID ne correspond pas Ã  un utilisateur connu de prÃ¨s ou de loin
+//Si UID ne correspond pas à un utilisateur connu de près ou de loin
 if(! mysql_num_rows($db->result))
 {
 	xmlError($userinfos, 'APP_USER_NOT_FOUND');
 	xmlFinish($userinfos);
 }
 
-//DÃ©ploiement des donnÃ©es
+//Déploiement des données
 $userData = mysql_fetch_assoc($db->result);
 
-//derniÃ¨re infection effectuÃ©e
+//dernière infection effectuée
 if(! $db->selectLastInfection(UID)) //En cas d'erreur SQL
 {
 	xmlError($userinfos, 'MYSQL_QUERY_FAIL_10', mysql_error());
 	xmlFinish($userinfos);
 }
 
-//Si UID n'a pas encore effectuÃ© d'infection
+//Si UID n'a pas encore effectué d'infection
 if(! mysql_num_rows($db->result)) $lastInfection = false;
 else
 {
@@ -93,7 +93,7 @@ else
 	$lastInfection = strtotime($row['date']);
 }
 
-//Si le dÃ©tail du parent est demandÃ©
+//Si le détail du parent est demandé
 if(PARENT_INFOS || FULL_INFOS)
 {
 	//init
@@ -108,13 +108,13 @@ if(PARENT_INFOS || FULL_INFOS)
 		}
 		elseif(mysql_num_rows($db->result))
 		{
-			//DÃ©ploiement des parents
+			//Déploiement des parents
 			while($row = mysql_fetch_assoc($db->result)) $parentData[] = $row;
 		}
 	}
 }
 
-//Si une information complÃ¨te est demandÃ©e
+//Si une information complète est demandée
 if(FULL_INFOS)
 {
 	//init
@@ -127,19 +127,19 @@ if(FULL_INFOS)
 	}
 	elseif(mysql_num_rows($db->result))
 	{
-		//DÃ©ploiement des childs
+		//Déploiement des childs
 		while($row = mysql_fetch_assoc($db->result)) $childData[] = $row;
 	}
 }
 
-//DÃ©connexion de la base.
+//Déconnexion de la base.
 $db->__destruct();
 
 /*
  * Finitions du XML
  */
 
-//ElÃ©ment <userinfos><user>
+//Elément <userinfos><user>
 $user = $userinfos->addChild('user');
 $user->addAttribute('uid', UID);
 $user->addAttribute('level', $userData['infected']);
@@ -149,10 +149,10 @@ $user->addChild('avatar', $userData['avatar']);
 
 if($lastInfection)
 {
-	//respect du dÃ©lai
+	//respect du délai
 	if(time() - intval($ini['infectDelay']) > $lastInfection)
 	{
-		//DÃ©lai respectÃ©
+		//Délai respecté
 		$wait = intval(0);
 	}
 	else
