@@ -23,7 +23,7 @@ require('../func/xmlError.php');
 require('../func/xmlFinish.php');
 
 //Fichier XML de référence
-$base = website.'/xml/stats.xml';
+$base = website.'xml/stats.xml';
 //Intanciation de l'objet XML
 $xml = new SimpleXMLElement($base, 0, 1);
 
