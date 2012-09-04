@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!-- definition of simple type elements -->
+	
+<!-- definition of attributes -->
+	<xsd:attribute name="label" type="xsd:string" />
+	
+<!-- definition of complex type elements -->
+	<xsd:element name="stats">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="d" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>	
+	<xsd:element name="d">
+		<xsd:complexType mixed="true">
+			<xsd:attribute ref="label" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+	
+<!-- definition of restricted type -->
+
+</xsd:schema>
