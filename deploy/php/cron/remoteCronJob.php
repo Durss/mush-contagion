@@ -2,7 +2,7 @@
 /*
  * Relevé des statistiques
  */
-define('DEVMODE', false);
+define('DEVMODE', true);
 define('URL', 'http://fevermap.org/mushcontagion/php/cron/stat.php');
 
 //Filtre CRON-JOB
