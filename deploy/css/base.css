@@ -192,7 +192,7 @@ table#spores{
 
 #ficheProfil p.downloadShare {
 	position:relative;
-	left:-125px;
+	left:-125px; /* !!!! */
 }
 
 .share {
@@ -334,7 +334,7 @@ textarea.mushTranscryptor { /* display: block;
 }
 
 .btn:active {
-	/*margin: 2px -2px -2px 2px;*/
+	/*margin: 2px -2px -2px 2px;*/ /* !!!! */
 }
 
 /* pandemie */

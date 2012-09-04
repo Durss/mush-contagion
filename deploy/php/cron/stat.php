@@ -13,12 +13,19 @@ if(!DEVMODE && !isset($_SERVER['CRON_ID']))
 
 //init
 define('STAT_DELAY', 60*60); //secondes
-$stat = $print = array();
 
 require_once('../../c/config.php');
 require_once('../../c/mysql.php');
 require_once('../class/mysqlManager.php');
 require_once('../class/mushSQL.php');
+
+require('../func/xmlError.php');
+require('../func/xmlFinish.php');
+
+//Fichier XML de référence
+$base = website.'/xml/stats.xml';
+//Intanciation de l'objet XML
+$xml = new SimpleXMLElement($base, 0, 1);
 
 $db = new mushSQL($mysql_vars, DEVMODE);
 
@@ -31,14 +38,13 @@ if($db->result)
 	//Vérifier le délai : Comparer la date
 	if($row)
 	{
-		$lastDate = intval($row['date']);
-		$print[] = "lastDate : <strong>{$row['date']}</strong>";
+		date_default_timezone_set('Europe/Paris');
+		$lastDate = strtotime($row['date']);
+		$xml_lastDate = $xml->addChild('d',$lastDate);
 	}
-	else
-	{
-		$lastDate = 0;
-		$print[] = "lastDate : <i>no-record</i>";
-	}
+	else $xml_lastDate = $xml->addChild('d', 'no-record');
+	
+	$xml_lastDate->addAttribute('label', 'selectLastStatDate');
 	
 	//Délai respecté
 	if(time()-STAT_DELAY >= $lastDate)
@@ -48,38 +54,46 @@ if($db->result)
 		{
 			$row = mysql_fetch_assoc($db->result);
 			$realUsers = $row['countRealUsers'];
-			$print[] = "realUsers : <strong>{$row['countRealUsers']}</strong>";
+			$xml_realUsers = $xml->addChild('d',$row['countRealUsers']);
 		}
-		else $print[] = "/!\\ realUsers";
+		else $xml_realUsers = $xml->addChild('d', 'no-result');
+		
+		$xml_realUsers->addAttribute('label', 'countRealUsers');
 			
 		$db->countInfectedUsers();
 		if($db->result)
 		{
 			$row = mysql_fetch_assoc($db->result);
 			$infect = $row['countInfectedUsers'];
-			$print[] = "infect : <strong>{$row['countInfectedUsers']}</strong>";
+			$xml_infect = $xml->addChild('d',$row['countInfectedUsers']);
 		}
-		else $print[] = "/!\\ infect";
+		else $xml_infect = $xml->addChild('d', 'no-result');
+		
+		$xml_infect->addAttribute('label', 'countInfectedUsers');
 		
 		$db->countUsers();
 		if($db->result)
 		{
 			$row = mysql_fetch_assoc($db->result);
 			$users = $row['countUsers'];
-			$print[] = "users : <strong>{$row['countUsers']}</strong>";
+			$xml_users = $xml->addChild('d',$row['countUsers']);
 		}
-		else $print[] = "/!\\ users";
+		else $xml_users = $xml->addChild('d', 'no-result');
+		
+		$xml_users->addAttribute('label', 'countUsers');
 		
 		//MAJ des données
 		$db->insertStat($realUsers, $users, $infect);
 	}
 }
-else $print[] = "/!\\ date";
+else {
+	$xml_lastDate = $xml->addChild('d', 'no-result');
+	$xml_lastDate->addAttribute('label', 'selectLastStatDate');
+}
 
 $db->__destruct();
-	
-if(count($print)) $print = "<dl>\n\t<dd>".implode("</dd>\n\t<dd>", $print)."</dd>\n</dl>";
-else $print = false;
 
-if(DEVMODE) echo $print;
+xmlFinish($xml);
+
+//if(DEVMODE) echo $print;
 ?>
