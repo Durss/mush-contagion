@@ -44,12 +44,22 @@ $js = <<<EOJS
 	function flashReady() {
 		var flash = document.getElementById('flash');
 		var img = document.getElementById('uAvatar');
+		var imgSwitch = document.getElementById('switch2');
+		img.src = "data:image/png;base64,"+flash.getImage({$userVars}, false);
+		if(imgSwitch){
+			imgSwitch.src = "gfx/switch2Cube.png"+imgSwitch.getAttribute('tmp');
+		}
+		
 		var dlBtn =document.getElementById('avatarDownload');
 		img.style.cursor = "pointer";
 		img.onclick = dlBtn.onclick = function() {
 			window.open(document.getElementById('uAvatar').src,'_blank');
 		}
-		img.src = "data:image/png;base64,"+flash.getImage({$userVars}, false);
+	}
+	
+	function select_all(target) {
+		target.focus();
+		target.select();
 	}
 EOJS;
 
@@ -71,26 +81,42 @@ if(isset($userinfos->user->parent->spore)){
 	$dateInfection = dateRelative(intval($userinfos->user->parent->spore['ts']));
 }
 
+//quickMisc
+$quickMisc = array();
+//Switch-avatar
+$switchData = "?uid={$id}&name={$pseudo}&infected={$infected}";
+$switch = ($infected == 'true') ? "<img id='switch2' tmp='{$switchData}'/>" : null;
+$switchON = ($infected == 'true') ? 'sw_on' : 'sw_off';
+/*
+if($infected == 'true') {
+$quickMisc[] = <<<EOEL
+	<img id="toggleAvatar" src="gfx/toggleTwino.png?uid={$id}&name={$pseudo}&infected={$infected}" alt="Basculer l'avatar" />
+EOEL;
+}
+*/
+$quickMisc[] = '<button class="btn" id="avatarDownload"><img src="gfx/dl.png" width="16" height="16" alt="" /> Avatar HD</button>';
+//$quickMisc[] = '<img src="gfx/link2.gif" width="16" height="16" alt="Partager" />';
+
+$quickMisc = count($quickMisc) ? implode("\n",$quickMisc) : null;
+
 $altMainAvatar = <<<EOHTML
 	<div id="flash">
 		<p>Afin de visualiser cette page, vous devez activer JavaScript et Flash Player 10.2+</p>
 		<a href="http://get.adobe.com/fr/flashplayer/">Installer flash</a>
 	</div>
-	<img id="uAvatar" class="avatar ft120" alt="{$pseudo}"/>
+	<img id="uAvatar" class="avatar ft120 {$switchON}" alt="{$pseudo}"/>
+	{$switch}
 	<p class='userName'>{$pseudoLink}</p>
 	<p class='userStatus'>{$altMainStatus}</p>
+	<p class='quickMisc'>{$quickMisc}</p>
+	<!--
 	<p class='downloadShare'>
+		<input type="submit" class="btn" value="Télécharger" id="avatarDownload" />
+		<span class="share">Partager : <input type="text"/></span>
+	</p>
+	-->
 EOHTML;
 
-if($infected == 'true') {
-$altMainAvatar .= <<<EOHTML
-	<img id="toggleAvatar" src="gfx/toggleTwino.png?uid={$id}&name={$pseudo}&infected={$infected}" alt="Basculer l'avatar" />
-EOHTML;
-}
-
-$altMainAvatar .= <<<EOHTML
-<input type="submit" class="btn" value="Télécharger" id="avatarDownload" /><span class="share">Partager : <input type="text"></input></span></p>
-EOHTML;
 
 //Transcodeur mush
 if($id == UID && $infected == 'true'){
@@ -113,10 +139,6 @@ if($id == UID && $infected == 'true'){
 			function decrypt() {
 				document.getElementById("result").value = document.getElementById("content").decrypt(document.getElementById("text").value);
 			}
-			function select_all(target) {
-				target.focus();
-				target.select();
-			}
 EOJS;
 	$page->addScript($js);
 	$mushTranscryptor = <<<EOHTML
@@ -124,8 +146,8 @@ EOJS;
 			<td colspan="2" class="TM_menu">
 				<span>Transcrypteur Mush :</span>
 				<img src="gfx/fleche-UR.png" alt="" width="21" height="21" />
-				<input type="submit" class="btn" value="Crypter" onClick="encrypt()" />
-				<input type="submit" class="btn" value="Décrypter" onClick="decrypt()" />
+				<input type="submit" class="btn" value="Crypter" onclick="encrypt()" />
+				<input type="submit" class="btn" value="Décrypter" onclick="decrypt()" />
 				<img src="gfx/fleche-RD.png" alt="" width="21" height="21" />
 			</td>
 		</tr>
@@ -136,20 +158,23 @@ EOJS;
 					<a href="http://get.adobe.com/fr/flashplayer/">Installer flash</a>
 				</div>
 				<textarea class="mushTranscryptor" id="text" onClick="select_all(this);">Utilisez le transcrypteur pour communiquer entre Mushs à l'insu de ces horribles humains.</textarea>
-				<textarea class="mushTranscryptor" id="result" readonly="readonly" onClick="select_all(this);"></textarea>
+				<textarea class="mushTranscryptor" id="result" readonly="readonly" onclick="select_all(this);"></textarea>
 			</td>
 		</tr>
 EOHTML;
 }
 else $mushTranscryptor = null;
 
-
+/*
+$refLink = "http://muxxu.com/a/".appName."/?act=u/{$id}"; 
+				<dt>Référence du dossier</dt><dd><input type="text" value="{$refLink}" readonly="readonly" onclick="select_all(this);" /></dd>
+*/
 $fiche = <<<EOHTML
 <div id='ficheProfil'>
 	<table class="diagnostic">
 		<tr>
 			<td class="fCol">{$altMainAvatar}</td>
-			<td><dl>
+			<td class="dCol l2"><dl id="details">
 				<dt>Origine présumée de l'infection</dt><dd>{$parentName}</dd>
 				<dt>Date probable de l'incubation</dt><dd>{$dateInfection}</dd>
 			</dl></td>

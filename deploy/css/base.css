@@ -79,6 +79,7 @@ body.beta textarea {
  * Avatar
  */
 img.avatar {
+	border: none;
 	display: block;
 	background: transparent url('../gfx/loader.gif') center center no-repeat;
 }
@@ -104,7 +105,6 @@ img.avatar.ft80 {
 }
 
 img.avatar.ft100 {
-	border: none;
 	width: 100px;
 	height: 100px;
 }
@@ -140,35 +140,27 @@ body.user.tablette #spores {
 }
 
 body.user.profil #ficheProfil {
-	background: transparent url('../gfx/grille-profil.png') -117px -150px
-		no-repeat;
+	background: transparent url('../gfx/grille-profil.png?v=1') -127px -150px no-repeat;
 	display: block;
 	/* border: solid 1px red; */
-	width: 610px;
+	width: 620px;
 	height: 430px;
 	margin: 150px auto auto auto;
-	padding: 0 24px;
+	padding: 0 4px;
 }
 
 #ficheProfil table.diagnostic td.fCol {
-	width: 390px;
+	width: 400px;
 }
 
 #spores tbody td { /* border: solid 1px #CCC; */
 	padding: 1px 2px 1px 1px;
 	text-align: center;
-	height:140px;
+	/* @durss: height:140px; */
 }
 
 #spores #avatar_user,#ficheProfil #uAvatar {
 	float: left;
-}
-
-#toggleAvatar {
-	float: left;
-	cursor:pointer;
-	margin-top:3px;
-	margin-right:4px;
 }
 
 table#spores{
@@ -189,7 +181,7 @@ table#spores{
 	font-variant: normal;
 	font-weight: normal;
 }
-
+/* @durss: 
 #ficheProfil p.downloadShare {
 	position:relative;
 	left:-125px; /* !!!! */
@@ -198,12 +190,12 @@ table#spores{
 .share {
 	margin-left:30px;
 }
-
-/* CACA ICI !! */
+*/
+/* @durss: CACA ICI !!
 input {
 	width:50px;
 }
-
+*/
 #ficheProfil p.userName:before {
 	content: "Nom du sujet : ";
 	font-size: 12px;
@@ -219,19 +211,15 @@ input {
 	font-variant: normal;
 	font-weight: normal;
 }
-
-#spores .ft80+p,#spores .ft80+p+p,#ficheProfil .ft80+p,#ficheProfil .ft80+p+p
-	{
-	margin-left: 95px;
+#spores p.userParent:before {
+	content: "Souche de l'infection : ";
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
 }
 
-#spores .ft100+p,#spores .ft100+p+p,#ficheProfil .ft100+p,#ficheProfil .ft100+p+p
-	{
-	margin-left: 115px;
-}
-
-#spores .ft120+p,#spores .ft120+p+p,#ficheProfil .ft120+p,#ficheProfil .ft120+p+p
-	{
+p.userName, p.userStatus, p.quickMisc {
 	margin-left: 135px;
 }
 
@@ -305,8 +293,8 @@ textarea.mushTranscryptor { /* display: block;
 
 .btn {
 	display: inline-block;
-	background: url("../gfx/btnbg.png") left top no-repeat;
-	width: 90px;
+	background: url("../gfx/btnbg.png?v=1") left top no-repeat;
+	width: 115px;
 	height: 21px;
 	text-align: center;
 	font-variant: small-caps;
@@ -317,9 +305,16 @@ textarea.mushTranscryptor { /* display: block;
 	font-weight: bold;
 	text-decoration: none;
 	border: none;
-	cursor:pointer;
+	vertical-align: 0;
+/* @durss: 	cursor:pointer; */
 	text-shadow: -1px 0 2px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.5),
 		1px 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.btn img {
+	width: 16px;
+	height: 16px;
+	vertical-align: -3px;
 }
 
 /* Font size plus petit pour ce connard de firefox qui sait pas gérer le small-caps */
@@ -330,11 +325,11 @@ textarea.mushTranscryptor { /* display: block;
 }
 
 .btn:hover {
-	background: url("../gfx/btnbgHover.png") left top no-repeat;
+	background: url("../gfx/btnbgHover.png?v=1") left top no-repeat;
 }
 
 .btn:active {
-	/*margin: 2px -2px -2px 2px;*/ /* !!!! */
+	/* @durss: margin: 2px -2px -2px 2px;*/ /* !!!! */
 }
 
 /* pandemie */
@@ -402,4 +397,68 @@ width: 152px;
 font: 11px/16px Arial, sans-serif;
 text-align: justify;
 color: #222;
+}
+
+/* User : quickMisc */
+body.user #details input{
+	width: 190px;
+	height: 10px;
+	font-size: 9px;
+	font-family: arial, sans-serif;
+	background-color: #fff1cc;
+	border: solid 1px #CCC; 
+	padding: 2px 4px;
+}
+body.user td.dCol.l2{
+	vertical-align: top;
+}
+body.user td.dCol.l2 dt{
+	/* background-color: rgba(255,200,200,0.5); */
+	display: block;
+	height: 18px;
+	margin-top: 21px;
+}
+body.user td.dCol.l2 dd + dt{
+	/* background-color: rgba(200,200,255,0.5); */
+	margin-top: 5px;
+}
+body.user td.dCol.l2 dd{
+	/* background-color: rgba(200,255,200,0.5); */
+	display: block;
+	height: 18px;
+	margin-top: 0px;
+}
+body.user #details dd{
+margin-left: 24px;
+}
+body.user #details dd.quikLink {
+margin-left: 3px;
+}
+#toggleAvatar {
+	cursor:pointer;
+	/* @durss: 
+	float: left;
+	margin-top:3px;
+	margin-right:4px;
+	*/
+}
+img#uAvatar{
+	position: absolute;
+	z-index: 2;
+}
+img#uAvatar.sw_on{
+	margin-top: -8px;
+	margin-left: -8px;
+}
+img#uAvatar.ft120 + img#switch2{
+	cursor:pointer;
+	border: none;
+	display: block;
+	background: transparent url('../gfx/loader2.png') center center no-repeat;
+	width: 120px;
+	height: 120px;
+	margin-top: 8px;
+	margin-left: 8px;
+	position: absolute;
+	z-index: 1;
 }
