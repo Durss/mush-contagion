@@ -27,7 +27,9 @@ $httpCodes = array(
 310 => array('Too many Redirect',	"La requête doit être redirigée de trop nombreuses fois, ou est victime d'une boucle de redirection."),
 324 => array('Empty response',	"Le serveur a mis fin à la connexion sans envoyer de données."),
 //4xx Erreur du client
+*/ 
 400 => array('Bad Request',	"La syntaxe de la requête est erronée"),
+/*
 401 => array('Unauthorized',	"Une authentification est nécessaire pour accéder à la ressource"),
 402 => array('Payment Required',	"Paiement requis pour accéder à la ressource"), //(non utilisé)
 */
