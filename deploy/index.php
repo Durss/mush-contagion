@@ -86,11 +86,24 @@ $sections = array(
 		'p' => 'pandemie',
 );
 $pattern = '#^('.implode('|',array_keys($sections)).')/([1-9][0-9]*)$#';
+$targetUID = false;
 if(preg_match($pattern, $_GET['act'], $matches)){
 	$_GET['act'] = $sections[$matches[1]];
-	$targetUID = intval($matches[2]);
-}
-else $targetUID = false;
+	
+	if($matches[1] == 'p') $targetUID = intval($matches[2]);
+	elseif($matches[1] == 'u'){
+		//identification (si admin)
+		$flow = $api->flow('user', UID, PUBKEY);
+		//--Vérifie que le flux est valide
+		if($api->notice()) $user = false;
+		else $user = new user($flow);
+		if($user
+		&& isset($ini['admins'][strtolower($user->name)])
+		&& $ini['admins'][strtolower($user->name)] == UID) {
+			$targetUID = intval($matches[2]);
+		}
+	}
+} 
 
 require_once('php/start.php');
 
