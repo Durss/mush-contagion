@@ -169,5 +169,5 @@ else{
 	//$tableSpores = "<p>Personne n'a été touché par les spores de {$pseudo}.</p>";
 }
 
-$page->c = $tableSpores;
+$page->c .= $tableSpores;
 ?>
