@@ -75,7 +75,7 @@ if(UID && FRIENDS_KEY)
 {
 	$flow = $api->flow('friends', UID, FRIENDS_KEY);
 	//En cas d'erreur avec l'API ou le flux
-	if($api->notice()) foreach($api->notice() as $error) xmlError($root, str_replace('mtlib:','MUXXU_',$error['type']), $error['rawdata']);
+	if($api->notice()) foreach($api->notice() as $error) xmlError($root, str_replace('mtlib:','MUXXU_',$error['type']), $error['rawData']);
 	//Pas d'erreur c'est lessieur
 	else
 	{

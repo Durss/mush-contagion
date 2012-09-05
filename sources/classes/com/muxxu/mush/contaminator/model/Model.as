@@ -86,7 +86,8 @@ package com.muxxu.mush.contaminator.model {
 		 */
 		public function start():void {
 			_playIntro = _so.data["introPlayed"] == undefined;
-			_waitFor = parseInt(XML(DependencyStorage.getInstance().getDependencyById("infos").xml.child("user")[0]).child("delay")[0].@wait) + 1;
+			_waitFor = parseInt(XML(DependencyStorage.getInstance().getDependencyById("infos").xml.child("user")[0]).child("delay")[0].@wait);
+			if(_waitFor > 0) _waitFor ++;//Add a security margin
 			_start = getTimer();
 			update();
 		}

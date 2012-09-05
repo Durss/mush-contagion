@@ -69,7 +69,7 @@ package com.muxxu.mush.contaminator.cmd {
 			try {
 				var data:XML = new XML(_loader.data);
 			}catch(error:Error) {
-				dispatchEvent(new CommandEvent(CommandEvent.ERROR, "Contamination XML badly formated."));
+				dispatchEvent(new CommandEvent(CommandEvent.ERROR, "XML_FORMAT_ERROR"));
 				return;
 			}
 			

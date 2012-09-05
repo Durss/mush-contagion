@@ -1,4 +1,5 @@
 package com.muxxu.mush.contaminator.components {
+	import flash.filters.BlurFilter;
 	import flash.events.MouseEvent;
 	import flash.display.CapsStyle;
 	import flash.display.LineScaleMode;
@@ -77,6 +78,8 @@ package com.muxxu.mush.contaminator.components {
 		private function initialize():void {
 			_historyX = [];
 			_historyY = [];
+			
+			filters = [new BlurFilter(5,5,2)];
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}

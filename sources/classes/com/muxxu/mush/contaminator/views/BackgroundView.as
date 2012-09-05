@@ -1,8 +1,11 @@
 package com.muxxu.mush.contaminator.views {
+	import flash.filters.BlurFilter;
+	import com.muxxu.mush.graphics.WaterReflectGraphic;
 	import gs.TweenLite;
 	import gs.easing.Sine;
 
 	import com.innerdrivestudios.visualeffect.WrappingBitmap;
+	import com.muxxu.mush.contaminator.components.Fog;
 	import com.muxxu.mush.contaminator.events.LightEvent;
 	import com.muxxu.mush.contaminator.model.Model;
 	import com.muxxu.mush.graphics.CountDownGraphic;
@@ -53,6 +56,8 @@ package com.muxxu.mush.contaminator.views {
 		private var _rocket:RocketGraphic;
 		private var _ks:KeyboardSequenceDetector;
 		private var _holder:Sprite;
+		private var _fog:Fog;
+		private var _reflects:WaterReflectGraphic;
 		
 		
 		
@@ -140,16 +145,23 @@ package com.muxxu.mush.contaminator.views {
 			_sky = addChild(new WrappingBitmap(new SkyBmp(NaN, NaN))) as WrappingBitmap;
 			_holder = addChild(new Sprite()) as Sprite;
 			_ground = _holder.addChild(new Bitmap(new GroundBack(NaN, NaN))) as Bitmap;
+			_reflects = addChild(new WaterReflectGraphic()) as WaterReflectGraphic;
 			_rocket = _holder.addChild(new RocketGraphic()) as RocketGraphic;
 			_mushrooms = addChild(new Bitmap(new MushroomsBmp(NaN, NaN))) as Bitmap;
-			
+			_fog = _holder.addChild(new Fog()) as Fog;
 			_rocket.stop();
 			
 			_offsetX = _sky.width;
 			_offsetY = 0;
+			_reflects.alpha = .5;
+			_reflects.filters = [new BlurFilter(2,2,2)];
+			
+			_ground.filters = [new DropShadowFilter(10,-45,0,.5,50,50,1,2)];
 			
 			if(Config.getBooleanVariable("maintenance")) {
 				_sky.filters = [new ColorMatrixFilter([-0.43937185406684875,0.5917701721191406,0.8476016521453857,0,0,0.4568214416503906,0.6498579978942871,-0.10667942464351654,0,0,-0.276028573513031,1.718625545501709,-0.44259706139564514,0,0,0,0,0,1,0])];
+			}else{
+				TweenLite.to(_sky, 0, {colorMatrixFilter:{contrast:1.25}});
 			}
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
@@ -205,6 +217,8 @@ package com.muxxu.mush.contaminator.views {
 			PosUtils.alignToBottomOf(_mushrooms, stage);
 			_rocket.x = _ground.width - 73;
 			_rocket.y = _ground.height - 52;
+			_reflects.x = 642;
+			_reflects.y = 532;
 		}
 		
 		
@@ -235,6 +249,7 @@ package com.muxxu.mush.contaminator.views {
 		private function startAutoRotation():void {
 			_autoRotation = true;
 			_rotation = 0;
+			_fog.stop();
 		}
 		
 		/**
@@ -245,7 +260,10 @@ package com.muxxu.mush.contaminator.views {
 				offsetX += Math.sin(_rotation) * _speed;
 				offsetY += -Math.cos(_rotation) * _speed;
 				_speed *= (_rotation < Math.PI * .5)? 1.03 : _speed > 20? .99 : .92;
-				if(_result && _speed < 1) _speed = 0;
+				if(_result && _speed < 1) {
+					_speed = 0;
+					removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
+				}
 				_speedR += .0001;
 				_rotation += _speedR;
 				_rotation = MathUtils.restrict(_rotation, 0, _result? Math.PI : Math.PI * .5); // locks angle to PI/2 while server hasn't answered

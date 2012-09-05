@@ -1,12 +1,16 @@
 package com.muxxu.mush.contaminator.views {
 	import by.blooddy.crypto.MD5;
+
 	import gs.TweenLite;
+
 	import com.muxxu.mush.contaminator.components.CharacterTooltip;
+	import com.muxxu.mush.contaminator.components.Fog;
 	import com.muxxu.mush.contaminator.components.Smoke;
 	import com.muxxu.mush.contaminator.controler.FrontControler;
 	import com.muxxu.mush.contaminator.events.InfectionEvent;
 	import com.muxxu.mush.contaminator.events.LightEvent;
 	import com.muxxu.mush.contaminator.model.Model;
+	import com.muxxu.mush.contaminator.vo.User;
 	import com.muxxu.mush.contaminator.vo.UserCollection;
 	import com.muxxu.mush.generator.mushroom.Mushroom;
 	import com.muxxu.mush.generator.twinoid.Twinoid;
@@ -15,9 +19,11 @@ package com.muxxu.mush.contaminator.views {
 	import com.nurun.structure.mvc.views.AbstractView;
 	import com.nurun.structure.mvc.views.ViewLocator;
 	import com.nurun.utils.vector.VectorUtils;
+
 	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
 	import flash.events.Event;
+	import flash.filters.DropShadowFilter;
 	import flash.geom.Rectangle;
 	import flash.utils.setInterval;
 	import flash.utils.setTimeout;
@@ -36,6 +42,7 @@ package com.muxxu.mush.contaminator.views {
 		private var _twinoids:Vector.<Twinoid>;
 		private var _pseudos:Vector.<CharacterTooltip>;
 		private var _contaminated:int;
+		private var _fog:Fog;
 		
 		
 		
@@ -62,18 +69,20 @@ package com.muxxu.mush.contaminator.views {
 			var model:Model = event.model as Model;
 			var u:UserCollection = model.infectedUsers;
 			if(u != null && !model.contaminationComplete) {
-				var i:int, len:int;
+				var i:int, len:int, user:User, key:String;
 				len = u.length;
 				for(i = 0; i < len; ++i) {
+					user = u.getUserAtIndex(i);
+					key = MD5.hash(user.name+"-_-"+user.uid);
 					_twinoids[i] = new Twinoid();
 					_mushrooms[i] = new Mushroom();
 					_pseudos[i] = new CharacterTooltip();
-					_pseudos[i].populate(u.getUserAtIndex(i).name);
-					setTimeout(_twinoids[i].populate, i*1 + 5, MD5.hash(u.getUserAtIndex(i).name+"-_-"+u.getUserAtIndex(i).uid), 1);
-					setTimeout(_mushrooms[i].populate, i*1.5 + 5, MD5.hash(u.getUserAtIndex(i).name+"-_-"+u.getUserAtIndex(i).uid), 1);
+					_pseudos[i].populate(user.name);
+					setTimeout(_twinoids[i].populate, i*1 + 5, key, 1);
+					setTimeout(_mushrooms[i].populate, i*1.5 + 5, key, 1);
 					_twinoids[i].addEventListener(InfectionEvent.INFECTED, infectionCompleteHandler);
 				}
-				setTimeout(placeMushrooms, 25);
+				setTimeout(placeMushrooms, 50);
 			}
 		}
 
@@ -105,6 +114,8 @@ package com.muxxu.mush.contaminator.views {
 			_mushrooms = new Vector.<Mushroom>();
 			_twinoids = new Vector.<Twinoid>();
 			_pseudos = new Vector.<CharacterTooltip>();
+			
+			_ground.filters = [new DropShadowFilter(10,-45,0,.5,50,50,1,2)];
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			ViewLocator.getInstance().addEventListener(LightEvent.THROW_SPORES, throwSporesHandler);
@@ -145,6 +156,9 @@ package com.muxxu.mush.contaminator.views {
 			if(_sky.skyAngle >= Math.PI) {
 				if (_sky.scrollSpeed < 50 && !visible) {
 					visible = true;
+					_fog = addChild(new Fog()) as Fog;
+					_fog.alpha = 0;
+					TweenLite.to(_fog, 1, {autoAlpha:1, delay:2.8});
 					TweenLite.to(this, 1.2, {y:stage.stageHeight-_ground.height, delay:2.8});
 				}else{
 					var i:int, len:int, target:DisplayObject, bounds:Rectangle;

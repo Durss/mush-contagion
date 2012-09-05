@@ -15,9 +15,8 @@
 	</labels>
 		
 	<vars>
-		<var code="wsPath"><![CDATA[http://127.0.0.1/mushcontagion/]]></var>
+		<var code="wsPath"><![CDATA[http://fevermap.org/mushcontagion/]]></var>
 		<var code="ressourcesPath"><![CDATA[./]]></var>
-		<var code="id"><![CDATA[89]]></var>
 	</vars>
 	
 	<paths>

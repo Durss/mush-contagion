@@ -1,19 +1,19 @@
 package com.muxxu.mush.contaminator.views {
-	import flash.text.TextFieldAutoSize;
-	import flash.display.Sprite;
-	import com.nurun.utils.draw.createRect;
 	import com.muxxu.mush.contaminator.model.Model;
 	import com.muxxu.mush.contaminator.throwables.ContaminatorError;
 	import com.nurun.components.text.CssTextField;
 	import com.nurun.structure.environnement.label.Label;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
+	import com.nurun.utils.draw.createRect;
 	import com.nurun.utils.pos.PosUtils;
 
 	import flash.display.Shape;
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.UncaughtErrorEvent;
 	import flash.filters.DropShadowFilter;
+	import flash.text.TextFieldAutoSize;
 
 	/**
 	 * 
@@ -70,8 +70,9 @@ package com.muxxu.mush.contaminator.views {
 			visible = false;
 			_disableLayer = addChild(createRect(0x66000000)) as Shape;
 			_popin = addChild(new Sprite()) as Sprite;
-			_tf = _popin.addChild(new CssTextField("speak")) as CssTextField;
+			_tf = _popin.addChild(new CssTextField("error")) as CssTextField;
 			_tf.multiline = true;
+			_tf.selectable = true;
 			filters = [new DropShadowFilter(5,135,0,.5,5,5,1.5,2)];
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
@@ -100,6 +101,7 @@ package com.muxxu.mush.contaminator.views {
 			}else{
 				_tf.text = event.error;
 			}
+			if(_tf.length == 0) _tf.text = "AS3 execution error.";
 			event.stopPropagation();
 			event.preventDefault();
 
