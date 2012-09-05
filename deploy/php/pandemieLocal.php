@@ -18,13 +18,21 @@ if($targetUID) $id = $targetUID;
 else $id = UID;
 
 //données du profil
-$userService = website."php/services/userinfos.php?id={$id}&pandemie";
+$userLink = "uid=".UID."&pubkey=".PUBKEY;
+$userService = website."php/services/userinfos.php?id={$id}&parent&pandemie";
 $userinfos = simplexml_load_file($userService, 'SimpleXMLElement', LIBXML_NOCDATA);
 $twinID = (strval($userinfos->user->avatar) != null) ? getTwinID(strval($userinfos->user->avatar)) : false;
 $pseudo = strval($userinfos->user->name);
 $pseudoLink = $twinID ? "<a href='http://twinoid.com/user/{$twinID}' target='twinoid'>{$pseudo}</a>" : "<a href='http://muxxu.com/user/{$id}' target='twinoid'>{$pseudo}</a>";
 $infected = (bool) intval($userinfos->user['level']) ? 'true' : 'false';
 $version= "1";
+if($infected && isset($userinfos->user->parent, $userinfos->user->parent->spore)){
+	$pName = strval($userinfos->user->parent->spore->name);
+	$pUid = intval($userinfos->user->parent->spore['uid']);
+	$infectedBy = "<p class='userParent'><a href='?{$userLink}&act=p/{$pUid}'>{$pName}</a></p>";
+}
+else $infectedBy = null;
+
 
 /*
  * CONFECTION DES SCRIPTS JS
@@ -33,7 +41,6 @@ $version= "1";
 $i = $f = 0;
 $pagination = $aPagi = $aUsers = $dlSpore = array();
 $js = null;
-$userLink = "uid=".UID."&pubkey=".PUBKEY;
 
 //Params
 $grid = array('x' => 6, 'y' => 2);
@@ -53,7 +60,7 @@ foreach($userinfos->user->child->spore as $spore)
 <dl class='fiche'>
 	<dt><img class="avatar ft100" id="avatar_{$i}" alt="{$spore->name}" /></dt>
 	<dd class='uid' id="uid_{$i}" style="display: none;">{$spore['uid']}</dd>
-	<dd class='pseudo' id="pseudo_{$i}"><a href="?{$userLink}&act=u/{$spore['uid']}">{$spore->name}</a></dd>
+	<dd class='pseudo' id="pseudo_{$i}"><a href="?{$userLink}&act=p/{$spore['uid']}">{$spore->name}</a></dd>
 	<dd class='date' id="date_{$i}">{$date}</dd>
 </dl>
 EOTD;
@@ -114,7 +121,7 @@ EOJS;
 //Paramètres de la page
 $page->addBodyClass('user tablette');
 $page->addScriptFile('js/swfobject.js');
-$page->addScriptFile('js/avatar.b64.js?v=1.2');
+$page->addScriptFile('js/avatar.b64.js?v=1.4');
 $page->addScriptFile('js/avatarToggle.js?v=1');
 $page->addScript($js);
 
@@ -123,6 +130,13 @@ $page->addScript($js);
  */
 //Contenu
 $altMainStatus = $infected == 'true' ? '<span class="red">infecté</span>' : '<span class="green">sain</span>';
+/*
+$switch = ($infected == 'true')
+	? "<img id='toggleAvatar' src='gfx/toggleTwino.png?uid={$id}&name={$pseudo}&infected={$infected}' alt=\"Basculer l'avatar\" />"
+	: null;
+EOHTML;
+}
+*/
 $altMainAvatar = <<<EOHTML
 	<div id="flash">
 		<p>Afin de visualiser cette page, vous devez activer JavaScript et Flash Player 10.2+</p>
@@ -131,13 +145,8 @@ $altMainAvatar = <<<EOHTML
 	<img id="avatar_user" class="avatar ft120" alt="{$pseudo}" />
 	<p class='userName'>{$pseudoLink}</p>
 	<p class='userStatus'>{$altMainStatus}</p>
+	{$infectedBy}
 EOHTML;
-
-if($infected == 'true') {
-$altMainAvatar .= <<<EOHTML
-	<img id="toggleAvatar" src="gfx/toggleTwino.png?uid={$id}&name={$pseudo}&infected={$infected}" alt="Basculer l'avatar" />
-EOHTML;
-}
 
 //Tableau des spores
 if(count($dlSpore) > 0)

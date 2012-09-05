@@ -1,5 +1,5 @@
 function onReady() {
-	var bt = document.getElementById("toggleAvatar");
+	var bt = document.getElementById("switch2");
 	if(bt != null) {
 		bt.addEventListener("click", onToggleAvatar);
 	}
@@ -7,11 +7,11 @@ function onReady() {
 function onToggleAvatar() {
 	//var uid=
 	var url = this.src;
-	var toggled = /twino\.png/gi.test(url);
+	var toggled = /switch2Cube\.png/gi.test(url);
 	if (toggled) {
-		this.src = url.replace("Twino", "Mush");
+		this.src = url.replace("2Cube", "2Mush");
 	}else {
-		this.src = url.replace("Mush", "Twino");
+		this.src = url.replace("2Mush", "2Cube");
 	}
 	var params = url.split("?");
 	params = params[1].split("&");

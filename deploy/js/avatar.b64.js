@@ -83,10 +83,10 @@ function tdUpdate(id, uid, pseudo, infected, date)
 		delay += 60;
 		document.getElementById('avatar_'+id).style.cursor = "pointer";
 		document.getElementById('avatar_'+id).onclick = function() {
-			window.open('?'+userLink+'&act=u/'+uid,'_self');
+			window.open('?'+userLink+'&act=p/'+uid,'_self');
 		}
 		document.getElementById('uid_'+id).innerHTML = uid;
-		document.getElementById('pseudo_'+id).innerHTML = '<a href="?'+userLink+'&act=u/'+uid+'">'+pseudo+'</a>';
+		document.getElementById('pseudo_'+id).innerHTML = '<a href="?'+userLink+'&act=p/'+uid+'">'+pseudo+'</a>';
 		document.getElementById('date_'+id).innerHTML = date;
 	}
 }
