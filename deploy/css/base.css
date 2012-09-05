@@ -395,7 +395,7 @@ body.warning #affiche p{
 margin: 2px 0 0 90px;
 width: 152px;
 font: 11px/16px Arial, sans-serif;
-text-align: justify;
+text-align: center;
 color: #222;
 }
 
@@ -461,4 +461,12 @@ img#uAvatar.ft120 + img#switch2{
 	margin-left: 8px;
 	position: absolute;
 	z-index: 1;
+}
+div.adv{
+	position: absolute;
+	z-index: 9999;
+	color: #000;
+	padding: 0 6px;
+	background-color: #FB0;
+	background-color: rgba(255, 187, 0, 0.75);	
 }
