@@ -21,6 +21,17 @@ else $id = UID;
 $userLink = "uid=".UID."&pubkey=".PUBKEY;
 $userService = website."php/services/userinfos.php?id={$id}&parent&pandemie";
 $userinfos = simplexml_load_file($userService, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+//Le service retourne une erreur
+if(isset($userinfos->error))
+{
+	if(isset($page)) $page->stop = false;
+	header($_SERVER["SERVER_PROTOCOL"]." 400 Bad Request");
+	$_GET['code'] = 400;
+	include(dirname(__FILE__).'/../error.php');
+	die("<p>{$userinfos->error['code']}</p>");
+}
+
 $twinID = (strval($userinfos->user->avatar) != null) ? getTwinID(strval($userinfos->user->avatar)) : false;
 $pseudo = strval($userinfos->user->name);
 $pseudoLink = $twinID ? "<a href='http://twinoid.com/user/{$twinID}' target='twinoid'>{$pseudo}</a>" : "<a href='http://muxxu.com/user/{$id}' target='twinoid'>{$pseudo}</a>";

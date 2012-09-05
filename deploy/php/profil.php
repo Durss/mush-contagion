@@ -22,6 +22,17 @@ else $id = UID;
 //données du profil
 $userService = website."php/services/userinfos.php?id={$id}&parent";
 $userinfos = simplexml_load_file($userService, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+//Le service retourne une erreur
+if(isset($userinfos->error))
+{
+	if(isset($page)) $page->stop = false;
+	header($_SERVER["SERVER_PROTOCOL"]." 400 Bad Request");
+	$_GET['code'] = 400;
+	include(dirname(__FILE__).'/../error.php');
+	die("<p>{$userinfos->error['code']}</p>");
+}
+
 $twinID = (strval($userinfos->user->avatar) != null) ? getTwinID(strval($userinfos->user->avatar)) : false;
 $pseudo = strval($userinfos->user->name);
 $pseudoLink = $twinID ? "<a href='http://twinoid.com/user/{$twinID}' target='twinoid'>{$pseudo}</a>" : "<a href='http://muxxu.com/user/{$id}' target='twinoid'>{$pseudo}</a>";
@@ -109,12 +120,6 @@ $altMainAvatar = <<<EOHTML
 	<p class='userName'>{$pseudoLink}</p>
 	<p class='userStatus'>{$altMainStatus}</p>
 	<p class='quickMisc'>{$quickMisc}</p>
-	<!--
-	<p class='downloadShare'>
-		<input type="submit" class="btn" value="Télécharger" id="avatarDownload" />
-		<span class="share">Partager : <input type="text"/></span>
-	</p>
-	-->
 EOHTML;
 
 
@@ -154,8 +159,8 @@ EOJS;
 		<tr>
 			<td colspan="2" class="TM">
 				<div id="content">
-					<p>Afin de visualiser cette page, vous devez activer JavaScript et Flash Player 10.2+</p>
-					<a href="http://get.adobe.com/fr/flashplayer/">Installer flash</a>
+					<!--p>Afin de visualiser cette page, vous devez activer JavaScript et Flash Player 10.2+</p-->
+					<!--a href="http://get.adobe.com/fr/flashplayer/">Installer flash</a-->
 				</div>
 				<textarea class="mushTranscryptor" id="text" onClick="select_all(this);">Utilisez le transcrypteur pour communiquer entre Mushs à l'insu de ces horribles humains.</textarea>
 				<textarea class="mushTranscryptor" id="result" readonly="readonly" onclick="select_all(this);"></textarea>
