@@ -72,7 +72,7 @@ package com.muxxu.mush.contaminator {
 			Config.addVariable("lang", "fr");
 			Config.addVariable("version", "1");
 			Config.addVariable("id", "89");
-			Config.addVariable("key", "3deb94ec");
+			Config.addVariable("key", "1546d82f");
 			
 			_env			= new EnvironnementManager();
 			_env.addVariables(stage.loaderInfo.parameters);
