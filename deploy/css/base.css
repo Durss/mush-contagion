@@ -181,21 +181,7 @@ table#spores{
 	font-variant: normal;
 	font-weight: normal;
 }
-/* @durss: 
-#ficheProfil p.downloadShare {
-	position:relative;
-	left:-125px; /* !!!! */
-}
 
-.share {
-	margin-left:30px;
-}
-*/
-/* @durss: CACA ICI !!
-input {
-	width:50px;
-}
-*/
 #ficheProfil p.userName:before {
 	content: "Nom du sujet : ";
 	font-size: 12px;
@@ -377,7 +363,10 @@ a[href^="http://muxxu.com/user/"]:before{
 }
 
 body.warning {
-	background: #e0d2c1 url("../gfx/warning.jpg") no-repeat top center;
+	background-color: #e0d2c1;
+	background-repeat: no-repeat;
+	background-position: top center;
+	background-image:  url("../gfx/warning-eyes.gif"), url("../gfx/warning.jpg");
 }
 body.warning #affiche{
 display: block;
