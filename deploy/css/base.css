@@ -366,7 +366,7 @@ body.warning {
 	background-color: #e0d2c1;
 	background-repeat: no-repeat;
 	background-position: top center;
-	background-image:  url("../gfx/warning-eyes.gif"), url("../gfx/warning.jpg");
+	background-image:  url("../gfx/warning-eyes2.gif"), url("../gfx/warning-lamp.jpg");
 }
 body.warning #affiche{
 display: block;
