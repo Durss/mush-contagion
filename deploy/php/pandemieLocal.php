@@ -127,6 +127,10 @@ function flashReady() {
 	avatar('user', {$id}, '{$pseudo}', {$infected}, true, false);
 	{$jsPagInit}
 }
+function select_all(target) {
+	target.focus();
+	target.select();
+}
 EOJS;
 
 //Paramètres de la page
@@ -169,7 +173,8 @@ if(count($dlSpore) > 0)
 		$tbody .= "<tr>\n<td>\n".implode("</td>\n<td>",$line)."</td>\n</tr>\n";
 	}
 	$tableSpores = "<table id='spores'>\n"
-	."<thead>\n<tr><td colspan='4'>{$altMainAvatar}</td>\n<td colspan='2'>{$pagination}</td></tr></thead>\n"
+	."<thead>\n<tr><td colspan='4'>{$altMainAvatar}</td>\n"
+	."<td id='details' colspan='2'>Référence du dossier :\n<input readonly='readonly' onclick='select_all(this)' value='http://muxxu.com/a/".appName."/?p/{$id}'/>\n{$pagination}</td></tr></thead>\n"
 	."<tbody>\n{$tbody}\n</tbody>\n"
 	."</table>\n";
 }
