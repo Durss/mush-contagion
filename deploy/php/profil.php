@@ -82,8 +82,23 @@ $page->addScript($js);
 /*
  * CONFECTION DES ELEMENTS
  */
+switch($userinfos->user['genre']){
+	case 'm':
+		$w_infecte = 'infecté';
+		$w_sain = 'sain';
+		break;
+	case 'f':
+		$w_infecte = 'infectée';
+		$w_sain = 'saine';
+		break;
+	case 'u': default:
+		$w_infecte = 'infecté(e)';
+		$w_sain = 'sain(e)';
+		break;
+}
+
 //Contenu
-$altMainStatus = $infected == 'true' ? '<span class="red">infecté</span>' : '<span class="green">sain</span>';
+$altMainStatus = $infected == 'true' ? "<span class='red'>{$w_infecte}</span>" : "<span class='green'>{$w_sain}</span>";
 
 $parentName = '--';
 $dateInfection = '--';

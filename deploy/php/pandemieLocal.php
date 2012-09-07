@@ -143,8 +143,24 @@ $page->addScript($js);
 /*
  * CONFECTION DES ELEMENTS
  */
+//Genre
+switch($userinfos->user['genre']){
+	case 'm':
+		$w_infecte = 'infecté';
+		$w_sain = 'sain';
+		break;
+	case 'f':
+		$w_infecte = 'infectée';
+		$w_sain = 'saine';
+		break;
+	case 'u': default:
+		$w_infecte = 'infecté(e)';
+		$w_sain = 'sain(e)';
+		break;
+}
+
 //Contenu
-$altMainStatus = $infected == 'true' ? '<span class="red">infecté</span>' : '<span class="green">sain</span>';
+$altMainStatus = $infected == 'true' ? "<span class='red'>{$w_infecte}</span>" : "<span class='green'>{$w_sain}</span>";
 /*
 $switch = ($infected == 'true')
 	? "<img id='toggleAvatar' src='gfx/toggleTwino.png?uid={$id}&name={$pseudo}&infected={$infected}' alt=\"Basculer l'avatar\" />"

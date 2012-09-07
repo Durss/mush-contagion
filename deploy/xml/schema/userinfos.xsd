@@ -12,6 +12,7 @@
 	<xsd:attribute name="code" type="codeError" />
 	<xsd:attribute name="lastInfection" type="xsd:positiveInteger" />
 	<xsd:attribute name="wait" type="xsd:int" />
+	<xsd:attribute name="genre" type="aGenre" default="u" />
 
 <!-- definition of complex type elements -->
 	<xsd:element name="user">
@@ -25,6 +26,7 @@
 			</xsd:sequence>
 			<xsd:attribute ref="uid" use="required" />
 			<xsd:attribute ref="level" use="required" />
+			<xsd:attribute ref="genre" use="required" />
 		</xsd:complexType>
 	</xsd:element>	
 	
@@ -80,6 +82,13 @@
 			<xsd:enumeration value="api" />
 			<xsd:enumeration value="db" />
 			<xsd:enumeration value="mush" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="aGenre">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="m" />
+			<xsd:enumeration value="f" />
+			<xsd:enumeration value="u" />
 		</xsd:restriction>
 	</xsd:simpleType>
 

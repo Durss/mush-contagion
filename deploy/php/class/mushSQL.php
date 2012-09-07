@@ -19,19 +19,20 @@ class mushSQL extends mysqlManager
 	 * @param	string		$pubkey		-Clé publique de l'utilisateur
 	 * @param	string		$friendsKey	-Clé du flux friends de l'utilisateur
 	 * @param	string		$name		-Nom de l'utilisateur
+	 * @param	string		$genre		-Sexe de l'utilisateur (m|f|u)
 	 * @param	string		$avatar		-URL de l'avatar de l'utilisateur
 	 * @return	bool
 	 */
-	public function insertUser($uid, $pubkey, $friendsKey, $name, $avatar)
+	public function insertUser($uid, $pubkey, $friendsKey, $name, $genre, $avatar)
 	{
 		$sql = <<<EOSQL
 -- Nouvel user ou MAJ
 INSERT INTO `{$this->db}`.`{$this->tbl['user']}`
-(`uid`, `pubkey`, `friends`, `name`, `avatar`) VALUES
-('{$uid}', '{$pubkey}', '{$friendsKey}', '{$name}', '{$avatar}')
+(`uid`, `pubkey`, `friends`, `name`, `genre`, `avatar`) VALUES
+('{$uid}', '{$pubkey}', '{$friendsKey}', '{$name}', '{$genre}', '{$avatar}')
 -- Si l'utilisateur est déjà enregistré, mon met à jour toutes les données
 ON DUPLICATE KEY UPDATE
-`pubkey` = '{$pubkey}', `friends` = '{$friendsKey}', `name` = '{$name}', `avatar` = '{$avatar}';
+`pubkey` = '{$pubkey}', `friends` = '{$friendsKey}', `name` = '{$name}',  `genre` = '{$genre}', `avatar` = '{$avatar}';
 EOSQL;
 		return $this->query($sql) or $this->error(mysql_error());
 	}
@@ -191,7 +192,7 @@ EOSQL;
 		
 		$sql = <<<EOSQL
 -- Sélection de profils {$addcomment}
-SELECT `uid`, `name`, `avatar`, `infected`{$lastvisit}
+SELECT `uid`, `name`, `avatar`, `genre`, `infected`{$lastvisit}
 FROM `{$this->tbl['user']}`
 {$where}{$infection}{$and}{$target}{$rand}{$limit};
 EOSQL;

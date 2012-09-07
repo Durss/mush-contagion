@@ -20,11 +20,14 @@ $db = new mushSQL($mysql_vars, isset($_GET['debug']));
 
 //Insert, complète ou met à jour les infos sur l'utilisateur
 //--Si l'utilisateur est déjà enregistré, mon met à jour toutes les données
+$sex = 'u';
+if(isset($user->profil['male'])) $sex = $user->profil['male'] ? 'm' : 'f';
 $db->insertUser(
 	UID,
 	PUBKEY,
 	strval($user->key['friends']),
 	strval($user->name),
+	$sex,
 	strval($user->avatar)
 	);
 
