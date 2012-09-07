@@ -143,6 +143,7 @@ $db->__destruct();
 $user = $userinfos->addChild('user');
 $user->addAttribute('uid', UID);
 $user->addAttribute('level', $userData['infected']);
+$user->addAttribute('genre', $userData['genre']);
 
 $user->addChild('name', $userData['name']);
 $user->addChild('avatar', $userData['avatar']);
