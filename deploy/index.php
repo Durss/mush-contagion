@@ -29,7 +29,7 @@ $page->title = "Mush Contagion";
 $page->addMetaTag("ROBOTS", "NOINDEX, NOFOLLOW");
 $page->addStyleSheet('css/base.css');
 #$page->addStyleSheet('css/baseMush.css');
-$page->addStyleSheet('css/baseMuxxu.css');
+#$page->addStyleSheet('css/baseMuxxu.css');
 
 //Parametres
 $ini = parse_ini_file('params.ini',1);

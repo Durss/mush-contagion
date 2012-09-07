@@ -3,6 +3,9 @@
 /*
  * Base
  */
+html{
+	overflow: hidden !important;
+}
 html,body {
 	overflow: hidden;
 	height: 100%;
@@ -18,7 +21,7 @@ body {
 
 /*
  * ADV : Flash & JS needed
- */
+
 body #content1 #content {
 	width: 650px;
 	margin: 250px auto;
@@ -42,7 +45,7 @@ body #content1 #content a,body #content1 #content a:visited {
 body #content1 #content a:hover {
 	padding: 4px 4px 2px 6px;
 }
-
+ */
 /*
  * BETA-TEST
  */
@@ -465,4 +468,73 @@ div.adv{
 	padding: 0 6px;
 	background-color: #FB0;
 	background-color: rgba(255, 187, 0, 0.75);	
+}
+body.user #flash[style~="visible;"]{
+	display: block;
+	position: absolute;
+	width: 280px;
+	margin: -128px 0 0 -64px;
+	padding: 16px;
+	font: 14px/18px arial, sans-serif;
+	background-color: #fff1cc;
+	background-color: rgba(255, 241, 204, 0.7);
+	border: solid 2px #555;
+	z-index: 9999;
+}
+body.user #flash[style~="visible;"] p{
+	margin: 0;
+}
+body.user #flash[style~="visible;"] p:before{
+	content: url(../gfx/dialog-warning.png);
+	margin-right: 4px;
+	vertical-align: -2px;
+}
+body.user #flash[style~="visible;"] a{
+	display: block;
+	margin: 0;
+	text-align: center;
+}
+body.user #flash[style~="visible;"] a:before{
+	content: url(../gfx/plugin.png);
+	margin-right: 2px;
+	vertical-align: -4px;
+}
+
+#content1 #content[style~="visible;"]{
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	margin: 0 auto;
+	background: #101047 url(../gfx/base_bg.jpg) top center no-repeat;
+	overflow: hidden;
+}
+#content1 #content[style~="visible;"] #warn{
+	display: block;
+	width: 280px;
+	margin: 128px auto;
+	padding: 16px;
+	font: 14px/18px arial, sans-serif;
+	background-color: #fff1cc;
+	background-color: rgba(255, 241, 204, 0.7);
+	border: solid 2px #555;
+	z-index: 9999;
+}
+#content1 #content[style~="visible;"] p{
+	margin: 0;
+}
+#content1 #content[style~="visible;"] p:before{
+	content: url(../gfx/dialog-warning.png);
+	margin-right: 4px;
+	vertical-align: -2px;
+}
+#content1 #content[style~="visible;"] a{
+	display: block;
+	margin: 0;
+	text-align: center;
+}
+#content1 #content[style~="visible;"] a:before{
+	content: url(../gfx/plugin.png);
+	margin-right: 2px;
+	vertical-align: -4px;
 }

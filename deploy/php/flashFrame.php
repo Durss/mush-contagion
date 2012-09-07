@@ -25,9 +25,11 @@ $page->addScriptFile('js/swffit.js');
 $page->c .= <<<EOHTML
 		<div id="content1">
 		<div id="content">
+			<div id="warn">
 			<!-- p>In order to view this page you need JavaScript and Flash Player 10.2+ support!</p -->
 			<p>Afin de visualiser cette page, vous devez activer JavaScript et Flash Player 10.2+</p>
 			<a href="http://get.adobe.com/fr/flashplayer/">Installer flash</a>
+			</div>
 		</div>
 		</div>
 
