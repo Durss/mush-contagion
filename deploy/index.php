@@ -28,8 +28,6 @@ $page = new nsunTpl();
 $page->title = "Mush Contagion";
 $page->addMetaTag("ROBOTS", "NOINDEX, NOFOLLOW");
 $page->addStyleSheet('css/base.css');
-#$page->addStyleSheet('css/baseMush.css');
-#$page->addStyleSheet('css/baseMuxxu.css');
 
 //Parametres
 $ini = parse_ini_file('params.ini',1);
@@ -112,19 +110,11 @@ switch($_GET['act'])
 	case 'user':
 		include('php/profil.php');
 		break;	
-/*
- 	case 'diagnostic':
-		if($targetUID) $page->c .= "<h1>Page diagnostic de #{$targetUID}</h1><p>La page de diagnostic de quelqu'un d'autre</p>";
-		else $page->c .= "<h1>Mon Diagnostique</h1><p>Ma diagnostic à moi (rien qu'à moi)</p>";
-		#include('php/pandemie.php');
-		break;
- */	
 	case 'pandemie':
-		include(('php/pandemieLocal.php'));
-		#include('php/pandemie.php');
+		include(('php/pandemie.php'));
 		break;
 	case 'warning':
-		include('php/pandemieGlobal.php');
+		include('php/warning.php');
 	case 'php': //Dev: nSun
 		if(DEVMODE)
 		{
