@@ -112,7 +112,7 @@ $quickMisc = count($quickMisc) ? implode("\n",$quickMisc) : null;
 
 $altMainAvatar = <<<EOHTML
 	<div id="flash">
-		<p>Afin de visualiser cette page, vous devez activer JavaScript et Flash Player 10.2+</p>
+		<p>Afin d'utiliser cette page, vous devez activer JavaScript et Flash Player 10.2+</p>
 		<a href="http://get.adobe.com/fr/flashplayer/">Installer flash</a>
 	</div>
 	<img id="uAvatar" class="avatar ft120 {$switchON}" alt="{$pseudo}"/>
