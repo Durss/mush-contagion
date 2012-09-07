@@ -469,7 +469,8 @@ div.adv{
 	background-color: #FB0;
 	background-color: rgba(255, 187, 0, 0.75);	
 }
-body.user #flash[style~="visible;"]{
+
+body.user div#flash[style~="visible;"]{
 	display: block;
 	position: absolute;
 	width: 280px;
@@ -481,26 +482,26 @@ body.user #flash[style~="visible;"]{
 	border: solid 2px #555;
 	z-index: 9999;
 }
-body.user #flash[style~="visible;"] p{
+body.user div#flash[style~="visible;"] p{
 	margin: 0;
 }
-body.user #flash[style~="visible;"] p:before{
+body.user div#flash[style~="visible;"] p:before{
 	content: url(../gfx/dialog-warning.png);
 	margin-right: 4px;
 	vertical-align: -2px;
 }
-body.user #flash[style~="visible;"] a{
+body.user div#flash[style~="visible;"] a{
 	display: block;
 	margin: 0;
 	text-align: center;
 }
-body.user #flash[style~="visible;"] a:before{
+body.user div#flash[style~="visible;"] a:before{
 	content: url(../gfx/plugin.png);
 	margin-right: 2px;
 	vertical-align: -4px;
 }
 
-#content1 #content[style~="visible;"]{
+#content1 div#content[style~="visible;"]{
 	display: block;
 	position: absolute;
 	width: 100%;
@@ -509,7 +510,7 @@ body.user #flash[style~="visible;"] a:before{
 	background: #101047 url(../gfx/base_bg.jpg) top center no-repeat;
 	overflow: hidden;
 }
-#content1 #content[style~="visible;"] #warn{
+#content1 div#content[style~="visible;"] #warn{
 	display: block;
 	width: 280px;
 	margin: 128px auto;
@@ -520,20 +521,20 @@ body.user #flash[style~="visible;"] a:before{
 	border: solid 2px #555;
 	z-index: 9999;
 }
-#content1 #content[style~="visible;"] p{
+#content1 div#content[style~="visible;"] p{
 	margin: 0;
 }
-#content1 #content[style~="visible;"] p:before{
+#content1 div#content[style~="visible;"] p:before{
 	content: url(../gfx/dialog-warning.png);
 	margin-right: 4px;
 	vertical-align: -2px;
 }
-#content1 #content[style~="visible;"] a{
+#content1 div#content[style~="visible;"] a{
 	display: block;
 	margin: 0;
 	text-align: center;
 }
-#content1 #content[style~="visible;"] a:before{
+#content1 div#content[style~="visible;"] a:before{
 	content: url(../gfx/plugin.png);
 	margin-right: 2px;
 	vertical-align: -4px;
