@@ -113,17 +113,6 @@ $quickMisc = array();
 $switchData = "?uid={$id}&name={$pseudo}&infected={$infected}";
 $switch = ($infected == 'true') ? "<img id='switch2' tmp='{$switchData}'/>" : null;
 $switchON = ($infected == 'true') ? 'sw_on' : 'sw_off';
-/*
-if($infected == 'true') {
-$quickMisc[] = <<<EOEL
-	<img id="toggleAvatar" src="gfx/toggleTwino.png?uid={$id}&name={$pseudo}&infected={$infected}" alt="Basculer l'avatar" />
-EOEL;
-}
-*/
-$quickMisc[] = '<button class="btn" id="avatarDownload"><img src="gfx/dl.png" width="16" height="16" alt="" /> Avatar HD</button>';
-//$quickMisc[] = '<img src="gfx/link2.gif" width="16" height="16" alt="Partager" />';
-
-$quickMisc = count($quickMisc) ? implode("\n",$quickMisc) : null;
 
 $altMainAvatar = <<<EOHTML
 	<div id="flash">
@@ -134,7 +123,7 @@ $altMainAvatar = <<<EOHTML
 	{$switch}
 	<p class='userName'>{$pseudoLink}</p>
 	<p class='userStatus'>{$altMainStatus}</p>
-	<p class='quickMisc'>{$quickMisc}</p>
+	<p class='quickMisc'><button class="btn" id="avatarDownload"><img src="gfx/dl.png" width="16" height="16" alt="" /> Avatar HD</button></p>
 EOHTML;
 
 
@@ -185,10 +174,6 @@ EOHTML;
 }
 else $mushTranscryptor = null;
 
-/*
-$refLink = "http://muxxu.com/a/".appName."/?act=u/{$id}"; 
-				<dt>Référence du dossier</dt><dd><input type="text" value="{$refLink}" readonly="readonly" onclick="select_all(this);" /></dd>
-*/
 $fiche = <<<EOHTML
 <div id='ficheProfil'>
 	<table class="diagnostic">
