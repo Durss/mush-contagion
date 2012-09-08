@@ -67,6 +67,13 @@ package com.muxxu.mush.contaminator.controler {
 		}
 		
 		/**
+		 * Sets the sound's state
+		 */
+		public function setSoundState(mute:Boolean):void {
+			_model.setSoundState(mute);
+		}
+		
+		/**
 		 * Flags introduction as viewed
 		 */
 		public function introComplete():void {

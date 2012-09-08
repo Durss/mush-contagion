@@ -33,7 +33,7 @@ package com.muxxu.mush.contaminator.views {
 	 * @author Francois
 	 * @date 28 janv. 2012;
 	 */
-	public class ContaminationView extends AbstractView {
+	public class ContaminationView extends AbstractView implements ILightableView{
 		
 		private var _ground:Bitmap;
 		private var _displayed:Boolean;
@@ -43,6 +43,7 @@ package com.muxxu.mush.contaminator.views {
 		private var _pseudos:Vector.<CharacterTooltip>;
 		private var _contaminated:int;
 		private var _fog:Fog;
+		private var _lowQuality:Boolean;
 		
 		
 		
@@ -96,6 +97,17 @@ package com.muxxu.mush.contaminator.views {
 		 */
 		public function getTargets():Array {
 			return VectorUtils.toArray(_twinoids);
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function lowerQuality():void {
+			_ground.filters = [];
+			if(_fog != null) {
+				_fog.stop();
+			}
+			_lowQuality = true;
 		}
 
 
@@ -156,9 +168,11 @@ package com.muxxu.mush.contaminator.views {
 			if(_sky.skyAngle >= Math.PI) {
 				if (_sky.scrollSpeed < 50 && !visible) {
 					visible = true;
-					_fog = addChild(new Fog()) as Fog;
-					_fog.alpha = 0;
-					TweenLite.to(_fog, 1, {autoAlpha:1, delay:2.8});
+					if(!_lowQuality) {
+						_fog = addChild(new Fog()) as Fog;
+						_fog.alpha = 0;
+						TweenLite.to(_fog, 1, {autoAlpha:1, delay:2.8});
+					}
 					TweenLite.to(this, 1.2, {y:stage.stageHeight-_ground.height, delay:2.8});
 				}else{
 					var i:int, len:int, target:DisplayObject, bounds:Rectangle;

@@ -117,6 +117,15 @@ package com.muxxu.mush.contaminator.model {
 		}
 		
 		/**
+		 * Sets the sound's state.
+		 * Used when app is throttled to mute the sound and set it back to its previous value
+		 */
+		public function setSoundState(mute:Boolean):void {
+			_soundEnabled = mute? false : _so.data["sound"];
+			SoundMixer.soundTransform = new SoundTransform(_soundEnabled? 1 : 0);
+		}
+		
+		/**
 		 * Flags introduction as viewed
 		 */
 		public function introComplete():void {
@@ -143,6 +152,7 @@ package com.muxxu.mush.contaminator.model {
 		private function initialize():void {
 			_so = SharedObject.getLocal("mushcontagion", "/");
 //			_so.clear();//TODO remove!
+			if(_so.data["sound"] == undefined) _so.data["sound"] = true;
 			_soundEnabled = _so.data["sound"] !== false;
 			_status = new StatusCollection();
 			_status.populate(DependencyStorage.getInstance().getDependencyById("status").xml);

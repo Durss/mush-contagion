@@ -1,4 +1,5 @@
 package com.muxxu.mush.contaminator {
+	import com.muxxu.mush.contaminator.views.StatsView;
 	import com.muxxu.mush.contaminator.components.AmbiantSound;
 	import gs.plugins.TransformAroundCenterPlugin;
 	import gs.plugins.TransformAroundPointPlugin;
@@ -81,8 +82,7 @@ package com.muxxu.mush.contaminator {
 			addChild(new StatusView());
 			addChild(new SoundView());
 			addChild(new ExceptionView());
-			
-//			addChild(new Stats());
+			addChild(new StatsView());
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}

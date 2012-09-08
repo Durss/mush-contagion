@@ -82,5 +82,9 @@ package com.innerdrivestudios.visualeffect {
 			_matrix.tx = value;
 			_paint();
 		}
+
+		public function get bitmapdata():BitmapData {
+			return _bitmapdata;
+		}
 	}
 }

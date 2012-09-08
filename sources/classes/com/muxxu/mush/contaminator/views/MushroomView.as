@@ -39,7 +39,7 @@ package com.muxxu.mush.contaminator.views {
 	 * @author Francois
 	 * @date 14 janv. 2012;
 	 */
-	public class MushroomView extends AbstractView {
+	public class MushroomView extends AbstractView implements ILightableView {
 		
 		[Embed(source="../../../../../../assets/sounds/sneeze1.mp3")]
 		private var _sneeze1:Class;
@@ -129,6 +129,13 @@ package com.muxxu.mush.contaminator.views {
 		/* ****** *
 		 * PUBLIC *
 		 * ****** */
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function lowerQuality():void {
+			_streak.filters = [];
+		}
 
 
 		
