@@ -1,10 +1,10 @@
 package com.muxxu.mush.contaminator.components {
-	import flash.filters.BlurFilter;
-	import flash.events.MouseEvent;
 	import flash.display.CapsStyle;
 	import flash.display.LineScaleMode;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.filters.BlurFilter;
 	
 	/**
 	 * 
@@ -15,8 +15,6 @@ package com.muxxu.mush.contaminator.components {
 		
 		private var _historyX:Array;
 		private var _historyY:Array;
-		private var _prevY:Number;
-		private var _prevX:Number;
 		private var _enabled:Boolean;
 		private var _pressed:Boolean;
 		
@@ -101,19 +99,6 @@ package com.muxxu.mush.contaminator.components {
 		 * Draw the lines
 		 */
 		private function enterFrameHandler(event:Event):void {
-			if(_prevX != stage.mouseX && _prevY != stage.mouseY && _enabled) {
-				_historyX.push(stage.mouseX);
-				_historyY.push(stage.mouseY);
-				_prevX = stage.mouseX;
-				_prevY = stage.mouseY;
-			}else{
-				_historyX.shift();
-				_historyY.shift();
-				if(!_enabled && _historyX.length == 0) {
-					removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
-				}
-			}
-			
 			var i:int, len:int, size:Number, alpha:Number;
 			len = _historyX.length;
 			i = len-2;
@@ -130,6 +115,17 @@ package com.muxxu.mush.contaminator.components {
 				}
 				size *= .7;
 				alpha *= .7;
+			}
+			
+			if(_enabled) {
+				_historyX.push(stage.mouseX);
+				_historyY.push(stage.mouseY);
+			}else{
+				_historyX.shift();
+				_historyY.shift();
+				if(!_enabled && _historyX.length == 0) {
+					removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
+				}
 			}
 			
 			var max:int = _pressed? 6 : 2;

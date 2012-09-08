@@ -1,6 +1,4 @@
 package com.muxxu.mush.contaminator.views {
-	import flash.filters.BlurFilter;
-	import com.muxxu.mush.graphics.WaterReflectGraphic;
 	import gs.TweenLite;
 	import gs.easing.Sine;
 
@@ -13,6 +11,7 @@ package com.muxxu.mush.contaminator.views {
 	import com.muxxu.mush.graphics.MushroomsBmp;
 	import com.muxxu.mush.graphics.RocketGraphic;
 	import com.muxxu.mush.graphics.SkyBmp;
+	import com.muxxu.mush.graphics.WaterReflectGraphic;
 	import com.nurun.structure.environnement.configuration.Config;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
@@ -24,10 +23,15 @@ package com.muxxu.mush.contaminator.views {
 
 	import flash.display.Bitmap;
 	import flash.display.MovieClip;
+	import flash.display.Shape;
+	import flash.display.SpreadMethod;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.filters.BlurFilter;
 	import flash.filters.ColorMatrixFilter;
 	import flash.filters.DropShadowFilter;
+	import flash.geom.Matrix;
+	import flash.geom.Point;
 	import flash.media.Sound;
 	import flash.utils.setTimeout;
 	
@@ -36,7 +40,7 @@ package com.muxxu.mush.contaminator.views {
 	 * @author Francois
 	 * @date 14 janv. 2012;
 	 */
-	public class BackgroundView extends AbstractView {
+	public class BackgroundView extends AbstractView implements ILightableView {
 		
 		[Embed(source="../../../../../../assets/sounds/fart_short.mp3")]
 		private var _fartShort:Class;
@@ -58,6 +62,7 @@ package com.muxxu.mush.contaminator.views {
 		private var _holder:Sprite;
 		private var _fog:Fog;
 		private var _reflects:WaterReflectGraphic;
+		private var _dark:Shape;
 		
 		
 		
@@ -131,6 +136,16 @@ package com.muxxu.mush.contaminator.views {
 		/* ****** *
 		 * PUBLIC *
 		 * ****** */
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function lowerQuality():void {
+			_sky.filters = [];
+			_ground.filters = [];
+			_reflects.filters = [];
+			_fog.stop();
+		}
 
 
 		
@@ -143,6 +158,7 @@ package com.muxxu.mush.contaminator.views {
 		 */
 		private function initialize():void {
 			_sky = addChild(new WrappingBitmap(new SkyBmp(NaN, NaN))) as WrappingBitmap;
+			_dark = addChild(new Shape()) as Shape;
 			_holder = addChild(new Sprite()) as Sprite;
 			_ground = _holder.addChild(new Bitmap(new GroundBack(NaN, NaN))) as Bitmap;
 			_reflects = addChild(new WaterReflectGraphic()) as WaterReflectGraphic;
@@ -156,12 +172,19 @@ package com.muxxu.mush.contaminator.views {
 			_reflects.alpha = .5;
 			_reflects.filters = [new BlurFilter(2,2,2)];
 			
+			var m:Matrix = new Matrix();
+			m.createGradientBox(_sky.width, _sky.height, Math.PI*.5);
+			_dark.graphics.beginGradientFill("linear", [0,0], [1,.25], [0,0xff], m, SpreadMethod.PAD);
+			_dark.graphics.drawRect(0, 0, _sky.width, _sky.height);
+			_dark.graphics.endFill();
+			_dark.alpha = 0;
+			
 			_ground.filters = [new DropShadowFilter(10,-45,0,.5,50,50,1,2)];
 			
 			if(Config.getBooleanVariable("maintenance")) {
-				_sky.filters = [new ColorMatrixFilter([-0.43937185406684875,0.5917701721191406,0.8476016521453857,0,0,0.4568214416503906,0.6498579978942871,-0.10667942464351654,0,0,-0.276028573513031,1.718625545501709,-0.44259706139564514,0,0,0,0,0,1,0])];
+				_sky.bitmapdata.applyFilter(_sky.bitmapdata, _sky.bitmapdata.rect, new Point(), new ColorMatrixFilter([-0.43937185406684875,0.5917701721191406,0.8476016521453857,0,0,0.4568214416503906,0.6498579978942871,-0.10667942464351654,0,0,-0.276028573513031,1.718625545501709,-0.44259706139564514,0,0,0,0,0,1,0]));
 			}else{
-				TweenLite.to(_sky, 0, {colorMatrixFilter:{contrast:1.25}});
+				_sky.bitmapdata.applyFilter(_sky.bitmapdata, _sky.bitmapdata.rect, new Point(), new ColorMatrixFilter([1.100000023841858,0,0,0,-26.149999618530273,0,1.100000023841858,0,0,-26.149999618530273,0,0,1.100000023841858,0,-26.149999618530273,0,0,0,1,0]));
 			}
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
@@ -268,6 +291,7 @@ package com.muxxu.mush.contaminator.views {
 				_rotation += _speedR;
 				_rotation = MathUtils.restrict(_rotation, 0, _result? Math.PI : Math.PI * .5); // locks angle to PI/2 while server hasn't answered
 				_speed = MathUtils.restrict(_speed, 0, 100);
+				_dark.alpha = _speed/100;
 			}
 		}
 		
