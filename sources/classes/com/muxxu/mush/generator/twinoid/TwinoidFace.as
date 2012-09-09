@@ -1,4 +1,5 @@
 package com.muxxu.mush.generator.twinoid {
+	import com.muxxu.mush.graphics.SpotGraphic;
 	import flash.filters.ColorMatrixFilter;
 	import com.muxxu.mush.generator.mushroom.Eye;
 	import com.muxxu.mush.generator.mushroom.Mouth;
@@ -70,11 +71,16 @@ package com.muxxu.mush.generator.twinoid {
 		public function set contaminationPercent(contaminationPercent:Number):void {
 			_contaminationPercent = contaminationPercent;
 			var m:Array = [];
-			m.push(1-contaminationPercent*.3, 0, 0, 0, 0);
-			m.push(0, 1-contaminationPercent*.7, 0, 0, 0);
-			m.push(0, 0, 1+contaminationPercent, 0, 0);
+			m.push(1-contaminationPercent*.15, 0, 0, 0, 0);
+			m.push(0, 1-contaminationPercent*.35, 0, 0, 0);
+			m.push(0, 0, 1+contaminationPercent*.5, 0, 0);
 			m.push(0, 0, 0, 1, 0);
 			_back.filters = [new ColorMatrixFilter(m)];
+			var bt:SpotGraphic = addChildAt(new SpotGraphic(), 1) as SpotGraphic;
+			bt.scaleX = bt.scaleY = Math.random() * .5 + .5;
+			
+			bt.x = Math.random() * (_width-10-bt.width) - _width * .5 + 5;
+			bt.y = Math.random() * (_height-10-bt.height) - _height * .5 + 5;
 		}
 
 

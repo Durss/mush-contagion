@@ -1,4 +1,7 @@
 package com.muxxu.mush.contaminator.views {
+	import flash.utils.Dictionary;
+	import flash.display.BlendMode;
+	import com.muxxu.mush.graphics.PlayerShadowGraphic;
 	import by.blooddy.crypto.MD5;
 
 	import gs.TweenLite;
@@ -44,6 +47,8 @@ package com.muxxu.mush.contaminator.views {
 		private var _contaminated:int;
 		private var _fog:Fog;
 		private var _lowQuality:Boolean;
+		private var _shadows:Vector.<PlayerShadowGraphic>;
+		private var _targetToPosY:Dictionary;
 		
 		
 		
@@ -75,9 +80,13 @@ package com.muxxu.mush.contaminator.views {
 				for(i = 0; i < len; ++i) {
 					user = u.getUserAtIndex(i);
 					key = MD5.hash(user.name+"-_-"+user.uid);
+					
+					_shadows[i] = new PlayerShadowGraphic();
 					_twinoids[i] = new Twinoid();
 					_mushrooms[i] = new Mushroom();
 					_pseudos[i] = new CharacterTooltip();
+					
+					_shadows[i].blendMode = BlendMode.SUBTRACT;
 					_pseudos[i].populate(user.name);
 					setTimeout(_twinoids[i].populate, i*1 + 5, key, 1);
 					setTimeout(_mushrooms[i].populate, i*1.5 + 5, key, 1);
@@ -123,6 +132,7 @@ package com.muxxu.mush.contaminator.views {
 			visible = false;
 			_ground = addChild(new Bitmap(new Ground2Bmp(NaN, NaN))) as Bitmap;
 			_sky = ViewLocator.getInstance().locateViewByType(BackgroundView) as BackgroundView;
+			_shadows = new Vector.<PlayerShadowGraphic>();
 			_mushrooms = new Vector.<Mushroom>();
 			_twinoids = new Vector.<Twinoid>();
 			_pseudos = new Vector.<CharacterTooltip>();
@@ -182,6 +192,8 @@ package com.muxxu.mush.contaminator.views {
 						bounds = target.getBounds(target);
 						_pseudos[i].x = target.x + bounds.x + (bounds.width - _pseudos[i].width) * .5;
 						_pseudos[i].y = target.y + bounds.y - _pseudos[i].height - 10;
+						_shadows[i].x = target.x + bounds.x + (bounds.width - _shadows[i].width) * .5;
+						_shadows[i].y = _targetToPosY[target] - _shadows[i].height * .5;
 					}
 				}
 			}
@@ -194,24 +206,30 @@ package com.muxxu.mush.contaminator.views {
 			var i:int, len:int, bounds:Rectangle, inc:Number, rnd:Number;
 			len = _twinoids.length;
 			inc = 1/(_twinoids.length + 1);
+			_targetToPosY = new Dictionary();
 			for(i = 0; i < len; ++i) {
 				rnd = Math.random() * 65;
 				bounds = _twinoids[i].getBounds(_twinoids[i]);
 				_twinoids[i].x = stage.stageWidth * inc * (i+1) - bounds.width*.5 - bounds.x;
 				_twinoids[i].y = _ground.height - bounds.height - bounds.y - rnd;
+				_targetToPosY[_twinoids[i]] = _twinoids[i].y + bounds.height + bounds.y;
 				
 				bounds = _mushrooms[i].getBounds(_mushrooms[i]);
 				_mushrooms[i].x = stage.stageWidth * inc * (i+1) - bounds.width*.5 - bounds.x;
 				_mushrooms[i].y = _ground.height - bounds.height - bounds.y - rnd;
+				_targetToPosY[_mushrooms[i]] = _mushrooms[i].y + bounds.height + bounds.y;
 			}
 			
-			_twinoids.sort(sortOnY);
-			_mushrooms.sort(sortOnY);
+			var twins:Array = VectorUtils.toArray(_twinoids);
+			var mushs:Array = VectorUtils.toArray(_mushrooms);
+			twins.sort(sortOnY);
+			mushs.sort(sortOnY);
 			
 			for(i = 0; i < len; ++i) {
-				addChild(_twinoids[i]);
+				addChildAt(_shadows[i], 1);
+				addChild(twins[i]);
 				addChild(_pseudos[i]);
-				_twinoids[i].validate();
+				Twinoid(twins[i]).validate();
 			}
 			
 			setInterval(jumpMushrooms, 1000);
@@ -274,6 +292,7 @@ package com.muxxu.mush.contaminator.views {
 			
 			removeChild(event.target as Twinoid);
 			addChildAt(_mushrooms[i], i+1);
+			addChildAt(_shadows[i],1);
 			_mushrooms[i].x = _twinoids[i].x - _twinoids[i].width * .5;
 			_pseudos[i].setMushMode();
 			if(++_contaminated == _twinoids.length) {

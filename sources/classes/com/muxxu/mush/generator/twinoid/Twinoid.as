@@ -110,11 +110,11 @@ package com.muxxu.mush.generator.twinoid {
 				_isJumping = true;
 				TweenLite.to(_body, 2, {scaleX:.5, ease:Elastic.easeIn, easeParams:[1,.1], onComplete:onTransformComplete});
 			}else{
-				TwinoidFace(_body.topFace).contaminationPercent = _touched/_targeted;
-				TwinoidFace(_body.leftFace).contaminationPercent = _touched/_targeted;
-				TwinoidFace(_body.rightFace).contaminationPercent = _touched/_targeted;
-				TwinoidFace(_body.backFace).contaminationPercent = _touched/_targeted;
-				TwinoidFace(_body.bottomFace).contaminationPercent = _touched/_targeted;
+				TwinoidFace(_body.topFace).contaminationPercent =
+				TwinoidFace(_body.leftFace).contaminationPercent =
+				TwinoidFace(_body.rightFace).contaminationPercent =
+				TwinoidFace(_body.backFace).contaminationPercent =
+				TwinoidFace(_body.bottomFace).contaminationPercent =
 				TwinoidFace(_body.frontFace).contaminationPercent = _touched/_targeted;
 			}
 		}
