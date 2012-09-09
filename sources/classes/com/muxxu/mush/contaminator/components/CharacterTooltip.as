@@ -1,4 +1,5 @@
 package com.muxxu.mush.contaminator.components {
+	import flash.display.DisplayObject;
 	import flash.utils.clearTimeout;
 	import gs.TweenLite;
 	import gs.easing.Sine;
@@ -17,11 +18,14 @@ package com.muxxu.mush.contaminator.components {
 	 * @date 3 mars 2012;
 	 */
 	public class CharacterTooltip extends Sprite {
+		
 		private var _tf:CssTextField;
 		private var _labels:XMLList;
 		private var _timeout:uint;
 		private var _pseudo:String;
 		private var _style:String;
+		private var _target1:DisplayObject;
+		private var _target2:DisplayObject;
 		
 		
 		
@@ -42,6 +46,14 @@ package com.muxxu.mush.contaminator.components {
 		 * GETTERS / SETTERS *
 		 * ***************** */
 
+		public function get target1():DisplayObject {
+			return _target1;
+		}
+
+		public function get target2():DisplayObject {
+			return _target2;
+		}
+
 
 
 		/* ****** *
@@ -50,7 +62,9 @@ package com.muxxu.mush.contaminator.components {
 		/**
 		 * Populates the component
 		 */
-		public function populate(pseudo:String):void {
+		public function populate(pseudo:String, target1:DisplayObject, target2:DisplayObject):void {
+			_target2 = target2;
+			_target1 = target1;
 			_pseudo = pseudo;
 			_tf.autoSize = TextFieldAutoSize.LEFT;
 			_tf.wordWrap = false;
@@ -75,7 +89,7 @@ package com.muxxu.mush.contaminator.components {
 			TweenLite.from(this, .5, {autoAlpha:0, ease:Sine.easeIn});
 			
 			clearTimeout(_timeout);
-			_timeout = setTimeout(populate, Math.random()*15000 + 10000, pseudo);
+			_timeout = setTimeout(populate, Math.random()*15000 + 10000, pseudo, _target1, _target2);
 		}
 		
 		/**
@@ -84,7 +98,7 @@ package com.muxxu.mush.contaminator.components {
 		public function setMushMode():void {
 			_labels = new XML(Label.getLabel("mush")).child("s");
 			_style = "chatMush";
-			populate(_pseudo);
+			populate(_pseudo, _target1, _target2);
 		}
 
 
@@ -101,7 +115,7 @@ package com.muxxu.mush.contaminator.components {
 			_labels = new XML(Label.getLabel("twinoids")).child("s");
 			_style = "chatTwin";
 			
-			filters = [new DropShadowFilter(5,135,0,.5,5,5,1.5,2)];
+			filters = [new DropShadowFilter(5, 135, 0, .5, 5, 5, 1.5, 2)];
 		}
 		
 	}

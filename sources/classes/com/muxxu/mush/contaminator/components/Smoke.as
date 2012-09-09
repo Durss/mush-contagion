@@ -1,4 +1,5 @@
 package com.muxxu.mush.contaminator.components {
+	import flash.geom.Rectangle;
 	import gs.TweenLite;
 	import gs.easing.Strong;
 
@@ -24,8 +25,9 @@ package com.muxxu.mush.contaminator.components {
 		 * Creates an instance of <code>Smoke</code>.
 		 */
 		public function Smoke(target:DisplayObject) {
-			x = target.x + MathUtils.randomNumberFromRange(-50, 50);
-			y = target.y + MathUtils.randomNumberFromRange(-50, 50);
+			var bounds:Rectangle = target.getBounds(target);
+			x = target.x + bounds.width * .5 + bounds.x + MathUtils.randomNumberFromRange(-50, 50);
+			y = target.y + bounds.height * .4 + bounds.y + MathUtils.randomNumberFromRange(-50, 50);
 			alpha = Math.random()*.5 + .5;
 			var endX:int = x + (x - target.x);
 			var endY:int = y + (y - target.y);

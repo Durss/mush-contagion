@@ -17,7 +17,6 @@ package com.muxxu.mush.generator.mushroom {
 		
 		private var _key:String;
 		private var _sizeRatio:Number;
-		private var _texture:HeadTexture;
 		private var _m:Matrix;
 		private var _bottomPoint:Point;
 		private var _flattenRatio:Number;
@@ -83,7 +82,6 @@ package com.muxxu.mush.generator.mushroom {
 		public function populate(key:String, sizeRatio:Number = 100):void {
 			_sizeRatio = sizeRatio;
 			_key = key;
-			_texture.populate(key);
 			_m = new Matrix();
 			_m.scale(_sizeRatio*.01, _sizeRatio*.01);
 			update();
@@ -99,7 +97,6 @@ package com.muxxu.mush.generator.mushroom {
 		 * Initialize the class.
 		 */
 		private function initialize():void {
-			_texture = new HeadTexture();
 			_flattenRatio = 1;
 		}
 		

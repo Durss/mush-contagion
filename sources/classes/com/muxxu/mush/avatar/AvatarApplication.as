@@ -92,12 +92,12 @@ package com.muxxu.mush.avatar {
 			
 			CssManager.getInstance().setCss(".button {font-family:Trebuchet, Arial; font-size:14px; color:#cc0000; font-weight:bold; flash-bitmap:true; }");
 
-			_scale = 1;
+			_scale = 2;
 			
 			_holder = addChild(new Sprite()) as Sprite;
 			_back = _holder.addChild(new AvatarBaseGraphic()) as AvatarBaseGraphic;
 			_overlay = new ArchiveGraphic();
-			_button = addChild(new MButton("Télécharger en HD")) as MButton;
+			_button = addChild(new MButton("Télécharger")) as MButton;
 			
 			if(String(loaderInfo.parameters["canDownload"]).toLowerCase() === "false") {
 				buttonMode = mouseChildren = tabChildren = tabEnabled = false;
@@ -152,6 +152,7 @@ package com.muxxu.mush.avatar {
 			
 			buttonMode = true;
 		}
+
 		
 		/**
 		 * Called when something is clicked.
