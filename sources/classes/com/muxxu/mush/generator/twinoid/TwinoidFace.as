@@ -1,4 +1,5 @@
 package com.muxxu.mush.generator.twinoid {
+	import flash.display.Shape;
 	import com.muxxu.mush.graphics.SpotGraphic;
 	import flash.filters.ColorMatrixFilter;
 	import com.muxxu.mush.generator.mushroom.Eye;
@@ -23,6 +24,8 @@ package com.muxxu.mush.generator.twinoid {
 		private var _eyeR:Eye;
 		private var _contaminationPercent:Number;
 		private var _ratio:Number;
+		private var _spots:Sprite;
+		private var _mask:Shape;
 		
 		
 		
@@ -76,11 +79,11 @@ package com.muxxu.mush.generator.twinoid {
 			m.push(0, 0, 1+contaminationPercent*.5, 0, 0);
 			m.push(0, 0, 0, 1, 0);
 			_back.filters = [new ColorMatrixFilter(m)];
-			var bt:SpotGraphic = addChildAt(new SpotGraphic(), 1) as SpotGraphic;
-			bt.scaleX = bt.scaleY = Math.random() * .5 + .5;
+			var spot:SpotGraphic = _spots.addChild(new SpotGraphic()) as SpotGraphic;
+			spot.scaleX = spot.scaleY = Math.random() * 2 + .5;
 			
-			bt.x = Math.random() * (_width-10-bt.width) - _width * .5 + 5;
-			bt.y = Math.random() * (_height-10-bt.height) - _height * .5 + 5;
+			spot.x = Math.random() * (_width-10-spot.width) - _width * .5 + 5;
+			spot.y = Math.random() * (_height-10-spot.height) - _height * .5 + 5;
 		}
 
 
@@ -123,6 +126,11 @@ package com.muxxu.mush.generator.twinoid {
 		 */
 		private function initialize():void {
 			_back = addChild(new TwinoidFaceGraphic()) as TwinoidFaceGraphic;
+			_spots = addChild(new Sprite()) as Sprite;
+			_mask = addChild(new Shape()) as Shape;
+			
+			_spots.mask = _mask;
+			
 			_back.stop();
 		}
 		
@@ -130,8 +138,14 @@ package com.muxxu.mush.generator.twinoid {
 		 * Replaces the elements
 		 */
 		private function computePositions():void {
+			if(isNaN(_width) || isNaN(_height)) return;
 			_back.width = _width;
 			_back.height = _height;
+			
+			_mask.graphics.clear();
+			_mask.graphics.beginFill(0xff0000, 1);
+			_mask.graphics.drawRect(-_width * .5, -_height*.5, _width, _height);
+			_mask.graphics.endFill();
 			
 			if (_front) {
 				var base:Number = -Math.max(_eyeL.height, _eyeR.height) * .75;

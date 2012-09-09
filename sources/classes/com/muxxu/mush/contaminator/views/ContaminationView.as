@@ -87,12 +87,12 @@ package com.muxxu.mush.contaminator.views {
 					_pseudos[i] = new CharacterTooltip();
 					
 					_shadows[i].blendMode = BlendMode.SUBTRACT;
-					_pseudos[i].populate(user.name);
+					_pseudos[i].populate(user.name, _twinoids[i], _mushrooms[i]);
 					setTimeout(_twinoids[i].populate, i*1 + 5, key, 1);
 					setTimeout(_mushrooms[i].populate, i*1.5 + 5, key, 1);
 					_twinoids[i].addEventListener(InfectionEvent.INFECTED, infectionCompleteHandler);
 				}
-				setTimeout(placeMushrooms, 50);
+				setTimeout(placeMushrooms, len*2);
 			}
 		}
 
@@ -188,7 +188,7 @@ package com.muxxu.mush.contaminator.views {
 					var i:int, len:int, target:DisplayObject, bounds:Rectangle;
 					len = _twinoids.length;
 					for(i = 0; i < len; ++i) {
-						target = contains(_mushrooms[i])? _mushrooms[i] : _twinoids[i];
+						target = contains(_pseudos[i].target1)? _pseudos[i].target1 : _pseudos[i].target2;
 						bounds = target.getBounds(target);
 						_pseudos[i].x = target.x + bounds.x + (bounds.width - _pseudos[i].width) * .5;
 						_pseudos[i].y = target.y + bounds.y - _pseudos[i].height - 10;
@@ -203,38 +203,58 @@ package com.muxxu.mush.contaminator.views {
 		 * Places the mushrooms
 		 */
 		private function placeMushrooms():void {
-			var i:int, len:int, bounds:Rectangle, inc:Number, rnd:Number;
+			var i:int, len:int, bounds:Rectangle, inc:Number, rnd:Number, target:DisplayObject;
 			len = _twinoids.length;
 			inc = 1/(_twinoids.length + 1);
 			_targetToPosY = new Dictionary();
 			for(i = 0; i < len; ++i) {
 				rnd = Math.random() * 65;
-				bounds = _twinoids[i].getBounds(_twinoids[i]);
-				_twinoids[i].x = stage.stageWidth * inc * (i+1) - bounds.width*.5 - bounds.x;
-				_twinoids[i].y = _ground.height - bounds.height - bounds.y - rnd;
-				_targetToPosY[_twinoids[i]] = _twinoids[i].y + bounds.height + bounds.y;
+				target = _twinoids[i];
+				bounds = target.getBounds(target);
+				target.x = stage.stageWidth * inc * (i+1) - bounds.width*.5 - bounds.x;
+				target.y = _ground.height - rnd - bounds.height - bounds.y;
+				_targetToPosY[target] = target.y + bounds.height + bounds.y;
+				addChild(target);
+				_twinoids[i].validate();
 				
-				bounds = _mushrooms[i].getBounds(_mushrooms[i]);
-				_mushrooms[i].x = stage.stageWidth * inc * (i+1) - bounds.width*.5 - bounds.x;
-				_mushrooms[i].y = _ground.height - bounds.height - bounds.y - rnd;
-				_targetToPosY[_mushrooms[i]] = _mushrooms[i].y + bounds.height + bounds.y;
+				target = _mushrooms[i];
+				bounds = target.getBounds(target);
+				target.x = stage.stageWidth * inc * (i+1) - bounds.width*.5 - bounds.x;
+				target.y = _ground.height - rnd - bounds.height - bounds.y;
+				_targetToPosY[target] = target.y + bounds.height + bounds.y;
 			}
 			
+			zSort();
+			
+			setInterval(jumpMushrooms, 3000);
+		}
+		
+		/**
+		 * Z-sorts the items
+		 */
+		private function zSort():void {
 			var twins:Array = VectorUtils.toArray(_twinoids);
 			var mushs:Array = VectorUtils.toArray(_mushrooms);
 			twins.sort(sortOnY);
 			mushs.sort(sortOnY);
 			
+			var i:int, len:int;
+			len = _twinoids.length;
 			for(i = 0; i < len; ++i) {
 				addChildAt(_shadows[i], 1);
-				addChild(twins[i]);
+				if(contains(mushs[i])) {
+					addChildAt(mushs[i], len + 1 + i);
+				}
+				if(contains(twins[i])){
+					addChildAt(twins[i], len + 1 + i);
+				}
 				addChild(_pseudos[i]);
-				Twinoid(twins[i]).validate();
 			}
-			
-			setInterval(jumpMushrooms, 1000);
 		}
-
+		
+		/**
+		 * Sorts array on Y position of its entries 
+		 */
 		private function sortOnY(a:DisplayObject, b:DisplayObject):int {
 			var ba:Rectangle = a.getBounds(a);
 			var bb:Rectangle = b.getBounds(b);
@@ -283,20 +303,21 @@ package com.muxxu.mush.contaminator.views {
 					break;
 				}
 			}
+			removeChild(event.target as Twinoid);
+			addChild(_mushrooms[i]);
+			
+			zSort();
+			
+			_mushrooms[i].x = _twinoids[i].x - _twinoids[i].width * 1;
+			_pseudos[i].setMushMode();
+			if(++_contaminated == _twinoids.length) {
+				FrontControler.getInstance().contaminationComplete();
+			}
 			
 			var j:int, lenJ:int;
 			lenJ = 15;
 			for(j = 0; j < lenJ; ++j) {
-				addChild(new Smoke(_twinoids[i]));
-			}
-			
-			removeChild(event.target as Twinoid);
-			addChildAt(_mushrooms[i], i+1);
-			addChildAt(_shadows[i],1);
-			_mushrooms[i].x = _twinoids[i].x - _twinoids[i].width * .5;
-			_pseudos[i].setMushMode();
-			if(++_contaminated == _twinoids.length) {
-				FrontControler.getInstance().contaminationComplete();
+				addChild(new Smoke(_mushrooms[i]));
 			}
 		}
 	}

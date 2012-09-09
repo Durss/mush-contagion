@@ -8,10 +8,13 @@ package com.muxxu.mush.generator.mushroom {
 	 * @author Francois
 	 * @date 21 janv. 2012;
 	 */
-	public class HeadTexture extends BitmapData {
+	public class HeadTexture {
 		
+		private var _texture:BitmapData;
 		private var _key:String;
 		private var _shape:Shape;
+		private var _width:Number;
+		private var _height:Number;
 		
 		
 		
@@ -23,7 +26,6 @@ package com.muxxu.mush.generator.mushroom {
 		 * Creates an instance of <code>HeadTexture</code>.
 		 */
 		public function HeadTexture() {
-			super(500,500,false);
 			initialize();
 		}
 
@@ -33,6 +35,18 @@ package com.muxxu.mush.generator.mushroom {
 		 * GETTERS / SETTERS *
 		 * ***************** */
 
+		public function get texture():BitmapData {
+			return _texture;
+		}
+
+		public function get width():Number {
+			return _width;
+		}
+
+		public function get height():Number {
+			return _height;
+		}
+
 
 
 		/* ****** *
@@ -41,17 +55,22 @@ package com.muxxu.mush.generator.mushroom {
 		/**
 		 * Populates the component
 		 */
-		public function populate(key:String):void {
+		public function populate(key:String, sizeRatio:Number):void {
+			if(_texture != null) _texture.dispose();
+			
 			_key = key;
+			_width = sizeRatio * 100;
+			_height = sizeRatio * 100;
+			_texture = new BitmapData(_width, _height);
 			
 			var gr:Graphics = _shape.graphics;
 			gr.clear();
 
 			var bgColor:uint = parseInt(key.substr(16, 6), 16);
 			gr.beginFill(bgColor, 1);
-			gr.drawRect(0, 0, width, height);
+			gr.drawRect(0, 0, _width, _height);
 			
-			var circles:int = (width * height) * .002;
+			var circles:int = parseInt(key.charAt(5), 16) * 2 + 5;
 			var i:int, len:int, w:int, h:int, cColor:uint, r:int, g:int, b:int, diff:int, px:int, py:int;
 			diff = 0x70;
 			len = circles;
@@ -73,18 +92,17 @@ package com.muxxu.mush.generator.mushroom {
 			//Draw texture's circle
 			for(i = 0; i < len; ++i) {
 				gr.beginFill(cColor, 1);
-				w = parseInt(key.substr((i+2)%32,1), 16)/0xf * width*.015 + width * .2;
+				w = parseInt(key.substr((i+2)%32,1), 16)/0xf * _width*.015 + _width * .2;
 				h = w;//parseInt(key.substr((i+3)%32,1), 16)/0xf * height*.1 + width * .1;
 				
-				px = Math.round(parseInt(key.substr(i%32,1), 16)/0xf * 20)/20 * width;
-				py = Math.round(parseInt(key.substr((i+1)%32,1), 16)/0xf * 20)/20 * height;
+				px = Math.round(parseInt(key.substr(i%32,1), 16)/0xf * 20)/20 * _width;
+				py = Math.round(parseInt(key.substr((i+1)%32,1), 16)/0xf * 20)/20 * _height;
 				
 				gr.drawEllipse( px, py, w, h );
 				gr.endFill();
 			}
 			
-			fillRect(rect, 0);
-			draw(_shape);
+			_texture.draw(_shape);
 		}
 
 

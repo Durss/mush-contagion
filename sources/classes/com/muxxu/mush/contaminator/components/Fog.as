@@ -46,7 +46,7 @@ package com.muxxu.mush.contaminator.components {
 		 * GETTERS / SETTERS *
 		 * ***************** */
 		override public function get height():Number {
-			return 300;
+			return 200;
 		}
 
 

@@ -57,7 +57,7 @@ package com.muxxu.mush.generator.mushroom {
 		public function populate(key:String, sizeRatio:Number = 100):void {
 			_sizeRatio = sizeRatio;
 			_key = key;
-			_texture.populate(key);
+			_texture.populate(key, sizeRatio/100);
 			_m = new Matrix();
 			_m.scale(_sizeRatio*(1.2/_texture.width), _sizeRatio*(1.2/_texture.width));
 			update();
@@ -105,7 +105,7 @@ package com.muxxu.mush.generator.mushroom {
 			_bottomPoint = points[3];
 			
 			graphics.clear();
-			graphics.beginBitmapFill(_texture, _m, true, true);
+			graphics.beginBitmapFill(_texture.texture, _m, true, true);
 			CubicBezier.curveThroughPoints(graphics, points, .5, .75);
 //			graphics.beginFill(0xff0000, 1);
 //			graphics.drawCircle(_bottomPoint.x, _bottomPoint.y, 4)
