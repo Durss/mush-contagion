@@ -1,4 +1,6 @@
 package com.muxxu.mush.contaminator.views {
+	import com.nurun.utils.pos.roundPos;
+	import com.muxxu.mush.graphics.FlyingObjectGraphic;
 	import gs.TweenLite;
 	import gs.easing.Sine;
 
@@ -63,6 +65,8 @@ package com.muxxu.mush.contaminator.views {
 		private var _fog:Fog;
 		private var _reflects:WaterReflectGraphic;
 		private var _dark:Shape;
+		private var _flyingObject:FlyingObjectGraphic;
+		private var _flyingObjectLaunched:Boolean;
 		
 		
 		
@@ -159,9 +163,10 @@ package com.muxxu.mush.contaminator.views {
 		private function initialize():void {
 			_sky = addChild(new WrappingBitmap(new SkyBmp(NaN, NaN))) as WrappingBitmap;
 			_dark = addChild(new Shape()) as Shape;
+			_flyingObject = addChild(new FlyingObjectGraphic()) as FlyingObjectGraphic;
 			_holder = addChild(new Sprite()) as Sprite;
 			_ground = _holder.addChild(new Bitmap(new GroundBack(NaN, NaN))) as Bitmap;
-			_reflects = addChild(new WaterReflectGraphic()) as WaterReflectGraphic;
+			_reflects = _holder.addChild(new WaterReflectGraphic()) as WaterReflectGraphic;
 			_rocket = _holder.addChild(new RocketGraphic()) as RocketGraphic;
 			_mushrooms = addChild(new Bitmap(new MushroomsBmp(NaN, NaN))) as Bitmap;
 			_fog = _holder.addChild(new Fog()) as Fog;
@@ -171,6 +176,8 @@ package com.muxxu.mush.contaminator.views {
 			_offsetY = 0;
 			_reflects.alpha = .5;
 			_reflects.filters = [new BlurFilter(2,2,2)];
+			
+			_flyingObject.visible = false;
 			
 			var m:Matrix = new Matrix();
 			m.createGradientBox(_sky.width, _sky.height, Math.PI*.5);
@@ -241,7 +248,7 @@ package com.muxxu.mush.contaminator.views {
 			_rocket.x = _ground.width - 73;
 			_rocket.y = _ground.height - 52;
 			_reflects.x = 642;
-			_reflects.y = 532;
+			_reflects.y = 532 - _holder.y;
 		}
 		
 		
@@ -292,6 +299,21 @@ package com.muxxu.mush.contaminator.views {
 				_rotation = MathUtils.restrict(_rotation, 0, _result? Math.PI : Math.PI * .5); // locks angle to PI/2 while server hasn't answered
 				_speed = MathUtils.restrict(_speed, 0, 100);
 				_dark.alpha = _speed/100;
+				if (_speed == 100 && !_flyingObjectLaunched) {
+					_flyingObjectLaunched = true;
+					_flyingObject.x = stage.stageWidth * 3.5;
+//					_flyingObject.visible = true;
+					_flyingObject.visible = Math.random() > .9;
+					_flyingObject.gotoAndStop(MathUtils.randomNumberFromRange(1, _flyingObject.totalFrames, Math.round));
+//					_flyingObject.gotoAndStop(_flyingObject.totalFrames);
+					_flyingObject.filters = [new DropShadowFilter(0,0,0,1,5,5,1,2)];
+				}
+				
+				if(_flyingObjectLaunched) {
+					_flyingObject.y = (Math.PI*.75 - _rotation) * stage.stageHeight * .4;
+					_flyingObject.x -= _speed * .4;
+					roundPos(_flyingObject);
+				}
 			}
 		}
 		
