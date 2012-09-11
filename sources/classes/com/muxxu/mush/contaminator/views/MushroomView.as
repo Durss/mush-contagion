@@ -1,4 +1,5 @@
 package com.muxxu.mush.contaminator.views {
+	import flash.media.SoundTransform;
 	import graphics_fla.MushroomGraphic_7;
 	import graphics_fla.MushroomGraphic_8;
 
@@ -313,7 +314,7 @@ package com.muxxu.mush.contaminator.views {
 						FrontControler.getInstance().throwSpores();
 					}
 					_dialogDone["better"] = true;
-					(new _flopflop() as Sound).play();
+					(new _flopflop() as Sound).play(0, 0, new SoundTransform(Math.min(1, .3+strength/200) * .7));
 				}else{
 					(new _flop() as Sound).play();
 				}
