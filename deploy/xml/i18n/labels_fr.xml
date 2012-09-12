@@ -6,6 +6,7 @@
 		<label code="APP_USER_NOT_FOUND"><![CDATA[Aucune personne n'a été enregistrée sous cet identifiant.]]></label>
 		<label code="DELAY_CHEATED"><![CDATA[Dis donc?!<br />T'aurais pas un peu essayé de cheater toi.?<br />Hop là! C'est loggé dans la base de données merci =]]]></label>
 		<label code="XML_FORMAT_ERROR"><![CDATA[Le format du retour serveur est invalide.]]></label>
+		<label code="INFECT_404"><![CDATA[Erreur de chargemnt.<br />Essayez de recharger la page ou de vérifier votre connexion.]]></label>
 
 		<!-- Erreur de paramétrage du service -->
 		<label code="GET_INVALID_UID"><![CDATA[Identifiant utilisateur invalide]]></label>

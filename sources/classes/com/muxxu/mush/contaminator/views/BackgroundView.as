@@ -299,19 +299,20 @@ package com.muxxu.mush.contaminator.views {
 				_rotation = MathUtils.restrict(_rotation, 0, _result? Math.PI : Math.PI * .5); // locks angle to PI/2 while server hasn't answered
 				_speed = MathUtils.restrict(_speed, 0, 100);
 				_dark.alpha = _speed/100;
-				if (_speed == 100 && !_flyingObjectLaunched) {
+				if (_speed > 90 && !_flyingObjectLaunched) {
 					_flyingObjectLaunched = true;
-					_flyingObject.x = stage.stageWidth * 3.5;
+					_flyingObject.x = -stage.stageWidth;
 //					_flyingObject.visible = true;
+					_flyingObject.scaleX = -1;
 					_flyingObject.visible = Math.random() > .9;
 					_flyingObject.gotoAndStop(MathUtils.randomNumberFromRange(1, _flyingObject.totalFrames, Math.round));
 //					_flyingObject.gotoAndStop(_flyingObject.totalFrames);
-					_flyingObject.filters = [new DropShadowFilter(0,0,0,1,5,5,1,2)];
+					_flyingObject.filters = [new DropShadowFilter(0,0,0,1,15,15,1,2)];
 				}
 				
 				if(_flyingObjectLaunched) {
 					_flyingObject.y = (Math.PI*.75 - _rotation) * stage.stageHeight * .4;
-					_flyingObject.x -= _speed * .4;
+					_flyingObject.x += 20;
 					roundPos(_flyingObject);
 				}
 			}
