@@ -81,7 +81,7 @@ package com.muxxu.mush.contaminator.cmd {
 		}
 
 		private function loadErrorHandler(event:IOErrorEvent):void {
-			dispatchEvent(new CommandEvent(CommandEvent.ERROR, "404"));
+			dispatchEvent(new CommandEvent(CommandEvent.ERROR, "INFECT_404"));
 		}
 	}
 }
