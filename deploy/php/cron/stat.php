@@ -2,7 +2,8 @@
 /*
  * Relevé des statistiques
  */
-define('DEVMODE', true);
+define('DEVMODE', false);
+$print = null;
 
 //Filtre CRON-JOB
 if(!DEVMODE && !isset($_SERVER['CRON_ID']))
@@ -12,7 +13,7 @@ if(!DEVMODE && !isset($_SERVER['CRON_ID']))
 }
 
 //init
-define('STAT_DELAY', 60*60); //secondes
+define('STAT_DELAY', 60*60-1); //secondes
 
 require_once('../../c/config.php');
 require_once('../../c/mysql.php');
@@ -75,7 +76,7 @@ if($db->result)
 		if($db->result)
 		{
 			$row = mysql_fetch_assoc($db->result);
-			$users = $row['countUsers'];
+			$nbUsers = $row['countUsers'];
 			$xml_users = $xml->addChild('d',$row['countUsers']);
 		}
 		else $xml_users = $xml->addChild('d', 'no-result');
@@ -83,7 +84,8 @@ if($db->result)
 		$xml_users->addAttribute('label', 'countUsers');
 		
 		//MAJ des données
-		$db->insertStat($realUsers, $users, $infect);
+		$db->insertStat($realUsers, $nbUsers, $infect);
+		if(DEVMODE) $print = "\$db->insertStat({$realUsers}, {$nbUsers}, {$infect});";
 	}
 }
 else {

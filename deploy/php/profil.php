@@ -141,13 +141,23 @@ if($id == UID && $infected == 'true'){
 			
 			swfobject.embedSWF("swf/language.swf?v=1", "content", "0", "0", "10.2", "swf/expressinstall.swf", flashvarsTM, paramsTM, attributesTM);
 			
-			function encrypt() {
-				document.getElementById("result").value = document.getElementById("content").encrypt(document.getElementById("text").value);
+			var lastCryptTime = -100;
+			/*
+			 * @param bool t (true: decrypt;false: encrypt;)
+			 */
+			function m_crypt(t) {
+				var time = new Date().getTime();
+				if(time - lastCryptTime > 1000) {
+					if(t){ //encrypt
+						document.getElementById("mushTranscryptor").value = document.getElementById("content").encrypt(document.getElementById("mushTranscryptor").value);
+					}
+					else{ //decrypt
+						document.getElementById("mushTranscryptor").value = document.getElementById("content").decrypt(document.getElementById("mushTranscryptor").value);
+					}
+					lastCryptTime = time;
+				}
 			}
 			
-			function decrypt() {
-				document.getElementById("result").value = document.getElementById("content").decrypt(document.getElementById("text").value);
-			}
 EOJS;
 	$page->addScript($js);
 	$mushTranscryptor = <<<EOHTML
@@ -155,8 +165,8 @@ EOJS;
 			<td colspan="2" class="TM_menu">
 				<span>Transcrypteur Mush :</span>
 				<img src="gfx/fleche-UR.png" alt="" width="21" height="21" />
-				<input type="submit" class="btn" value="Crypter" onclick="encrypt()" />
-				<input type="submit" class="btn" value="Décrypter" onclick="decrypt()" />
+				<input type="submit" class="btn" value="Crypter" onclick="m_crypt(1)" />
+				<input type="submit" class="btn" value="Décrypter" onclick="m_crypt(0)" />
 				<img src="gfx/fleche-RD.png" alt="" width="21" height="21" />
 			</td>
 		</tr>
@@ -166,14 +176,39 @@ EOJS;
 					<!--p>Afin de visualiser cette page, vous devez activer JavaScript et Flash Player 10.2+</p-->
 					<!--a href="http://get.adobe.com/fr/flashplayer/">Installer flash</a-->
 				</div>
-				<textarea class="mushTranscryptor" id="text" onClick="select_all(this);">Utilisez le transcrypteur pour communiquer entre Mushs à l'insu de ces horribles humains.</textarea>
-				<textarea class="mushTranscryptor" id="result" readonly="readonly" onclick="select_all(this);"></textarea>
+				<textarea class="text" id="mushTranscryptor" ondblclick="select_all(this);">Utilisez le transcrypteur pour communiquer entre Mushs à l'insu de ces horribles humains.</textarea>
+				<!--textarea class="mushTranscryptor" id="result" readonly="readonly" onclick="select_all(this);"></textarea-->
 			</td>
 		</tr>
 EOHTML;
 }
-else $mushTranscryptor = null;
-
+else{
+	function embedCC($txt,$n=0){//readonly='readonly'
+		return "<textarea  onclick='select_all(this);'>{$txt}\n[link=http://muxxu.com/a/".appName."/?act=warning]Flash d'information sur la contagion[/link]</textarea>";
+//				<embed src="http://twinoid.com/swf/copyButton.swf?v=1" quality="high" bgcolor="#1d2028" width="150" height="48" name="copy_{$n}" type="application/x-shockwave-flash" flashvars="text={$txt}&amp;color=#1d2028&amp;label=Collez cette affiche\nsur votre Nexus&amp;confirm=Faites CTRL&#43;V dans un\nmessage du Nexus" allowscriptaccess="always" menu="false" scale="noScale" pluginspage="http://www.macromedia.com/go/getflashplayer" wmode="opaque">
+	}
+	$cc = array(
+		'wc' => embedCC('http://flic.kr/p/da9edy',1),
+		'champi' => embedCC('http://flic.kr/p/da9e2z',2),
+		'oeil' => embedCC('http://flic.kr/p/da9efh',3),
+		'xoxo' => embedCC('http://flic.kr/p/da9eeq',4),
+	);
+	$mushTranscryptor = <<<EOHTML
+		<tr class="recommandations">
+			<td class="prudence champi">Ne caressez pas un champignon que vous ne connaissez pas. Surtout s'il a l'air gentil.</td>
+			<td>{$cc['champi']}</td>
+		</tr><tr class="recommandations">
+			<td class="prudence xoxo">Préférez la bise à la mode chez les inuits, en frottant le bout de votre nez sur celui de votre partenaire.</td>
+			<td>{$cc['xoxo']}</td>
+		</tr><tr class="recommandations">
+			<td class="prudence wc">Ne tirez la chasse qu'en cas d'extrême urgence.</td>
+			<td>{$cc['wc']}</td>
+		</tr><tr class="recommandations">
+			<td class="prudence oeil">Autant éviter les contacts oculaires inutiles, fermez les yeux avant de vous endormir.</td>
+			<td>{$cc['oeil']}</td>
+		</tr>
+EOHTML;
+}
 $fiche = <<<EOHTML
 <div id='ficheProfil'>
 	<table class="diagnostic">
