@@ -19,32 +19,6 @@ body {
 	margin: 0;
 }
 
-/*
- * ADV : Flash & JS needed
-
-body #content1 #content {
-	width: 650px;
-	margin: 250px auto;
-}
-
-body #content1 #content p {
-	font: 18px Trebuchet MS, Arial, sans-serif;
-}
-
-body #content1 #content a,body #content1 #content a:visited {
-	display: block;
-	width: 350px;
-	margin: 0 auto;
-	padding: 3px 5px;
-	font: 24px Trebuchet MS, Arial, sans-serif;
-	text-align: center;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-body #content1 #content a:hover {
-	padding: 4px 4px 2px 6px;
-}
  */
 /*
  * BETA-TEST
@@ -244,10 +218,10 @@ table.diagnostic {
 	width: 100%;
 }
 
-textarea.mushTranscryptor { /* display: block;
+textarea#mushTranscryptor { /* display: block;
 	float: left; */
 	padding: 16px;
-	width: 258px;
+	width: 500px;
 	height: 200px;
 	border: solid 1px #000;
 }
@@ -270,12 +244,12 @@ textarea.mushTranscryptor { /* display: block;
 	vertical-align: -7px;
 }
 
-#ficheProfil textarea#text {
+#ficheProfil textarea#mushTranscryptor.text {
 	color: #000;
 	background: transparent url('../gfx/bg.transMush2.png') top center;
 }
 
-#ficheProfil textarea#result {
+#ficheProfil textarea#mushTranscryptor.wait {
 	color: #FFF;
 	background: #080824 url('../gfx/bg.transMush1.png') top center;
 }
@@ -538,4 +512,65 @@ body.user div#flash[style~="visible;"] a:before{
 	content: url(../gfx/plugin.png);
 	margin-right: 2px;
 	vertical-align: -4px;
+}
+
+/*
+ * Avertissement
+ */
+.recommandations td.prudence{
+	height: 63px;
+	padding-left: 64px;
+	font: 14px arial, sans-serif;
+	vertical-align: center;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-image: url(../gfx/prevention.png);
+	cursor: default;
+}
+.recommandations td.xoxo{ background-position: 0px 0px; }
+.recommandations td.wc{ background-position: 0px -64px; }
+.recommandations td.champi{ background-position: 0px -128px; }
+.recommandations td.oeil{ background-position: 0px -192px; }
+.recommandations textarea{
+	height: 24px;
+	font-size: 10px;
+	padding: 2px 4px;
+	width: 200px;
+	font-family: arial, sans-serif;
+	background-color: #fff1cc;
+	border: solid 1px #CCC;
+	overflow: hidden;
+	scroll: hidden;
+}
+
+tr.recommandations:hover td.champi:after{
+	content: url(../gfx/bulle1.png);
+	display: block;
+	position: absolute;
+	z-index: 50;
+	margin: -60px 0px 0px 180px;
+}
+
+tr.recommandations:hover td.xoxo:after{
+	content: url(../gfx/bulle2.png);
+	display: block;
+	position: absolute;
+	z-index: 50;
+	margin: -80px 0px 0px 140px;
+}
+
+tr.recommandations:hover td.wc:after{
+	content: url(../gfx/bulle3.png);
+	display: block;
+	position: absolute;
+	z-index: 50;
+	margin: -70px 0px 0px 160px;
+}
+
+tr.recommandations:hover td.oeil:after{
+	content: url(../gfx/bulle4.png);
+	display: block;
+	position: absolute;
+	z-index: 50;
+	margin: -80px 0px 0px 190px;
 }

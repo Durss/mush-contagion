@@ -99,11 +99,19 @@ if(isset($_POST['getUser']))
 		if($dataLinks) $userInfos[] = "<dd><textarea cols='64' rows='2'>{$dataLinks}</textarea></dd>";
 		
 		//Lien userinfos
-		if($lookUID) $userInfos[] = "<dd>".website."php/services/userinfos.php?id={$lookUID}&parent&pandemie</dd>";
-		else $userInfos[] = "<dd>".website."php/services/userinfos.php?id=[ UID ? ]&parent&pandemie</dd>";
+		if($lookUID){
+			$userInfos[11] = "<dd>http://muxxu.com/a/".appName."/?act=u/{$lookUID}</dd>";
+			$userInfos[12] = "<dd>http://muxxu.com/a/".appName."/?act=p/{$lookUID}</dd>";
+			$userInfos[14] = "<dd>".website."php/services/userinfos.php?id={$lookUID}&parent&pandemie</dd>";
+		}
+		else $userInfos[14] = "<dd>".website."php/services/userinfos.php?id=[ UID ? ]&parent&pandemie</dd>";
 		//Lien atchoum
-		if($lookUID && isset($friendsKey)) $userInfos[] = "<dd>".website."php/services/atchoum.php?id={$lookUID}&key={$friendsKey}</dd>";
-		else $userInfos[] = "<dd>".website."php/services/atchoum.php?id=[ UID ? ]&key=[ friends key ? ]</dd>";
+		if($lookUID && isset($friendsKey)){
+			$userInfos[10] = "<dd>?uid={$lookUID}&pubkey={$friendsKey}&act=user</dd>";
+			$userInfos[15] = "<dd>".website."php/services/atchoum.php?id={$lookUID}&key={$friendsKey}</dd>";
+		}
+		else $userInfos[15] = "<dd>".website."php/services/atchoum.php?id=[ UID ? ]&key=[ friends key ? ]</dd>";
+		ksort($userInfos);
 	}
 	$db->__destruct();
 	
@@ -150,10 +158,13 @@ if(isset($_POST['stats']))
 			switch($row['Name'])
 			{
 				case $db->tbl['user']:
-					$stats[] = "Nombre d'enregistements dans la table 'Users' : <strong>{$row['Rows']}</strong>";
+					$stats[] = "Nombre d'enregistrements dans la table 'Users' : <strong>{$row['Rows']}</strong>";
 					break;
 				case $db->tbl['link']:
-					$stats[] = "Nombre d'enregistements dans la table 'Links' : <strong>{$row['Rows']}</strong>";
+					$stats[] = "Nombre d'enregistrements dans la table 'Links' : <strong>{$row['Rows']}</strong>";
+					break;
+				case $db->tbl['stat']:
+					$stats[] = "Nombre d'enregistrements dans la table 'Stats' : <strong>{$row['Rows']}</strong>";
 					break;
 			}
 		}

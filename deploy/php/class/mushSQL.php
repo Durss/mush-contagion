@@ -291,12 +291,13 @@ EOSQL;
 	 */
 	public function countUsers()
 	{
-		$sql = <<<EOSQL
--- Dernier ID de la table 'user'
-SELECT `id` as 'countUsers' FROM `{$this->tbl['user']}` ORDER BY `id` DESC LIMIT 1;
+		$result = $this->tableStatus(strval($this->tbl['user']));
+$sql = <<<EOSQL
+-- Nombre de profils eregistrées
+SELECT count(`id`) as 'countUsers' FROM `{$this->tbl['user']}`;
 EOSQL;
-		
-		return $this->query($sql) or $this->error(mysql_error());
+
+	return $this->query($sql) or $this->error(mysql_error());
 	}
 		
 	/**
@@ -332,17 +333,18 @@ EOSQL;
 		
 	/**
 	 * Stats générales des tables
+	 * @param	mixed	$table	-Le nom de la table à examiner, ou un array contenant le noms des tables
 	 * @return	ressource
 	 */
 	public function tableStatus()
 	{
-		$tables = "('".implode("', '",$this->tbl)."')";
+		$table = "IN ('".implode("', '",$this->tbl)."')";
 		
 		$sql = <<<EOSQL
 -- Stats des tables
 SHOW TABLE STATUS
 FROM `{$this->db}`
-WHERE Name IN {$tables};
+WHERE Name {$table};
 EOSQL;
 		
 		return $this->query($sql) or $this->error(mysql_error());
@@ -380,9 +382,9 @@ EOSQL;
 		
 		$sql = <<<EOSQL
 -- Relevé des stats
-SELECT `date`, realUsers`, `users`, `infect`
+SELECT `date`, `realUsers`, `users`, `infect`
 FROM `{$this->tbl['stat']}`
-ORDER BY `{$this->tbl['stat']}`.`id` ASC{$limit};
+ORDER BY `id` DESC{$limit};
 EOSQL;
 		
 		return $this->query($sql) or $this->error(mysql_error());
