@@ -93,8 +93,8 @@ $db = new mushSQL($mysql_vars, isset($_GET['debug']));
 //dernière infection effectuée
 if(! $db->selectLastInfection(UID)) //En cas d'erreur SQL
 {
-	xmlError($userinfos, 'MYSQL_QUERY_FAIL_10', mysql_error());
-	xmlFinish($userinfos);
+	xmlError($root, 'MYSQL_QUERY_FAIL_10', mysql_error());
+	xmlFinish($root);
 }
 
 //Si UID n'a pas encore effectué d'infection
@@ -127,47 +127,49 @@ if($lastInfection)
 }
 
 //Dresse la liste des amis pour une requête SQL
-$friendsID = array_keys($friends->list);
-//--mélange
-shuffle($friendsID);
-$chunkFriendsID = array_chunk($friendsID, $ini['queryLimit']);
-
-//Initialisation du gestionnaire DB
+//--Initialisation du gestionnaire DB
 $list = Array();
-#$i=0;
-#$temps_debut = microtime(true);
+if(is_array($friends->list) && count($friends->list)){
+	$friendsID = array_keys($friends->list);
+	//--mélange
+	shuffle($friendsID);
+	$chunkFriendsID = array_chunk($friendsID, $ini['queryLimit']);
 
-foreach($chunkFriendsID as $f)
-{
-	$select = false;
-	#echo ++$i;
-	//Sélectionne tous les amis qui ne sont pas encore infectés.
-	if(! $db->selectUsers(1, $f, $max - count($list), $ini['infectCeil'],1))
-	{
-		//En cas d'erreur SQL
-		xmlError($root, 'MYSQL_QUERY_FAIL_1');
-		xmlFinish($root);
-	}
-	else $select = $db->result;
+	#$i=0;
+	#$temps_debut = microtime(true);
 	
-	//Déplie la liste
-	if($select && mysql_num_rows($select))
+	foreach($chunkFriendsID as $f)
 	{
-		while($row = mysql_fetch_assoc($select))
+		$select = false;
+		#echo ++$i;
+		//Sélectionne tous les amis qui ne sont pas encore infectés.
+		if(! $db->selectUsers(1, $f, $max - count($list), $ini['infectCeil'],1))
 		{
-			//MAJ de l'infection au plus vite
-			if(!$db->updateInfection(array($row['uid'])))
-			{
-				//En cas d'erreur SQL
-				xmlError($root, 'MYSQL_QUERY_FAIL_6');
-				xmlFinish($root);
-			}
-			$list[intval($row['uid'])] = $row;
+			//En cas d'erreur SQL
+			xmlError($root, 'MYSQL_QUERY_FAIL_1');
+			xmlFinish($root);
 		}
+		else $select = $db->result;
+		
+		//Déplie la liste
+		if($select && mysql_num_rows($select))
+		{
+			while($row = mysql_fetch_assoc($select))
+			{
+				//MAJ de l'infection au plus vite
+				if(!$db->updateInfection(array($row['uid'])))
+				{
+					//En cas d'erreur SQL
+					xmlError($root, 'MYSQL_QUERY_FAIL_6');
+					xmlFinish($root);
+				}
+				$list[intval($row['uid'])] = $row;
+			}
+		}
+		
+		//Soupape
+		if(count($list) >= $max) break;
 	}
-	
-	//Soupape
-	if(count($list) >= $max) break;
 }
 
 //Pour les gens qui n'ont pas ou peu d'amis non-infectés
@@ -273,7 +275,8 @@ foreach($list as $target)
 	//Elément <root><infectedUsers><user>
 	$user = $infectedUsers->addChild('user');
 	$user->addAttribute('uid', $target['uid']);
-	$isFriend = isset($friends->list[$target['uid']]) ? 1 : 0;
+	$user->addAttribute('level', $target['infected']);
+	$isFriend = (is_array($friends->list) && isset($friends->list[$target['uid']])) ? 1 : 0;
 	$user->addAttribute('isFriend', $isFriend);
 
 	$user->addChild('name', $target['name']);
