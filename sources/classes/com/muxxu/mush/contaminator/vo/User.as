@@ -17,6 +17,7 @@ package com.muxxu.mush.contaminator.vo {
 		private var _name:String;
 		private var _avatar:String;
 		private var _profileURL:String;
+		private var _infectionLevel:Number;
 		
 		
 		
@@ -54,6 +55,10 @@ package com.muxxu.mush.contaminator.vo {
 		public function get profileURL():String {
 			return _profileURL;
 		}
+
+		public function get infectionLevel():Number {
+			return _infectionLevel;
+		}
 		 
 
 
@@ -66,6 +71,7 @@ package com.muxxu.mush.contaminator.vo {
 		 */
 		public function populate(xml:XML, ...optionnals:Array):void {
 			_uid = xml.@uid;
+			_infectionLevel = parseInt(xml.@level);
 			_isFriend = parseBoolean(xml.@isFriend);
 			_name = xml.child("name")[0];
 			_avatar = xml.child("avatar")[0];

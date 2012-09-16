@@ -84,24 +84,27 @@ package com.muxxu.mush.contaminator.vo {
 		 * Gets a random status.
 		 */
 		public function getNextStatus():String {
-			var len:int = (_usersToStatus[_infectedUsers.length] as Array).length;
-			return parseStatus(_usersToStatus[_infectedUsers.length][(_lastStatusIndex ++)%len]);
+			var len:int = (_usersToStatus[_infectedUsers.transformedUsers.length] as Array).length;
+			return parseStatus(_usersToStatus[_infectedUsers.transformedUsers.length][(_lastStatusIndex ++)%len]);
 		}
 		
 		/**
 		 * Gets a random status.
 		 */
 		public function getRandomStatus():String {
-			return parseStatus(ArrayUtils.getRandom(_usersToStatus[_infectedUsers.length]));
+			return parseStatus(ArrayUtils.getRandom(_usersToStatus[_infectedUsers.transformedUsers.length]));
 		}
-
+		
+		/**
+		 * Parses a random status and place the pseudos on it
+		 */
 		private function parseStatus(status:String):String {
 			var replacements:Array = ["xxx", "yyy", "zzz"];
 			var i:int, len:int, user:User;
-			len = _infectedUsers.length;
+			len = _infectedUsers.transformedUsers.length;
 			for(i = 0; i < len; ++i) {
-				user = _infectedUsers.getUserAtIndex(i);
-				status = status.replace(new RegExp("<"+replacements[i]+" ?/>", "gi"), "[lien="+user.profileURL+"]"+user.name+"[/lien]");
+				user = _infectedUsers.transformedUsers[i];
+				status = status.replace(new RegExp("<"+replacements[i]+" ?/>", "gi"), "[link="+user.profileURL+"]"+user.name+"[/link]");
 			}
 			return status.replace(/\r\n/gi, "\n").replace(/<link ?\/>/gi, Config.getPath("appURL"));
 		}

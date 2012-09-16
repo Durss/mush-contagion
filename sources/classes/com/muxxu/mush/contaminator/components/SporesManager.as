@@ -156,8 +156,8 @@ package com.muxxu.mush.contaminator.components {
 			var particle:Particle, i:int, target:Twinoid;
 			var targets:Array = _mushroomsView.getTargets();
 			
-			particle = _firstParticle;
 			var tot:int;
+			particle = _firstParticle;
 			while(particle != null && i++ < _len) {
 				if(particle.launched) {
 					tot ++;

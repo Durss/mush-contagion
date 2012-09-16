@@ -1,4 +1,5 @@
 package com.muxxu.mush.contaminator.vo {
+	import com.nurun.structure.environnement.configuration.Config;
 	import com.nurun.structure.mvc.vo.ValueObjectElement;
 	import com.nurun.core.collection.Collection;
 	import com.nurun.core.lang.vo.XMLValueObject;
@@ -11,6 +12,7 @@ package com.muxxu.mush.contaminator.vo {
 	public class UserCollection extends ValueObjectElement implements XMLValueObject, Collection {
 		
 		private var _collection:Vector.<User>;
+		private var _transformedUser:Vector.<User>;
 
 		
 		
@@ -34,6 +36,13 @@ package com.muxxu.mush.contaminator.vo {
 		public function get length():uint {
 			return _collection!=null? _collection.length : 0;
 		}
+		
+		/**
+		 * Gets the total of transformed people. The one that actually become mush
+		 */
+		public function get transformedUsers():Vector.<User> {
+			return _transformedUser;
+		}
 
 
 
@@ -48,9 +57,14 @@ package com.muxxu.mush.contaminator.vo {
 			nodes = xml.child("user");
 			len = nodes.length();
 			_collection = new Vector.<User>(len, true);
+			_transformedUser = new Vector.<User>();
+			var total:int = Config.getNumVariable("infectCeil");
 			for(i = 0; i < len; ++i) {
 				_collection[i] = new User();
 				_collection[i].populate(nodes[i]);
+				if (_collection[i].infectionLevel == total - 1) {
+					_transformedUser.push( _collection[i] );
+				}
 			}
 		}
 		

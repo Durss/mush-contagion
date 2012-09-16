@@ -24,9 +24,11 @@
 		<path code="ambiantSounds"><![CDATA[{v_ressourcesPath}sounds/ambiant/]]></path>
 		<path code="infectService"><![CDATA[{v_wsPath}php/services/atchoum.php?id={UID}&key={KEY}&v={v_version}]]></path>
 		<path code="userInfoService"><![CDATA[{v_wsPath}php/services/userinfos.php?id={UID}&key={KEY}&v={v_version}]]></path>
-		<path code="userProfileMuxxu"><![CDATA[http://muxxu.com/user/{UID}]]></path>
-		<path code="userProfileTwino"><![CDATA[http://twinoid.com/user/{UID}]]></path>
-		<path code="appURL"><![CDATA[http://muxxu.com/a/mush-teasing-beta]]></path>
+		<!--<path code="userProfileMuxxu"><![CDATA[http://muxxu.com/user/{UID}]]></path>
+		<path code="userProfileTwino"><![CDATA[http://twinoid.com/user/{UID}]]></path>-->
+		<path code="userProfileMuxxu"><![CDATA[http://muxxu.com/a/mushcontagion/?act=p/{UID}]]></path>
+		<path code="userProfileTwino"><![CDATA[http://muxxu.com/a/mushcontagion/?act=p/{UID}]]></path>
+		<path code="appURL"><![CDATA[http://muxxu.com/a/mushcontagion]]></path>
 	</paths>
 	
 	<dependencies>

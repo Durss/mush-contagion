@@ -215,7 +215,7 @@ if(count($dlSpore) > 0)
 	}
 	$tableSpores = "<table id='spores'>\n"
 	."<thead>\n<tr><td colspan='4'>{$altMainAvatar}</td>\n"
-	."<td id='details' colspan='2'>Référence du dossier :\n<input readonly='readonly' onclick='select_all(this)' value='http://muxxu.com/a/".appName."/?p/{$id}'/>\n{$pagination}</td></tr></thead>\n"
+	."<td id='details' colspan='2'>Référence du dossier :\n<input readonly='readonly' onclick='select_all(this)' value='http://muxxu.com/a/".appName."/?act=p/{$id}'/>\n{$pagination}</td></tr></thead>\n"
 	."<tbody>\n{$tbody}\n</tbody>\n"
 	."</table>\n";
 }

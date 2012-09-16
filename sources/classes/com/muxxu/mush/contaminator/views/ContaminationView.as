@@ -1,4 +1,5 @@
 package com.muxxu.mush.contaminator.views {
+	import com.nurun.structure.environnement.configuration.Config;
 	import flash.utils.Dictionary;
 	import flash.display.BlendMode;
 	import com.muxxu.mush.graphics.PlayerShadowGraphic;
@@ -88,9 +89,10 @@ package com.muxxu.mush.contaminator.views {
 					
 					_shadows[i].blendMode = BlendMode.SUBTRACT;
 					_pseudos[i].populate(user.name, _twinoids[i], _mushrooms[i]);
-					setTimeout(_twinoids[i].populate, i*1 + 5, key, 1);
+					setTimeout(_twinoids[i].populate, i*1 + 5, key, 1, user.infectionLevel/Config.getNumVariable("infectCeil"));
 					setTimeout(_mushrooms[i].populate, i*1.5 + 5, key, 1);
 					_twinoids[i].addEventListener(InfectionEvent.INFECTED, infectionCompleteHandler);
+					_twinoids[i].addEventListener(InfectionEvent.NOT_YET_INFECTED, infectionCompleteHandler);
 				}
 				setTimeout(placeMushrooms, len*2);
 			}
@@ -296,6 +298,12 @@ package com.muxxu.mush.contaminator.views {
 		 * Called when a twinoid's infection completes
 		 */
 		private function infectionCompleteHandler(event:InfectionEvent):void {
+			if(++_contaminated == _twinoids.length) {
+				FrontControler.getInstance().contaminationComplete();
+			}
+			
+			if(event.type == InfectionEvent.NOT_YET_INFECTED)  return;
+			
 			var i:int, len:int;
 			len = _twinoids.length;
 			for(i = 0; i < len; ++i) {
@@ -310,9 +318,6 @@ package com.muxxu.mush.contaminator.views {
 			
 			_mushrooms[i].x = _twinoids[i].x - _twinoids[i].width * 1;
 			_pseudos[i].setMushMode();
-			if(++_contaminated == _twinoids.length) {
-				FrontControler.getInstance().contaminationComplete();
-			}
 			
 			var j:int, lenJ:int;
 			lenJ = 15;

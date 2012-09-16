@@ -20,6 +20,8 @@ package com.muxxu.mush.generator {
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.filters.DropShadowFilter;
+	import flash.geom.Matrix;
+	import flash.geom.Rectangle;
 	import flash.net.FileReference;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
@@ -123,6 +125,7 @@ package com.muxxu.mush.generator {
 			stage.addEventListener(MouseEvent.CLICK, clickHandler);
 			_input.addEventListener(Event.CHANGE, changeHandler);
 			_mushroomBig.addEventListener(MouseEvent.CLICK, clickHandler);
+			_twinoidBig.addEventListener(MouseEvent.CLICK, clickHandler);
 			_avatar.addEventListener(MouseEvent.CLICK, clickHandler);
 			changeHandler();
 		}
@@ -144,6 +147,17 @@ package com.muxxu.mush.generator {
 //				var fr:FileReference = new FileReference();
 //				fr.save(PNGEncoder.encode(bmd), "mushroom.png");
 //				event.stopPropagation();
+			}else if (event.currentTarget == _twinoidBig) {
+				_twinoidBig.setAgentPosition();
+				var bounds:Rectangle = _twinoidBig.getBounds(_twinoidBig);
+				var m:Matrix = new Matrix();
+				m.translate(-bounds.x, -bounds.y);
+				var bmd:BitmapData = new BitmapData(_twinoidBig.width, _twinoidBig.height, true, 0);
+				bmd.draw(_twinoidBig, m);
+				var fr:FileReference = new FileReference();
+				fr.save(PNGEncoder.encode(bmd), "avatar.png");
+				event.stopPropagation();
+				event.stopPropagation();
 			}else{
 				var left:Boolean = Math.random() > .5;
 				_twinoidBig.jump(left);
