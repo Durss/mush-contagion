@@ -27,18 +27,9 @@ else
 //Instanciation du module
 $care = new care();
 
-$interface = <<<EOHTML
-<dl>
-<dt>Intégrer un nouveau médecin</dt>
-<dd></dd>
-
-<dt>Soigner tout le monde</dt>
-<dd></dd>
-
-</dl>
-EOHTML;
-
 if(DEVMODE) $page->c .= "<textarea>".print_r($_POST,1)."</textarea>";
+
+$page->c .= "<h1><a href='?{$_SERVER['QUERY_STRING']}'>Care 42<sup>e</sup></a></h1>";
 
 //Soigner tout le monde
 //--demande de confirmation
@@ -57,8 +48,7 @@ elseif(isset($_POST['confirm'], $_POST['confirmhealAllUsers'])) {
 //Ajouter un toubib
 //--recherche de profils
 elseif(isset($_POST['searchToubib'])){
-$page->c .= <<<EOHTML
-		<h1>Care 42<sup>e</sup></h1>
+	$page->c .= <<<EOHTML
 		<form method="post" action="?{$_SERVER['QUERY_STRING']}">
 			<fieldset>
 				<legend>Rechercher les profils</legend>
@@ -68,8 +58,45 @@ $page->c .= <<<EOHTML
 			</fieldset>
 		</form>
 EOHTML;
+	die();
 }
 //--validation des profils
+elseif(isset($_POST['findToubibs'])){
+	$searchList = explode("\n",$_POST['searchList']);
+	$searchList = array_map('trim', $searchList);
+	
+	$db = new mushSQL($mysql_vars,1);
+	$db->findUsersLot($searchList);
+	if($db->result){
+		$page->c .= "<table border='1'>"
+		."<tr><td>uid</td><td>pseudo</td><td>Actif</td><td>Etat</td><td>[Twinoid]</td><td>[Muxxu]</td></tr>";
+		
+		while($row = mysql_fetch_assoc($db->result)){
+			if(!empty($row['avatar'])){
+				require_once('php/func/getTwinID.php');
+				$twinID = getTwinID($row['avatar']);
+				$twin = $twinID ? "<a href='http://twinoid.com/user/{$twinID}' target='twinoid'>link</a>" : null;
+			}
+			else $twin = null;
+			$actif = empty($row['pubkey']) ? 'non' : 'oui';
+			$state = $row['infected'] < $ini['params']['infectCeil']
+				? '<img src="gfx/toggleTwino.png" width="16" height="16" alt="c"/>'
+				: '<img src="gfx/toggleMush.png" width="16" height="16" alt="m"/>';
+			$page->c .= "<tr>"
+			."<td>{$row['uid']}</td>"
+			."<td>{$row['name']}</td>"
+			."<td>{$actif}</td>"
+			."<td>{$state}</td>"
+			."<td>{$twin}</td>"
+			."<td><a href='http://muxxu.com/user/{$row['uid']}' target='muxxu'>link</a></td>"
+			."</tr>";
+		}
+		$page->c .= "</table>";
+	}
+	else $page->c .= mysql_error();
+	$db->__destruct();
+	die();
+}
 //--confirmation
 //--execution
 
@@ -77,7 +104,6 @@ $medicList = array_keys($toubibs);
 $medicList = "<li>".implode("</li>\n<li>",$medicList)."</li>";
 
 $page->c .= <<<EOHTML
-		<h1>Care 42<sup>e</sup></h1>
 		<form method="post" action="?{$_SERVER['QUERY_STRING']}">
 			<fieldset>
 				<legend>Actions</legend>
