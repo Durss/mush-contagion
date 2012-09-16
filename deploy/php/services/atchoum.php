@@ -113,8 +113,10 @@ if($lastInfection)
 	$countChilds = 0;
 	if($db->countChilds(UID)) //En cas d'erreur SQL
 	{
-		if($row = mysql_num_rows($db->result)){
-			$countChilds = ceil(intval($row['countChilds'])/$ini['infectPerTurn']);
+		if($row = mysql_fetch_assoc($db->result)){
+			$countChilds = ceil(intval($row['countChilds'])/intval($ini['infectPerTurn']));
+			//var_dump('$row',$row,'$countChilds',$countChilds,"\$row['countChilds']",$row['countChilds'],"intval(\$row['countChilds'])",intval($row['countChilds']),"intval(\$ini['infectPerTurn'])",intval($ini['infectPerTurn']));
+			//die();
 		}
 	}
 	
@@ -122,20 +124,20 @@ if($lastInfection)
 	//définition du délai : delay = coef^x * base
 	$delayBase = intval($ini['infectDelay']);
 
-	if($countChilds <= $ini['ceilDelay']) $delay = $delayBase;
+	if($countChilds <= $ini['ceilDelay']) $laps = $delayBase;
 	elseif($countChilds >= $ini['topDelay']){
 		$x = intval($ini['topDelay']);
 		$coef = floatval($ini['coefMaxDelay']);
-		$delay = round(pow($coef,$x) * $delayBase);
+		$laps = round(pow($coef,$x) * $delayBase);
 	}
 	else{
 		$x = $countChilds-intval($ini['ceilDelay']);
 		$coef = floatval($ini['coefMaxDelay']);
-		$delay = round(pow($coef,$x) * $delayBase);
+		$laps = round(pow($coef,$x) * $delayBase);
 	}
 	
 	//respect du délai
-	if(time() - $delay >= $lastInfection)
+	if(time() - $laps >= $lastInfection)
 	{
 		//Délai respecté
 		$wait = intval(0);
@@ -143,11 +145,11 @@ if($lastInfection)
 	else
 	{
 		//Veuillez patienter
-		$wait = $lastInfection + $delay - time();
+		$wait = $lastInfection + $laps - time();
 		$delay = $root->addChild('delay');
 		$delay->addAttribute('wait', $wait);
 		$delay->addAttribute('lastInfection', $lastInfection);
-		$delay->addAttribute('laps', $delay);
+		$delay->addAttribute('ctrl', $ini['infectDelay'].'|'.$ini['ceilDelay'].'|'.$ini['topDelay'].'|'.$ini['coefMaxDelay']);
 		xmlFinish($root);
 	}
 }

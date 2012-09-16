@@ -132,9 +132,6 @@ if(FULL_INFOS)
 	}
 }
 
-//Déconnexion de la base.
-$db->__destruct();
-
 /*
  * Finitions du XML
  */
@@ -148,27 +145,66 @@ $user->addAttribute('genre', $userData['genre']);
 $user->addChild('name', $userData['name']);
 $user->addChild('avatar', $userData['avatar']);
 
+
+//Controle du délai
 if($lastInfection)
 {
+	//Compte le nombre d'infections
+	$countChilds = 0;
+	if($db->countChilds(UID)) //En cas d'erreur SQL
+	{
+		if($row = mysql_fetch_assoc($db->result)){
+			$countChilds = ceil(intval($row['countChilds'])/intval($ini['infectPerTurn']));
+			//var_dump('$row',$row,'$countChilds',$countChilds,"\$row['countChilds']",$row['countChilds'],"intval(\$row['countChilds'])",intval($row['countChilds']),"intval(\$ini['infectPerTurn'])",intval($ini['infectPerTurn']));
+			//die();
+		}
+	}
+	
+	//delay = pow($ini['coefMaxDelay'],$countChilds-$ini['ceilDelay']) * $delayBase
+	//définition du délai : delay = coef^x * base
+	$delayBase = intval($ini['infectDelay']);
+
+	if($countChilds <= $ini['ceilDelay']) $laps = $delayBase;
+	elseif($countChilds >= $ini['topDelay']){
+		$x = intval($ini['topDelay']);
+		$coef = floatval($ini['coefMaxDelay']);
+		$laps = round(pow($coef,$x) * $delayBase);
+	}
+	else{
+		$x = $countChilds-intval($ini['ceilDelay']);
+		$coef = floatval($ini['coefMaxDelay']);
+		$laps = round(pow($coef,$x) * $delayBase);
+	}
+	
 	//respect du délai
-	if(time() - intval($ini['infectDelay']) > $lastInfection)
+	if(time() - $laps >= $lastInfection)
 	{
 		//Délai respecté
-		$wait = intval(0);
+		$delay = $user->addChild('delay');
+		$delay->addAttribute('wait', '0');
+		$delay->addAttribute('lastInfection', $lastInfection);
+		$delay->addAttribute('ctrl', $ini['infectDelay'].'|'.$ini['ceilDelay'].'|'.$ini['topDelay'].'|'.$ini['coefMaxDelay']);
+		
 	}
 	else
 	{
 		//Veuillez patienter
-		$wait = $lastInfection + intval($ini['infectDelay']) - time();
+		$wait = $lastInfection + $laps - time();
+		$delay = $user->addChild('delay');
+		$delay->addAttribute('wait', $wait);
+		$delay->addAttribute('lastInfection', $lastInfection);
+		$delay->addAttribute('ctrl', $ini['infectDelay'].'|'.$ini['ceilDelay'].'|'.$ini['topDelay'].'|'.$ini['coefMaxDelay']);
+	//	xmlFinish($root);
 	}
-	$delay = $user->addChild('delay');
-	$delay->addAttribute('wait', $wait);
-	$delay->addAttribute('lastInfection', $lastInfection);
 }
 else {
 	$delay = $user->addChild('delay');
 	$delay->addAttribute('wait', '0');
+	$delay->addAttribute('ctrl', $ini['infectDelay'].'|'.$ini['ceilDelay'].'|'.$ini['topDelay'].'|'.$ini['coefMaxDelay']);
 }
+
+//Déconnexion de la base.
+$db->__destruct();
 
 //Information sur le parent
 if(PARENT_INFOS || FULL_INFOS)
