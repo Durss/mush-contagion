@@ -15,6 +15,9 @@ if(!DEVMODE && !isset($_SERVER['CRON_ID']))
 //init
 define('STAT_DELAY', 60*60-1); //secondes
 
+//Parametres
+$ini = parse_ini_file('../../params.ini');
+
 require_once('../../c/config.php');
 require_once('../../c/mysql.php');
 require_once('../class/mysqlManager.php');
@@ -61,7 +64,7 @@ if($db->result)
 		
 		$xml_realUsers->addAttribute('label', 'countRealUsers');
 			
-		$db->countInfectedUsers();
+		$db->countInfectedUsers($ini['infectCeil']);
 		if($db->result)
 		{
 			$row = mysql_fetch_assoc($db->result);
