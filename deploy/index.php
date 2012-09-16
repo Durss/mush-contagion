@@ -116,7 +116,7 @@ switch($_GET['act'])
 	case 'warning':
 		include('php/warning.php');
 	case 'care42':
-		include('php/care.php');
+		include('php/care42.php');
 	case 'php': //Dev: nSun
 		if(DEVMODE)
 		{
