@@ -10,6 +10,7 @@ package com.muxxu.mush.contaminator.events {
 	public class InfectionEvent extends Event {
 		
 		public static const INFECTED:String = "infected";
+		public static const NOT_YET_INFECTED:String = "notYetInfected";
 		
 		
 		

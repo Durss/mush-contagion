@@ -1,0 +1,16 @@
+Pour obfusquer le fichier language.swf aller là :
+
+http://wonderfl.net/c/6WDD/
+
+
+
+Et mettre ces valeurs dans le champs texte avant de lancer l'obfuscation :
+
+com.muxxu.mush.avatar.crypto
+com.muxxu.mush.language
+XOR
+com.nurun.utils.crypto
+MushCrypto
+LanguageApplication
+initialize
+this.encrypt

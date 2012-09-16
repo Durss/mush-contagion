@@ -1,18 +1,19 @@
 package com.muxxu.mush.generator.twinoid {
-	import flash.filters.BevelFilter;
-	import flash.display.Bitmap;
-	import flash.geom.Matrix;
-	import flash.display.DisplayObject;
-	import flash.events.Event;
-	import flash.display.BitmapData;
-	import flash.display.Shape;
-	import com.muxxu.mush.graphics.SpotGraphic;
-	import flash.filters.ColorMatrixFilter;
 	import com.muxxu.mush.generator.mushroom.Eye;
 	import com.muxxu.mush.generator.mushroom.Mouth;
+	import com.muxxu.mush.graphics.SpotGraphic;
 	import com.muxxu.mush.graphics.TwinoidFaceGraphic;
 
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
+	import flash.display.DisplayObject;
+	import flash.display.Shape;
 	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.filters.BevelFilter;
+	import flash.filters.ColorMatrixFilter;
+	import flash.geom.Matrix;
+	import flash.utils.setTimeout;
 	
 	/**
 	 * 
@@ -34,6 +35,7 @@ package com.muxxu.mush.generator.twinoid {
 		private var _mask:Shape;
 		private var _spotsBmd:BitmapData;
 		private var _bmp:Bitmap;
+		private var _bevel:BevelFilter;
 		
 		
 		
@@ -79,23 +81,53 @@ package com.muxxu.mush.generator.twinoid {
 		/**
 		 * Sets the contamination percent
 		 */
-		public function set contaminationPercent(contaminationPercent:Number):void {
-			_contaminationPercent = contaminationPercent;
+		public function set contaminationPercent(value:Number):void {
+			_contaminationPercent = value;
 			var m:Array = [];
-			m.push(1-contaminationPercent*.15, 0, 0, 0, 0);
-			m.push(0, 1-contaminationPercent*.35, 0, 0, 0);
-			m.push(0, 0, 1+contaminationPercent*.5, 0, 0);
+			m.push(1-value*.15, 0, 0, 0, 0);
+			m.push(0, 1-value*.35, 0, 0, 0);
+			m.push(0, 0, 1+value*.5, 0, 0);
 			m.push(0, 0, 0, 1, 0);
 			_back.filters = [new ColorMatrixFilter(m)];
 			
 			var spot:SpotGraphic = _spots.addChild(new SpotGraphic()) as SpotGraphic;
 			spot.scaleX = spot.scaleY = Math.random() * 2 + .5;
 			spot.addEventListener(Event.COMPLETE, spotCompleteHandler);
-			spot.filters = [new BevelFilter(1, 135, 0xffffff, 0, 0, 1, 1, 1, 1, 2)];
+			spot.filters = [_bevel];
 			
 			spot.x = Math.random() * (_width-4-spot.width) - _width * .5 + 2;
 			spot.y = Math.random() * (_height-4-spot.height) - _height * .5 + 2;
 		}
+		
+		/**
+		 * Sets the contamination percent
+		 */
+		public function set contaminationPercentCut(value:Number):void {
+			_contaminationPercent = value;
+			var m:Array = [];
+			m.push(1-value*.15, 0, 0, 0, 0);
+			m.push(0, 1-value*.35, 0, 0, 0);
+			m.push(0, 0, 1+value*.5, 0, 0);
+			m.push(0, 0, 0, 1, 0);
+			_back.filters = [new ColorMatrixFilter(m)];
+			
+			var i:int, len:int;
+			len = value * 100;
+			for(i = 0; i < len; ++i) {
+				setTimeout(addSpot, i*100 + 1200);
+			}
+		}
+
+		private function addSpot():void {
+			var spot:SpotGraphic = new SpotGraphic();
+			spot.scaleX = spot.scaleY = Math.random() * 2 + .5;
+			spot.x = Math.random() * (_width-4-spot.width) - _width * .5 + 2;
+			spot.y = Math.random() * (_height-4-spot.height) - _height * .5 + 2;
+			spot.gotoAndStop( 1 );
+			spot["randomize"]();
+			drawSpot(spot);
+		}
+
 
 
 
@@ -143,6 +175,7 @@ package com.muxxu.mush.generator.twinoid {
 			_spots.mask = _mask;
 			
 			_bmp.filters = [new BevelFilter(1, 135, 0xffffff, 0, 0, 1, 1, 1, 1, 2)];
+			_bevel = new BevelFilter(1, 135, 0xffffff, 0, 0, 1, 1, 1, 1, 2);
 			
 			_back.stop();
 		}
@@ -185,14 +218,17 @@ package com.muxxu.mush.generator.twinoid {
 		 */
 		private function spotCompleteHandler(event:Event):void {
 			var spot:DisplayObject = event.target as DisplayObject;
+			_spots.removeChild(spot);
+			drawSpot(spot);
+		}
+
+		private function drawSpot(spot:DisplayObject):void {
 			spot.filters = [];
 			spot.removeEventListener(Event.COMPLETE, spotCompleteHandler);
 			var m:Matrix = new Matrix();
 			m.scale(spot.scaleX, spot.scaleY);
 			m.translate(spot.x + _width * .5, spot.y + _height * .5);
 			_spotsBmd.draw(spot, m);
-			
-			_spots.removeChild(spot);
 		}
 		
 	}

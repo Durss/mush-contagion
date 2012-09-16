@@ -150,7 +150,7 @@ package com.muxxu.mush.contaminator.model {
 		 * Initialize the class.
 		 */
 		private function initialize():void {
-			_so = SharedObject.getLocal("mushcontagion", "/");
+			_so = SharedObject.getLocal("mushcontagion-v1", "/");
 //			_so.clear();//TODO remove!
 			if(_so.data["sound"] == undefined) _so.data["sound"] = true;
 			_soundEnabled = _so.data["sound"] !== false;

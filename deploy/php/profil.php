@@ -155,7 +155,7 @@ if($id == UID && $testMush){
 			paramsTM['allowFullScreen'] = 'true';
 			paramsTM['menu'] = 'false';
 			
-			swfobject.embedSWF("swf/language.swf?v=1", "content", "0", "0", "10.2", "swf/expressinstall.swf", flashvarsTM, paramsTM, attributesTM);
+			swfobject.embedSWF("swf/language.swf?v=1.1", "content", "0", "0", "10.2", "swf/expressinstall.swf", flashvarsTM, paramsTM, attributesTM);
 			
 			var lastCryptTime = -100;
 			/*

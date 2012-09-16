@@ -1,4 +1,5 @@
 package com.muxxu.mush.generator.twinoid {
+	import com.nurun.structure.environnement.configuration.Config;
 	import gs.TweenLite;
 	import gs.easing.Elastic;
 	import gs.easing.Sine;
@@ -27,6 +28,7 @@ package com.muxxu.mush.generator.twinoid {
 		private var _isJumping:Boolean;
 		private var _targeted:int;
 		private var _touched:int;
+		private var _preInfectPercent:Number;
 		
 		
 		
@@ -53,7 +55,7 @@ package com.muxxu.mush.generator.twinoid {
 
 		public function get targeted():int { return _targeted; }
 
-		public function set targeted(targeted:int):void { _targeted = targeted; }
+		public function set targeted(value:int):void { _targeted = value; }
 
 
 
@@ -66,7 +68,8 @@ package com.muxxu.mush.generator.twinoid {
 		 * @param key		MD5 key used to generate the mushroom
 		 * @param ratio		mushroom's size ratio
 		 */
-		public function populate(key:String, ratio:Number):void {
+		public function populate(key:String, ratio:Number, preInfectPercent:Number):void {
+			_preInfectPercent = preInfectPercent;
 			_ratio = ratio;
 			_key = key;
 			_body.width = ratio * 110;
@@ -76,6 +79,17 @@ package com.muxxu.mush.generator.twinoid {
 //			TwinoidFace(_body.leftFace).populateside();
 //			TwinoidFace(_body.rightFace).populateside();
 //			TwinoidFace(_body.backFace).populateside();
+			
+			var total:int = Config.getNumVariable("infectCeil");
+			if(preInfectPercent > 0) {
+				_targeted = total;
+				var i:int, len:int;
+				len = _targeted * _preInfectPercent;
+				for(i = 0; i < len; ++i) touch(false);
+			}
+			
+			_touched = 0;
+			_targeted = 0;//(1 - (_preInfectPercent + 1/total)) * 100;
 		}
 		
 		/**
@@ -105,17 +119,33 @@ package com.muxxu.mush.generator.twinoid {
 		/**
 		 * Called when a particle touch it.
 		 */
-		public function touch():void {
-			if(++_touched >= _targeted) {
-				_isJumping = true;
-				TweenLite.to(_body, 2, {scaleX:.5, ease:Elastic.easeIn, easeParams:[1,.1], onComplete:onTransformComplete});
+		public function touch(animate:Boolean = true):void {
+			var total:int = Config.getNumVariable("infectCeil");
+			if (++_touched >= _targeted) {
+				//the -1/10000 is there to add a security margin to prevent from a round Number problem..
+				//For example 1-1/3 = 0.6666666666666667 instead of 0.6666666666666666
+				if (_preInfectPercent < 1 - 1 / total - 1/10000) { 
+					dispatchEvent(new InfectionEvent(InfectionEvent.NOT_YET_INFECTED));
+				}else{
+					_isJumping = true;
+					TweenLite.to(_body, 2, {scaleX:.5, ease:Elastic.easeIn, easeParams:[1,.1], onComplete:onTransformComplete});
+				}
 			}else{
-				TwinoidFace(_body.topFace).contaminationPercent =
-				TwinoidFace(_body.leftFace).contaminationPercent =
-				TwinoidFace(_body.rightFace).contaminationPercent =
-				TwinoidFace(_body.backFace).contaminationPercent =
-				TwinoidFace(_body.bottomFace).contaminationPercent =
-				TwinoidFace(_body.frontFace).contaminationPercent = _touched/_targeted;
+				if(!animate) {
+					TwinoidFace(_body.topFace).contaminationPercentCut =
+					TwinoidFace(_body.leftFace).contaminationPercentCut =
+					TwinoidFace(_body.rightFace).contaminationPercentCut =
+					TwinoidFace(_body.backFace).contaminationPercentCut =
+					TwinoidFace(_body.bottomFace).contaminationPercentCut =
+					TwinoidFace(_body.frontFace).contaminationPercentCut = _preInfectPercent;
+				}else{
+					TwinoidFace(_body.topFace).contaminationPercent =
+					TwinoidFace(_body.leftFace).contaminationPercent =
+					TwinoidFace(_body.rightFace).contaminationPercent =
+					TwinoidFace(_body.backFace).contaminationPercent =
+					TwinoidFace(_body.bottomFace).contaminationPercent =
+					TwinoidFace(_body.frontFace).contaminationPercent = (_touched/_targeted) / total + _preInfectPercent;
+				}
 			}
 		}
 		
@@ -129,6 +159,12 @@ package com.muxxu.mush.generator.twinoid {
 		public function setAvatarPosition():void {
 			_body.rotationX = 0;
 			_body.rotationY = 20;
+			_body.validate();
+		}
+
+		public function setAgentPosition():void {
+			_body.rotationX = 10;
+			_body.rotationY = -40;
 			_body.validate();
 		}
 

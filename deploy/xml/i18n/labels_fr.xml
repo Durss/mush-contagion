@@ -41,31 +41,31 @@
 			<s><![CDATA[Tu seras mignon d'attendre<br />un brin que j'en produise<br />à nouveau p'tit père!<br ><br /><wait1 />			 Merci!<wait1 />]]></s>
 		</label>
 		<label code="intro">
-			<s><![CDATA[				<sneeze/>*ATCHA*<wait1 /><br /><br />RAAAH C'EST POUR QUOI ENCORE&nbsp;???!!!]]></s>
+			<s><![CDATA[				<sneeze/>*ATCHA*<wait1 /><br /><br />RAAAH C'EST POUR QUOI ENCORE ???!!!]]></s>
 			<s><![CDATA[Tu QUOI?!!??!!<wait1 /><br />Tu souhaites te convertir<br />au mush???!!!???!!!<wait1 /><br />Ohh...... <wait.5 />C'est pas banal ça...]]></s>
 			<s><![CDATA[Tous les humains ne sont peut-être<br />pas si stupides finalement...<br /><br />				<sneeze/>*ATCHA*]]></s>
-			<s><![CDATA[Eh bien eh bien...<br />Sache que la première chose<br />pour être un bon mush,<br />c'est de contaminer les gens&nbsp;!<br />Et d'aimer le faire&nbsp;!]]></s>
+			<s><![CDATA[Eh bien eh bien...<br />Sache que la première chose<br />pour être un bon mush,<br />c'est de contaminer les gens !<br />Et d'aimer le faire !]]></s>
 			<s><![CDATA[Et tu as de la chance puisque<br />je suis justement en mesure<br />de t'aider, étrange humain.<br /><br />			<sneeze/>*ATCHA*]]></s>
 			<s><![CDATA[En me tapotant fermement, mais<br />de manière délicate, mon<br />sublimissime chapeau laissera<br />s'échapper des spores.]]></s>
 			<s><![CDATA[Ces spores contamineront alors<br />jusqu'à 3 de tes chers amis humains.<br /><br />				<sneeze/>*ATCHA*]]></s>
 			<s><![CDATA[Il ne te restera alors qu'à<br />croiser les fesses pour qu'ils<br />en fassent de même avec toi<br />...si ce n'est pas déjà le cas!]]></s>
 			<s><![CDATA[N'attends plus une seule seconde<br />et tapote-moi fermement!<br />Mais délicatement....<br />S'agirait de pas me décapiter...<br /><br />				<sneeze/>*ATCHA*]]></s>
-			<s><![CDATA[Et ALORS&nbsp;!<br />ALORS&nbsp;!!!<br />Tu ne seras plus une saleté<br />d'humain mais bien un grand<br /><br />			&nbsp;!!! MUSH&nbsp;!!!<br /> <wait1 /><sneeze/>*ATCHA*<wait.7 /><sneeze/> *ATCHA*<wait.7 /><sneeze/> *ATCHA*<wait1 />]]></s>
+			<s><![CDATA[Et ALORS !<br />ALORS !!!<br />Tu ne seras plus une saleté<br />d'humain mais bien un grand<br /><br />			 !!! MUSH !!!<br /> <wait1 /><sneeze/>*ATCHA*<wait.7 /><sneeze/> *ATCHA*<wait.7 /><sneeze/> *ATCHA*<wait1 />]]></s>
 		</label>
 		<label code="harder">
-			<s><![CDATA[C'est tout ce que t'as?!<wait1 /><br />Ma parole ces humains ne servent<br />Vraiment à rien&nbsp;!]]></s>
-			<s><![CDATA[Quand je te disais d'y<br />aller délicatement... je ne te disais<br />pas d'y aller comme une mauviette&nbsp;!]]></s>
+			<s><![CDATA[C'est tout ce que t'as?!<wait1 /><br />Ma parole ces humains ne servent<br />Vraiment à rien !]]></s>
+			<s><![CDATA[Quand je te disais d'y<br />aller délicatement... je ne te disais<br />pas d'y aller comme une mauviette !]]></s>
 			<s><![CDATA[Garde donc ton clique enfoncé<br />si tu veux un peu booster<br />ton tapotage...<wait1 /><br />...de mauviette...<wait2 />]]></s>
 		</label>
 		<label code="stillharder">
-			<s><![CDATA[C'est bon&nbsp;? T'as bientôt fini<br />de faire ton attardé d'humain...?<wait.7 /><br /><br />Frappe comme un mush<wait.5 /><br />ou ne frappe pas&nbsp;!]]></s>
+			<s><![CDATA[C'est bon ? T'as bientôt fini<br />de faire ton attardé d'humain...?<wait.7 /><br /><br />Frappe comme un mush<wait.5 /><br />ou ne frappe pas !]]></s>
 			<s><![CDATA[Mais arrête tes caresses;<wait.5 /> ça<br />en devient très...<wait.5 /> très...<wait.5 /> gênant...!<br />			  <sneeze />*ATCHA*<wait1 />]]></s>
 		</label>
 		<label code="cook">
 			<s><![CDATA[* je vais me le faire en omelette *<wait1 /><br />Garde ton clic enfoncé nom<br />d'un bolet!<wait2 />]]></s>
 		</label>
 		<label code="better">
-			<s><![CDATA[Et ben voilà qui est mieux&nbsp;!<br />Allez, remets-moi donc un coup,<br />les prochaines spores sont en<br />partance directe pour tes amis...<br />kr<wait.2 />kr<wait.2 />kr<wait.2 />kr<wait.2 />kr<wait.2 />kr<wait2 />]]></s>
+			<s><![CDATA[Et ben voilà qui est mieux !<br />Allez, remets-moi donc un coup,<br />les prochaines spores sont en<br />partance directe pour tes amis...<br />kr<wait.2 />kr<wait.2 />kr<wait.2 />kr<wait.2 />kr<wait.2 />kr<wait2 />]]></s>
 		</label>
 
 		<!-- Twinoids dialogs -->
@@ -369,6 +369,8 @@
 			<s><![CDATA[Je n'ai qu'un pied et je n'hésiterais pas à m'en servir.]]></s>
 			<s><![CDATA[On sait où tu habite.]]></s>
 			<s><![CDATA[Méfies toi, nous conaissons ton adresse IP.]]></s>
+			<s><![CDATA[On va faire un peu de spore?]]></s>
+			<s><![CDATA[Je suis quelqu'un de plutôt spore-tif.]]></s>
 		</label>
 	</labels>
 </root>
