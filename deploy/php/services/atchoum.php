@@ -118,15 +118,20 @@ if($lastInfection)
 		}
 	}
 	
-	//définition du délai
+	//delay = pow($ini['coefMaxDelay'],$countChilds-$ini['ceilDelay']) * $delayBase
+	//définition du délai : delay = coef^x * base
 	$delayBase = intval($ini['infectDelay']);
-	
+
 	if($countChilds <= $ini['ceilDelay']) $delay = $delayBase;
-	elseif($countChilds >= $ini['topDelay']) $delay = $delayBase*intval($ini['coefMaxDelay']);
+	elseif($countChilds >= $ini['topDelay']){
+		$x = intval($ini['topDelay']);
+		$coef = floatval($ini['coefMaxDelay']);
+		$delay = round(pow($coef,$x) * $delayBase);
+	}
 	else{
-		$x = $countChilds-$ini['ceilDelay'];
-		$max = $delayBase*$ini['coefMaxDelay'];
-		$delay = $delayBase+round($x*$max/$ini['topDelay']);
+		$x = $countChilds-intval($ini['ceilDelay']);
+		$coef = floatval($ini['coefMaxDelay']);
+		$delay = round(pow($coef,$x) * $delayBase);
 	}
 	
 	//respect du délai
@@ -138,10 +143,11 @@ if($lastInfection)
 	else
 	{
 		//Veuillez patienter
-		$wait = $lastInfection + intval($ini['infectDelay']) - time();
+		$wait = $lastInfection + $delay - time();
 		$delay = $root->addChild('delay');
 		$delay->addAttribute('wait', $wait);
 		$delay->addAttribute('lastInfection', $lastInfection);
+		$delay->addAttribute('laps', $delay);
 		xmlFinish($root);
 	}
 }
