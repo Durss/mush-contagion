@@ -1,0 +1,55 @@
+[16][1347829001]	Echec de la requête : No database selected -- count childs
+SELECT COUNT(`id`) as countChilds
+FROM `mushteasing_link`
+WHERE `parent` = 3916;
+[16][1347829001]	No database selected
+[16][1347829028]	Echec de la requête : No database selected -- count childs
+SELECT COUNT(`id`) as countChilds
+FROM `mushteasing_link`
+WHERE `parent` = 3916;
+[16][1347829028]	No database selected
+[16][1347829041]	Echec de la requête : No database selected -- count childs
+SELECT COUNT(`id`) as countChilds
+FROM `mushteasing_link`
+WHERE `parent` = 3916;
+[16][1347829041]	No database selected
+[16][1347829067]	Echec de la requête : No database selected -- count childs
+SELECT COUNT(`id`) as countChilds
+FROM `mushteasing_link`
+WHERE `parent` = 3916;
+[16][1347829067]	No database selected
+[16][1347829176]	Echec de la requête : No database selected -- count childs
+SELECT COUNT(`id`) as countChilds
+FROM `mushteasing_link`
+WHERE `parent` = 3916;
+[16][1347829176]	No database selected
+[16][1347829214]	Echec de la requête : No database selected -- count childs
+SELECT COUNT(`id`) as countChilds
+FROM `mushteasing_link`
+WHERE `parent` = 3916;
+[16][1347829214]	No database selected
+[16][1347829222]	Echec de la requête : No database selected -- count childs
+SELECT COUNT(`id`) as countChilds
+FROM `mushteasing_link`
+WHERE `parent` = 3916;
+[16][1347829222]	No database selected
+[16][1347829308]	Echec de la requête : No database selected -- count childs
+SELECT COUNT(`id`) as countChilds
+FROM `mushteasing_link`
+WHERE `parent` = 3916;
+[16][1347829308]	No database selected
+[16][1347829311]	Echec de la requête : No database selected -- count childs
+SELECT COUNT(`id`) as countChilds
+FROM `mushteasing_link`
+WHERE `parent` = 3916;
+[16][1347829311]	No database selected
+[16][1347829458]	Echec de la requête : No database selected -- count childs
+SELECT COUNT(`id`) as countChilds
+FROM `mushteasing_link`
+WHERE `parent` = 3916;
+[16][1347829458]	No database selected
+[16][1347829470]	Echec de la requête : No database selected -- count childs
+SELECT COUNT(`id`) as countChilds
+FROM `mushteasing_link`
+WHERE `parent` = 3916;
+[16][1347829470]	No database selected
