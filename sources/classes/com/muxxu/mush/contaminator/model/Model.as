@@ -1,5 +1,4 @@
 package com.muxxu.mush.contaminator.model {
-	import flash.utils.getTimer;
 	import com.muxxu.mush.contaminator.cmd.InfectCmd;
 	import com.muxxu.mush.contaminator.events.LightEvent;
 	import com.muxxu.mush.contaminator.throwables.ContaminatorError;
@@ -15,6 +14,7 @@ package com.muxxu.mush.contaminator.model {
 	import flash.media.SoundMixer;
 	import flash.media.SoundTransform;
 	import flash.net.SharedObject;
+	import flash.utils.getTimer;
 	
 	/**
 	 * 
@@ -31,6 +31,7 @@ package com.muxxu.mush.contaminator.model {
 		private var _status:StatusCollection;
 		private var _waitFor:Number;
 		private var _start:int;
+		private var _control:String;
 		
 		
 		
@@ -86,7 +87,11 @@ package com.muxxu.mush.contaminator.model {
 		 */
 		public function start():void {
 			_playIntro = _so.data["introPlayed"] == undefined;
-			_waitFor = parseInt(XML(DependencyStorage.getInstance().getDependencyById("infos").xml.child("user")[0]).child("delay")[0].@wait);
+			var xml:XML = DependencyStorage.getInstance().getDependencyById("infos").xml;
+			trace('xml: ' + (xml));
+			var delayNode:XML = XML(xml.child("user")[0]).child("delay")[0];
+			_waitFor = parseInt(delayNode.@wait);
+			_control = delayNode.@ctrl;
 			if(_waitFor > 0) _waitFor ++;//Add a security margin
 			_start = getTimer();
 			update();
@@ -185,7 +190,11 @@ package com.muxxu.mush.contaminator.model {
 			var data:XML = event.data as XML;
 			if(data.child("delay").length() > 0) {
 				_waitFor = parseInt(data.child("delay")[0].@wait);
-				throw new ContaminatorError("DELAY_CHEATED");
+				if(data.child("delay")[0].@ctrl != _control) {
+					throw new ContaminatorError("DELAY_CHANGED");
+				}else{
+					throw new ContaminatorError("DELAY_CHEATED");
+				}
 //				dispatchLight(LightEvent.CANT_THROW_SPORES);
 			}else{
 				_infectedUsers = new UserCollection();

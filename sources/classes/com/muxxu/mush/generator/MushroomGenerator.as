@@ -131,10 +131,11 @@ package com.muxxu.mush.generator {
 		}
 
 		private function clickHandler(event:MouseEvent):void {
+			var fr:FileReference, bmd:BitmapData;
 			if (event.currentTarget == _avatar) {
-				var bmd:BitmapData = new BitmapData(_avatar.width, _avatar.height, true, 0);
+				bmd = new BitmapData(_avatar.width, _avatar.height, true, 0);
 				bmd.draw(_avatar);
-				var fr:FileReference = new FileReference();
+				fr = new FileReference();
 				fr.save(PNGEncoder.encode(bmd), "avatar.png");
 				event.stopPropagation();
 			}else if (event.currentTarget == _mushroomBig) {
@@ -152,9 +153,9 @@ package com.muxxu.mush.generator {
 				var bounds:Rectangle = _twinoidBig.getBounds(_twinoidBig);
 				var m:Matrix = new Matrix();
 				m.translate(-bounds.x, -bounds.y);
-				var bmd:BitmapData = new BitmapData(_twinoidBig.width, _twinoidBig.height, true, 0);
+				bmd = new BitmapData(_twinoidBig.width, _twinoidBig.height, true, 0);
 				bmd.draw(_twinoidBig, m);
-				var fr:FileReference = new FileReference();
+				fr = new FileReference();
 				fr.save(PNGEncoder.encode(bmd), "avatar.png");
 				event.stopPropagation();
 				event.stopPropagation();
@@ -182,7 +183,7 @@ package com.muxxu.mush.generator {
 			_mushroomBig.x = 25;
 			_mushroomBig.y = 30;
 			
-			_twinoidBig.populate(key, 1.5);
+			_twinoidBig.populate(key, 1.5, 0);
 			_twinoidBig.x = 400;
 			_twinoidBig.y = 200;
 			

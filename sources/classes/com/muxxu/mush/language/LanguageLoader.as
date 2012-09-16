@@ -1,9 +1,10 @@
 package com.muxxu.mush.language {
-	import com.muxxu.mush.avatar.crypto.MushCrypto;
-	import com.muxxu.mush.avatar.crypto.MushCrypto2;
-
-	import flash.display.MovieClip;
+	import com.muxxu.mush.avatar.crypto.MushCryptoNew;
 	import flash.external.ExternalInterface;
+	import flash.system.ApplicationDomain;
+	import flash.system.LoaderContext;
+	import flash.display.Loader;
+	import flash.display.MovieClip;
 
 	/**
 	 * Bootstrap class of the application.
@@ -12,16 +13,16 @@ package com.muxxu.mush.language {
 	 * designated in the metadata instruction.
 	 * 
 	 * @author Francois
-	 * @date 4 mars 2012;
+	 * @date 16 sept. 2012;
 	 */
 	 
-	[SWF(width="300", height="200", backgroundColor="0xFFFFFF", frameRate="31")]
-	public class LanguageApplication extends MovieClip {
+	[SWF(width="800", height="600", backgroundColor="0xFFFFFF", frameRate="31")]
+	public class LanguageLoader extends MovieClip {
 		
+		[Embed(source="../../../../../assets/language.swf", mimeType="application/octet-stream")]
+		private var _embed:Class;
 		private var _isHack:Boolean;
 		private var _hackRes:String = "Je suis un mauvais h4ck3r qui a essayé de gruger et qui pense avoir réussit alors que non :P.";
-		
-		
 		
 		
 		/* *********** *
@@ -30,7 +31,7 @@ package com.muxxu.mush.language {
 		/**
 		 * Creates an instance of <code>Application</code>.
 		 */
-		public function LanguageApplication() {
+		public function LanguageLoader() {
 			initialize();
 		}
 
@@ -57,42 +58,31 @@ package com.muxxu.mush.language {
 		 */
 		private function initialize():void {
 			if(ExternalInterface.available) {
+				//Fake callbacks overriden by the embeded SWF that contains the real algorithme
 				ExternalInterface.addCallback("encrypt", encrypt);
 				ExternalInterface.addCallback("decrypt", decrypt);
-				
-//				if(loaderInfo.parameters["setSecureOff"] !== "yes") {
-					var pageContent:XML = 
-				 	   <script><![CDATA[
-				            function(){ return document.getElementsByTagName('html')[0].innerHTML; }
-				        ]]></script>;
-				    
-			        var htmlPage:String = ExternalInterface.call(pageContent.toString());
-					_isHack = !/mush  - contagion/gi.test(htmlPage);
-					var pageURL:String = ExternalInterface.call('window.location.href.toString');
-					_isHack ||= !/^http:\/\/fevermap.org\/mushcontagion/gi.test(pageURL);
-					_isHack ||= !/^http:\/\/fevermap.org\/mushcontagion/gi.test(loaderInfo.url);
-//				}
-			}else{
-				//trace(MushCrypto.decrypt(MushCrypto.encrypt("Salut les amis!")));
+				var pageURL:String = ExternalInterface.call('window.location.href.toString');
+				_isHack ||= !/^http:\/\/fevermap.org\/mushcontagion/gi.test(pageURL);
+				_isHack ||= !/^http:\/\/fevermap.org\/mushcontagion/gi.test(loaderInfo.url);
 			}
+			
+			
+			var loader:Loader = new Loader();
+			loader.loadBytes(new _embed(), new LoaderContext(false, ApplicationDomain.currentDomain));
 		}
 		
 		private function encrypt(value:String):String {
 			if(_isHack) {
 				value = _hackRes;
 			}
-			return MushCrypto2.encrypt(value);
+			return MushCryptoNew.encrypt(value);
 		}
 		
 		private function decrypt(value:String):String {
 			if(_isHack) {
 				return _hackRes;
 			}
-			var res:String = MushCrypto2.decrypt(value);
-			if(res == "???" || res.length == 0) {
-				res = MushCrypto.decrypt(value);
-			}
-			return res;
+			return MushCryptoNew.decrypt(value);;
 		}
 		
 	}
