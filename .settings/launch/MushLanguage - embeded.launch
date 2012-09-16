@@ -7,10 +7,10 @@
 <stringAttribute key="ARGUMENTS" value="-static-link-runtime-shared-libraries=true&#10;-target-player={playerVersion}&#10;-library-path+=&quot;{flexSDK}/frameworks/locale/en_US&quot;&#10;-default-size=550,400"/>
 <booleanAttribute key="DISABLE_COMPILE_PROCESS" value="false"/>
 <booleanAttribute key="KILL_PREVIOUS_VIEWER" value="true"/>
-<stringAttribute key="LAUNCHER_DEPENDENCIES" value="MushLanguage - embeded&#10;[Self]"/>
-<stringAttribute key="MAIN_CLASS" value="sources/classes/com/muxxu/mush/language/LanguageLoader.as"/>
+<stringAttribute key="LAUNCHER_DEPENDENCIES" value="[Self]"/>
+<stringAttribute key="MAIN_CLASS" value="sources/classes/com/muxxu/mush/language/LanguageApplication.as"/>
 <stringAttribute key="MOBILE_PRESET" value=""/>
-<stringAttribute key="OUTPUT" value="deploy/swf/language.swf"/>
+<stringAttribute key="OUTPUT" value="sources/assets/language.swf"/>
 <booleanAttribute key="PASS_CP" value="true"/>
 <booleanAttribute key="PASS_EXTERNS" value="false"/>
 <booleanAttribute key="PASS_MAIN_CLASS" value="true"/>
@@ -22,7 +22,7 @@
 <stringAttribute key="PRE_COMPILE_ANT" value=""/>
 <stringAttribute key="PROJECT_NAME" value="MushContagion"/>
 <stringAttribute key="PUBLISHER_ID" value=""/>
-<booleanAttribute key="START_SWF_ENABLED" value="true"/>
+<booleanAttribute key="START_SWF_ENABLED" value="false"/>
 <stringAttribute key="START_SWF_LOCATION" value="deploy/swf/language.swf"/>
 <stringAttribute key="START_SWF_WITH" value="Adobe Flash Player"/>
 <booleanAttribute key="USE_PROJECT_COMPILER_ARGUMENTS" value="true"/>
