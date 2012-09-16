@@ -145,6 +145,28 @@ EOSQL;
 	}
 	
 	/**
+	 * Recherche un ou plusieurs profils dans la table 'user' selon leur pseudo
+	 * @param	mixed	$pseudo			-Nom(s) de(s) l'utilisateur(s)
+	 * @return	ressource
+	 */
+	public function findUsersLot($pseudos)
+	{
+		if(is_array($pseudos)){
+			$pseudos = "IN ('".implode("','", $pseudos)."')";
+		} 
+		else $pseudos = "= '{$pseudos}'";
+		
+		$sql = <<<EOSQL
+-- Sélection un profil
+SELECT `uid`,`pubkey`,`name`,`avatar`,`infected`
+FROM `{$this->tbl['user']}`
+WHERE `name` {$pseudos}
+EOSQL;
+		
+		return $this->query($sql) or $this->error(mysql_error());
+	}
+	
+	/**
 	 * Sélectionne des profils dans la table 'user'
 	 * @param	bool	$in				-Comment traiter la liste d'utilisateur indiquée : <code>true => IN (list); false => NOT IN (list)</code>
 	 * @param	array	$list			-Liste d'utilisateur : <code>array( int id, int id, ... )</code> 
