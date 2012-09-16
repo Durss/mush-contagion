@@ -198,6 +198,7 @@ if(FULL_INFOS)
 			$spore = $child->addChild('spore');
 			$spore->addAttribute('uid', $s['child']);
 			$spore->addAttribute('ts', strtotime($s['date']));
+			$spore->addAttribute('level', $s['infected']);
 			$spore->addChild('name', $s['name']);
 			if(strlen($s['avatar'])) $spore->addChild('avatar', $s['avatar']);
 			else $spore->addChild('avatar');

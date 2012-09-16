@@ -63,6 +63,7 @@ if(isset($_POST['getUser']))
 			if($count == 1){
 				$row = mysql_fetch_assoc($db->result);
 				$data = print_r($row,1);
+				if($row['pubkey'] && !empty($row['pubkey'])) $lookPubkey = $row['pubkey'];
 				if($row['friends'] && !empty($row['friends'])) $friendsKey = $row['friends'];
 			}
 			elseif($count > 1){
@@ -107,7 +108,7 @@ if(isset($_POST['getUser']))
 		else $userInfos[14] = "<dd>".website."php/services/userinfos.php?id=[ UID ? ]&parent&pandemie</dd>";
 		//Lien atchoum
 		if($lookUID && isset($friendsKey)){
-			$userInfos[10] = "<dd>?uid={$lookUID}&pubkey={$friendsKey}&act=user</dd>";
+			$userInfos[10] = "<dd>?uid={$lookUID}&pubkey={$lookPubkey}&act=user</dd>";
 			$userInfos[15] = "<dd>".website."php/services/atchoum.php?id={$lookUID}&key={$friendsKey}</dd>";
 		}
 		else $userInfos[15] = "<dd>".website."php/services/atchoum.php?id=[ UID ? ]&key=[ friends key ? ]</dd>";
@@ -386,6 +387,30 @@ if(isset($_POST['setMaintenance']) || isset($_POST['setParams']))
 	}
 	else $update['infectDelay'] = $ini['params']['infectDelay'];
 	
+	//coefMaxDelay
+	if(is_numeric($_POST['coefMaxDelay']) && $_POST['coefMaxDelay'] != $ini['params']['coefMaxDelay'])
+	{
+		$update['coefMaxDelay'] = $_POST['coefMaxDelay'];
+		$do = true;
+	}
+	else $update['coefMaxDelay'] = $ini['params']['coefMaxDelay'];
+	
+	//ceilDelay
+	if(is_numeric($_POST['ceilDelay']) && $_POST['ceilDelay'] != $ini['params']['ceilDelay'])
+	{
+		$update['ceilDelay'] = $_POST['ceilDelay'];
+		$do = true;
+	}
+	else $update['ceilDelay'] = $ini['params']['ceilDelay'];
+	
+	//topDelay
+	if(is_numeric($_POST['topDelay']) && $_POST['topDelay'] != $ini['params']['topDelay'])
+	{
+		$update['topDelay'] = $_POST['topDelay'];
+		$do = true;
+	}
+	else $update['topDelay'] = $ini['params']['topDelay'];
+	
 	if($do)
 	{
 		$page->c .= "<pre>".print_r($_POST,1)."</pre>"; 
@@ -407,6 +432,9 @@ infectCeil={$update['infectCeil']};			(int)	Seuil d'infection
 infectDelay={$update['infectDelay']};			(int)	Délai d'infection (exprimé en secondes)
 infectPerTurn={$update['infectPerTurn']};	(int)	Nombre d'infection par tour
 queryLimit={$update['queryLimit']};		(int)	Limitation du nombre de profils évalués dans les requêtes de tirage au sort
+coefMaxDelay={$update['coefMaxDelay']};			(int)
+ceilDelay={$update['ceilDelay']};	(int)
+topDelay={$update['topDelay']};		(int)
 
 [admins]; pseudo=uid
 {$iniAdminList}
@@ -437,6 +465,9 @@ $infectCeil = $ini['params']['infectCeil'];
 $infectPerTurn = $ini['params']['infectPerTurn'];
 $queryLimit = $ini['params']['queryLimit'];
 $infectDelay = $ini['params']['infectDelay'];
+$coefMaxDelay = $ini['params']['coefMaxDelay'];
+$ceilDelay = $ini['params']['ceilDelay'];
+$topDelay = $ini['params']['topDelay'];
 
 //Liste les admins
 $adminList = "<li>".implode("</li>\n\t\t\t\t\t<li>",$adminList)."</li>";
@@ -475,6 +506,10 @@ $page->c .= <<<EOHTML
 					<label>Délai entre deux infections : <input type="text" name="infectDelay" value="{$infectDelay}" size="3" /> (secondes)</label>
 					<label>Nombre d'infections par tours : <input type="text" name="infectPerTurn" value="{$infectPerTurn}" size="3" /></label>
 					<label>Nombre d'ID par requètes : <input type="text" name="queryLimit" value="{$queryLimit}" size="3" /></label>
+
+					<label>Plafonnement du Délais : <input type="text" name="coefMaxDelay" value="{$coefMaxDelay}" size="3" /> (x infectDelay)</label>
+					<label>Point de départ de l'augmentation du délai : <input type="text" name="ceilDelay" value="{$ceilDelay}" size="3" /> (nb d'usages de l'infecteur)</label>
+					<label>Seuil plafond : <input type="text" name="topDelay" value="{$topDelay}" size="3" /> (nb d'usages de l'infecteur)</label>
 			</fieldset>
 			<fieldset>
 				<input type="submit" name="setParams" value="enregistrer" />

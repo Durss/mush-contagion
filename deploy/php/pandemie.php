@@ -35,15 +35,39 @@ if(isset($userinfos->error))
 $twinID = (strval($userinfos->user->avatar) != null) ? getTwinID(strval($userinfos->user->avatar)) : false;
 $pseudo = strval($userinfos->user->name);
 $pseudoLink = $twinID ? "<a href='http://twinoid.com/user/{$twinID}' target='twinoid'>{$pseudo}</a>" : "<a href='http://muxxu.com/user/{$id}' target='twinoid'>{$pseudo}</a>";
-$infected = (bool) intval($userinfos->user['level']) ? 'true' : 'false';
+$testMush = (bool) (intval($userinfos->user['level']) >= intval($ini['params']['infectCeil']));
+$infected = $testMush ? 'true' : 'false';
+
 $version= "1";
-if($infected && isset($userinfos->user->parent, $userinfos->user->parent->spore)){
+
+if($testMush && isset($userinfos->user->parent->spore)){
+	$parentList =  array();
+	$parentCount = array();
+	foreach($userinfos->user->parent->spore as $spore){
+		$thisUid = intval($spore['uid']);
+		if(isset($parentCount[$thisUid])){
+			$parentCount[$thisUid]++;
+			continue;
+		}
+		$parentCount[$thisUid] = 1;
+		$parentList[$thisUid] = "{$spore->name}";
+	}
+	$infectedBy = "<p class='userParent'>";
+	foreach($parentList as $thisUid => $thisName){
+		$thisCount = ($parentCount[$thisUid] > 1) ? "&nbsp;(x{$parentCount[$thisUid]})" : null;
+		$infectedBy .= "<a href='?{$userLink}&act=p/{$thisUid}'>{$thisName}{$thisCount}</a> ";
+	}
+	$infectedBy .= "</p>";
+}
+else $infectedBy = null;
+/*---------
+if($testMush && isset($userinfos->user->parent, $userinfos->user->parent->spore)){
 	$pName = strval($userinfos->user->parent->spore->name);
 	$pUid = intval($userinfos->user->parent->spore['uid']);
 	$infectedBy = "<p class='userParent'><a href='?{$userLink}&act=p/{$pUid}'>{$pName}</a></p>";
 }
 else $infectedBy = null;
-
+------------*/
 
 /*
  * CONFECTION DES SCRIPTS JS
@@ -76,7 +100,8 @@ foreach($userinfos->user->child->spore as $spore)
 </dl>
 EOTD;
 	}
-	$aUsers[] = "[{$spore['uid']},'{$spore->name}',1,\"{$date}\"]";
+	$thisInfected = (bool) (intval($spore['level']) >= intval($ini['params']['infectCeil'])) ? '1' : '0'; 
+	$aUsers[] = "[{$spore['uid']},'{$spore->name}',{$thisInfected},\"{$date}\"]";
 	if(count($aUsers) >= $limit)
 	{
 		$aPagi[] = '['.implode(',',$aUsers).']';
@@ -160,7 +185,7 @@ switch($userinfos->user['genre']){
 }
 
 //Contenu
-$altMainStatus = $infected == 'true' ? "<span class='red'>{$w_infecte}</span>" : "<span class='green'>{$w_sain}</span>";
+$altMainStatus = $testMush ? "<span class='red'>{$w_infecte}</span>" : "<span class='green'>{$w_sain}</span>";
 /*
 $switch = ($infected == 'true')
 	? "<img id='toggleAvatar' src='gfx/toggleTwino.png?uid={$id}&name={$pseudo}&infected={$infected}' alt=\"Basculer l'avatar\" />"

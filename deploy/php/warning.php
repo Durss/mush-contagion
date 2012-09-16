@@ -17,23 +17,28 @@ if($db->result){
 		$countRealUsers= "<strong>{$row['realUsers']}</strong>&nbsp;personne{$pl1}";
 	}
 	else $countRealUsers = "certaines personnes ont";
-
+	
+	
 	if($row['infect'] > 0){
 		$pl2 = $row['infect'] > 1 ? 's' : null;
 		$countInfectedUsers = "déplore déjà <strong>{$row['infect']}</strong>&nbsp;victime{$pl2}, et ce nombre";
 	}
 	else $countInfectedUsers= "ignore combien le mush a pu faire de victimes, mais cela ";
-
-	if($row['users'] > 0){
-		$pl3 = $row['users'] > 1 ? 's' : null;
-		$countUsers = "passer à <strong>{$row['users']}</strong>";
+	
+	if($row['infect'] >= $row['users']){
+		$countInfectedUsers = "déplore déjà <strong>{$row['infect']}</strong>&nbsp;victime{$pl2}";
+		$countUsers = null;
 	}
-	else $countUsers = "devenir ingérable";
+	elseif($row['users'] > 0){
+		$pl3 = $row['users'] > 1 ? 's' : null;
+		$countUsers = " pourrait vite passer à <strong>{$row['users']}</strong>";
+	}
+	else $countUsers = " pourrait vite devenir ingérable";
 }
 else{
 	$countRealUsers = "certaines personnes ont";
 	$countInfectedUsers= "ignore combien le mush a pu faire de victimes, mais cela ";
-	$countUsers = "devenir ingérable";
+	$countUsers = " pourrait vite devenir ingérable";
 }	
 $db->__destruct();
 
@@ -41,7 +46,7 @@ $page->c .= <<<EOTXT
 <div id="affiche">
 <h1>PRUDENCE !</h1>
 <p>Par inconscience, {$countRealUsers} approché un spécimen mush extrèmement
-volatile et contagieux. On {$countInfectedUsers} pourrait vite {$countUsers}&nbsp;!</p>
+volatile et contagieux. On {$countInfectedUsers}{$countUsers}&nbsp;!</p>
 </div>
 EOTXT;
 ?>

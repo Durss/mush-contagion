@@ -109,8 +109,28 @@ else
 //Controle du délai
 if($lastInfection)
 {
+	//Compte le nombre d'infections
+	$countChilds = 0;
+	if($db->countChilds(UID)) //En cas d'erreur SQL
+	{
+		if($row = mysql_num_rows($db->result)){
+			$countChilds = ceil(intval($row['countChilds'])/$ini['infectPerTurn']);
+		}
+	}
+	
+	//définition du délai
+	$delayBase = intval($ini['infectDelay']);
+	
+	if($countChilds <= $ini['ceilDelay']) $delay = $delayBase;
+	elseif($countChilds >= $ini['topDelay']) $delay = $delayBase*intval($ini['coefMaxDelay']);
+	else{
+		$x = $countChilds-$ini['ceilDelay'];
+		$max = $delayBase*$ini['coefMaxDelay'];
+		$delay = $delayBase+round($x*$max/$ini['topDelay']);
+	}
+	
 	//respect du délai
-	if(time() - intval($ini['infectDelay']) >= $lastInfection)
+	if(time() - $delay >= $lastInfection)
 	{
 		//Délai respecté
 		$wait = intval(0);

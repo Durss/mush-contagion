@@ -231,11 +231,28 @@ EOSQL;
 	{
 		$sql = <<<EOSQL
 -- Look for childs
-SELECT L.`child`, L.`date`, U.`name`, U.`avatar`
+SELECT L.`child`, L.`date`, U.`name`, U.`avatar`, U.`infected`
 FROM `{$this->tbl['link']}` L, `{$this->tbl['user']}` U
 WHERE L.`parent` = {$uid}
 AND L.`child` = U.`uid`
 ORDER BY L.`id` ASC;
+EOSQL;
+		
+		return $this->query($sql) or $this->error(mysql_error());
+	}
+	
+	/**
+	 * Compte le nombre d'enfants, infectés par un utilisateur
+	 * @param	int	$uid	-N°identifiant du parent
+	 * @return	ressource
+	 */
+	public function countChilds($uid)
+	{
+		$sql = <<<EOSQL
+-- count childs
+SELECT COUNT(`id`) as countChilds
+FROM `{$this->tbl['link']}`
+WHERE `parent` = {$uid};
 EOSQL;
 		
 		return $this->query($sql) or $this->error(mysql_error());
@@ -316,13 +333,14 @@ EOSQL;
 	
 	/**
 	 * Nombre de personnes infectées
+	 * @param	int	$ceil	-Seuil d'infection
 	 * @return	ressource
 	 */
-	public function countInfectedUsers()
+	public function countInfectedUsers($ceil=1)
 	{
 		$sql = <<<EOSQL
 -- Nombre de personnes infectées
-SELECT count(`id`) as 'countInfectedUsers' FROM `{$this->tbl['user']}` WHERE `infected` > 0;
+SELECT count(`id`) as 'countInfectedUsers' FROM `{$this->tbl['user']}` WHERE `infected` >= {$ceil};
 EOSQL;
 		
 		return $this->query($sql) or $this->error(mysql_error());

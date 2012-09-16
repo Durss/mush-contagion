@@ -27,7 +27,7 @@ require('php/class/nsunTpl.php');
 $page = new nsunTpl();
 $page->title = "Mush Contagion";
 $page->addMetaTag("ROBOTS", "NOINDEX, NOFOLLOW");
-$page->addStyleSheet('css/base.css');
+$page->addStyleSheet('css/base.css?v=2');
 
 //Parametres
 $ini = parse_ini_file('params.ini',1);
@@ -115,6 +115,8 @@ switch($_GET['act'])
 		break;
 	case 'warning':
 		include('php/warning.php');
+	case 'care42':
+		include('php/care.php');
 	case 'php': //Dev: nSun
 		if(DEVMODE)
 		{

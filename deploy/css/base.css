@@ -117,7 +117,7 @@ body.user.tablette #spores {
 }
 
 body.user.profil #ficheProfil {
-	background: transparent url('../gfx/grille-profil.png?v=1') -127px -150px no-repeat;
+	background: transparent url('../gfx/grille-profil.png?v=2') -127px -150px no-repeat;
 	display: block;
 	/* border: solid 1px red; */
 	width: 620px;
@@ -149,6 +149,18 @@ table#spores{
 	{
 	text-align: left;
 	font-size: 18px;
+}
+#spores p.userName{
+margin-top: 14px;
+margin-bottom: 0px;
+}
+#spores p.userStatus{
+margin-top: 4px;
+margin-bottom: 0px;
+}
+#spores p.userParent{
+margin-top: 0px;
+margin-bottom: 0px;
 }
 
 #spores p.userName:before {
@@ -182,7 +194,7 @@ table#spores{
 	font-weight: normal;
 }
 
-p.userName, p.userStatus, p.quickMisc {
+p.userName, p.userStatus, p.quickMisc, p.userParent {
 	margin-left: 135px;
 }
 
@@ -194,7 +206,7 @@ span.green {
 	color: #0B0;
 }
 
-#spores dl,#spores dt,#spores dd,.pagination {
+#spores dl,#spores dt,#spores dd, .pagination {
 	list-style: none;
 	padding: 0;
 	margin: 0;
@@ -218,7 +230,8 @@ table.diagnostic {
 	width: 100%;
 }
 
-textarea#mushTranscryptor { /* display: block;
+textarea#mushTranscryptor {
+/* display: block;
 	float: left; */
 	padding: 16px;
 	width: 500px;
@@ -316,12 +329,19 @@ body.user.tablette #spores .date{
 	font: 11px Arial, sans-serif;
 }
 /* liens profils internes */
-a[href^="?uid="]:before {
+body.user.tablette a[href^="?uid="]:before,
+body.user.profil dd a[href^="?uid="]:before {
 	content: url("../gfx/notes.gif");
 	width: 16px;
 	height: 16px;
 	margin-right: 3px;
 	vertical-align: -2px;
+}
+body.user.profil dd a {
+	display: block;
+}
+body.user.tablette .userParent a {
+	display: inline-block;
 }
 /* liens profils twinoid */
 a[href^="http://twinoid.com/user/"]:before{
@@ -389,11 +409,11 @@ body.user td.dCol.l2 dt{
 	/* background-color: rgba(255,200,200,0.5); */
 	display: block;
 	height: 18px;
-	margin-top: 21px;
+	margin-top: 14px;
 }
 body.user td.dCol.l2 dd + dt{
 	/* background-color: rgba(200,200,255,0.5); */
-	margin-top: 5px;
+	margin-top: 2px;
 }
 body.user td.dCol.l2 dd{
 	/* background-color: rgba(200,255,200,0.5); */
@@ -573,4 +593,11 @@ tr.recommandations:hover td.oeil:after{
 	position: absolute;
 	z-index: 50;
 	margin: -80px 0px 0px 190px;
+}
+dd.parentList{
+	display: block;
+	height: 49px !important;
+	overflow: auto;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
