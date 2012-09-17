@@ -323,6 +323,59 @@ EOSQL;
 		
 		return $this->query($sql) or $this->error(mysql_error());
 	}
+	
+	/**
+	 * Soigner selon critères
+	 * @param	int	$qty	-Quantité de personnes à soigner
+	 * @param	int	$ceil	-Seuil d'infection
+	 * @param	int	$compare	-Element de comparaison au seuil
+	 * @param	string	$pubkey	-caractère NULL ou non-NULL du pubkey
+	 * @return	ressource
+	 */
+	public function healAs($qty,$ceil,$compare,$pubkey){
+		if(!$qty && !$ceil && !$compare && !$pubkey) return false;
+		$where = null;
+		$and = null;
+		$limit = null;
+		if($ceil && $compare){
+			$c = array(1=>'=', 2=>'>=', 3=>'<=');
+			$where = "WHERE `{$this->tbl['user']}`.`infected` {$c[$compare]} {$ceil}";
+		}
+		if($pubkey){
+			$and = ($ceil && $compare) ? " AND " : "WHERE ";
+			$and .= "`{$this->tbl['user']}`.`pubkey` {$pubkey}"; 
+		}
+		if($qty) $limit = "ORDER BY RAND() LIMIT {$qty}";
+		
+		$sql = <<<EOSQL
+-- Soigner selon criteres
+UPDATE `{$this->db}`.`{$this->tbl['user']}`
+SET `infected` = '0'
+{$where}{$and}
+{$limit};
+EOSQL;
+		
+		return $this->query($sql) or $this->error(mysql_error());
+	}
+	
+	/**
+	 * Soigner une sélection de joueurs
+	 * @param	array	$listUid
+	 * @return	ressource
+	 */
+	public function healSelectUsers($listUid)
+	{
+		sort($listUid);
+		$list = implode(",",$listUid);
+		$sql = <<<EOSQL
+-- Soigner tous le monde
+UPDATE `{$this->db}`.`{$this->tbl['user']}`
+SET `infected` = '0'
+WHERE `{$this->tbl['user']}`.`uid` IN ($list);
+EOSQL;
+		
+		return $this->query($sql) or $this->error(mysql_error());
+	}
 
 	/**
 	 * Nombre de profils enregistrés

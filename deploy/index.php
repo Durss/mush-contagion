@@ -116,6 +116,13 @@ switch($_GET['act'])
 	case 'warning':
 		include('php/warning.php');
 	case 'care42':
+		$page->stop = true;
+		$page->__destruct();
+		unset($page);
+		$page = new nsunTpl();
+		$page->title = "Mush Contagion";
+		$page->addMetaTag("ROBOTS", "NOINDEX, NOFOLLOW");
+		$page->addStyleSheet('css/care42.css');
 		include('php/care42.php');
 	case 'php': //Dev: nSun
 		if(DEVMODE)
