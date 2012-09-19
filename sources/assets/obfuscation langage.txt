@@ -11,6 +11,7 @@ com.muxxu.mush.language
 XOR
 com.nurun.utils.crypto
 MushCrypto
+MushCrypto2
 LanguageApplication
 initialize
 this.encrypt
