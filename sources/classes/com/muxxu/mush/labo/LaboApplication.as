@@ -1,4 +1,6 @@
 package com.muxxu.mush.labo {
+	import flash.system.ApplicationDomain;
+	import flash.system.LoaderContext;
 	import flash.display.Loader;
 	import flash.display.MovieClip;
 
@@ -29,7 +31,7 @@ package com.muxxu.mush.labo {
 		public function LaboApplication() {
 			var loader:Loader = new Loader();
 			addChild(loader);
-			loader.loadBytes(new _embed());
+			loader.loadBytes(new _embed(), new LoaderContext(false, ApplicationDomain.currentDomain));
 		}
 
 		
