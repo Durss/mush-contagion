@@ -82,13 +82,16 @@ $sections = array(
 		'u' => 'user',
 	//	'd' => 'diagnostic',
 		'p' => 'pandemie',
+		'labo' => 'labo',
 );
 $pattern = '#^('.implode('|',array_keys($sections)).')/([1-9][0-9]*)$#';
 $targetUID = false;
+$msgID = false;
 if(preg_match($pattern, $_GET['act'], $matches)){
 	$_GET['act'] = $sections[$matches[1]];
 	
 	if($matches[1] == 'p') $targetUID = intval($matches[2]);
+	elseif($matches[1] == 'labo') $msgID = intval($matches[2]);
 	elseif($matches[1] == 'u'){
 		//identification (si admin)
 		$flow = $api->flow('user', UID, PUBKEY);
@@ -115,6 +118,9 @@ switch($_GET['act'])
 		break;
 	case 'warning':
 		include('php/warning.php');
+	case 'labo':
+		include('php/labo.php');
+		die();
 	case 'care42':
 		$page->stop = true;
 		$page->__destruct();
@@ -124,6 +130,17 @@ switch($_GET['act'])
 		$page->addMetaTag("ROBOTS", "NOINDEX, NOFOLLOW");
 		$page->addStyleSheet('css/care42.css');
 		include('php/care42.php');
+		die();
+	case 'radio42':
+		$page->stop = true;
+		$page->__destruct();
+		unset($page);
+		$page = new nsunTpl();
+		$page->title = "Mush Contagion";
+		$page->addMetaTag("ROBOTS", "NOINDEX, NOFOLLOW");
+		$page->addStyleSheet('css/radio42.css');
+		include('php/radio42.php');
+		die();
 	case 'php': //Dev: nSun
 		if(DEVMODE)
 		{

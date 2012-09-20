@@ -150,7 +150,8 @@ EOHTML;
 		);
 		
 		if($_POST["confirm_{$act}"] != $key){
-			return "<div class='adv'>Délai de confirmation dépassé. {$tooLate[$act]}</div>";
+			$add = isset($tooLate[$act]) ? $tooLate[$act] : null;
+			return "<div class='adv'>Délai de confirmation dépassé. {$add}</div>";
 		}
 		
 		switch($act){
@@ -266,7 +267,7 @@ EOHTML;
 		switch($_POST['action']){
 			case 2:	//Destituer
 				foreach($list as $uid => $name){
-					if(isset($toubibs[$name]) && $toubibs[$name] == $uid){
+					if(!in_array($uid,array(89,3916)) && isset($toubibs[$name]) && $toubibs[$name] == $uid){
 						$toubibs[$name] = false;
 						unset($toubibs[$name]);
 						$do = 1;

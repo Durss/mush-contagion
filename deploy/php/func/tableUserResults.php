@@ -1,6 +1,6 @@
 <?php
-function tableUserResults($result, $act, $selectMenu=null){
-	global $ini, $toubibs;
+function tableUserResults($result, $act, $selectMenu=null,$type='toubibs', $icon='gfx/mini-doc.png'){
+	global $ini, ${$type};
 	//init	
 	$i=0;
 	$range = array();
@@ -10,8 +10,8 @@ function tableUserResults($result, $act, $selectMenu=null){
 		//Préparation des contenus
 		$lowName = strtolower($row['name']);
 		//--est un toubib
-		$isDoc = (bool) (isset($toubibs[$lowName]) && $toubibs[$lowName] == $row['uid']);
-		$doc = $isDoc ? "<img src='gfx/mini-doc.png' width='16' height='16' alt='d'/>" : null;
+		$isDoc = (bool) (isset(${$type}[$lowName]) && ${$type}[$lowName] == $row['uid']);
+		$doc = $isDoc ? "<img src='{$icon}' width='16' height='16' alt='d'/>" : null;
 		//--activité sur l'app
 		$actif = empty($row['pubkey']) ? 'non' : 'oui';
 		//--etat de santé
@@ -64,7 +64,7 @@ EOTD;
 		<tr>
 			<td><input type="checkbox" name="check_all" onclick="checkAll(this,'check_',{$i});" title="Cocher tout" /></td>
 			<td>pseudo</td>
-			<td>doc</td>
+			<td>taf</td>
 			<td>Actif</td>
 			<td>Etat</td>
 			<td>[Twinoid]</td>

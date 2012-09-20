@@ -9,17 +9,51 @@ if(!isset($page))
 	die();
 }
 
-//Données d'accès au service
-$id = UID ? UID : null;
-$key = isset($user->key['friends']) ? $user->key['friends'] : null; // NOTE: Et OUI, il ne s'agit pas du pubkey ;)
+require_once('php/func/radio_keyGen.php');
+require_once('php/func/swf_crypt.php');
 
-$version= "1.24";
+//Recherche le message
+$msg = false;
+if(is_int($msgID)){
+	$key = radio_keyGen($msgID);
+	$filename = "msg/{$msgID}_{$key}.txt";
+	if(file_exists($filename)){
+		$msg = implode('|',file($filename));
+	}
+}
+
+//Introuvable : Premier message qui traine
+if(!$msg){
+	foreach(scandir('msg/') as $filename){
+		//filtres
+		if(!is_file($dir.'/'.$filename)) continue;
+		$pattern = '#^(?<No>[1-9][0-9]*)_(?<key>[0-9a-f]{16})\.txt$#';
+		if(!preg_match($pattern, $filename, $matches)) continue;
+		$key = $matches['key'];
+		$msg = implode('|',file($dir.'/'.$filename));
+	}
+}
+
+//Toujours pas de message
+if(!$msg){
+	$key = '00005555aaaaffff';
+	$msg = "Vous me recevez ?|Bien, désormais nous savons que la radio fonctionne.";
+}
+
+//cryptage
+
+$clean = "key={$key}&diags={$msg}";
+
+$data = swf_crypt($clean);
+
+$version= "1.0";
 
 //Paramètres de la page
 $page->addScriptFile('js/swfobject.js');
 $page->addScriptFile('js/SWFAddress.js');
 $page->addScriptFile('js/swfwheel.js');
 $page->addScriptFile('js/swffit.js');
+$page->addBodyClass('labo');
 
 //Contenu
 $page->c .= <<<EOHTML
@@ -39,10 +73,8 @@ $page->c .= <<<EOHTML
 			flashvars["configXml"] = "./xml/config.xml?v={$version}";
 			flashvars["lang"] = "fr";
 
-			flashvars['id'] = "{$id}";
-			flashvars['key'] = "{$key}";
+			flashvars['data'] = "{$data}";
 			flashvars['maintenance'] = "{$ini['status']['maintenance']}";
-			flashvars['ceil'] = "{$ini['params']['infectPerTurn']}";
 			
 			var attributes = {};
 			attributes["id"] = "externalDynamicContent";
@@ -51,11 +83,11 @@ $page->c .= <<<EOHTML
 			var params = {};
 			params['allowFullScreen'] = 'true';
 			params['menu'] = 'false';
-			params['wmode'] = 'opaque';
+			params['wmode'] = 'transparent';
 			
-			swfobject.embedSWF("swf/contaminator.swf?v={$version}", "content", "100%", "100%", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
+			swfobject.embedSWF("swf/labo.swf?v={$version}", "content", "671px", "377px", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
 			
-			swffit.fit("externalDynamicContent", 800, 600, 2000, 2000, true, true);
+			//swffit.fit("externalDynamicContent", 800, 600, 2000, 2000, true, true);
 		</script>
 EOHTML;
 ?>
