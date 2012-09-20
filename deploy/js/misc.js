@@ -20,6 +20,9 @@ function pifometreConfirm(){
 		alert("Vous devez cocher au moins un critère.\nSi vous ne savez pas, cochez OSEF.");
 		return false;
 	}
-	else return true;
-	
+	else return true;	
+}
+
+function deleteConfirm(No){
+	return confirm('Vous souhaitez effacer le message N°'+No+' ?');
 }

@@ -601,3 +601,18 @@ dd.parentList{
 	overflow-x: hidden;
 	overflow-y: auto;
 }
+/**
+ * LABO
+ */
+body.labo {
+	background: transparent url(../gfx/radio.jpg) no-repeat center top;
+}
+body.labo #content1 {
+	display: block;
+	width: 671px;
+	height: 377px;
+	margin: 64px auto;
+	border: solid 2px #000;
+	border-top: solid 3px #000;
+	border-bottom: none;
+}
