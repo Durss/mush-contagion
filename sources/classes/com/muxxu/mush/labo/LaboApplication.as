@@ -1,8 +1,16 @@
 package com.muxxu.mush.labo {
-	import flash.system.ApplicationDomain;
-	import flash.system.LoaderContext;
+	import flash.utils.ByteArray;
+	import flash.events.IOErrorEvent;
+	import com.muxxu.mush.graphics.LoaderSpinningGraphic;
+
+	import flash.display.DisplayObject;
 	import flash.display.Loader;
 	import flash.display.MovieClip;
+	import flash.events.Event;
+	import flash.filters.DropShadowFilter;
+	import flash.system.ApplicationDomain;
+	import flash.system.LoaderContext;
+	import flash.utils.setTimeout;
 
 	/**
 	 * Bootstrap class of the application.
@@ -20,6 +28,8 @@ package com.muxxu.mush.labo {
 		[Embed(source="../../../../../fla/labo.swf", mimeType="application/octet-stream")]
 		private var _embed:Class;
 		
+		private var _spin:DisplayObject;
+		
 		
 		
 		/* *********** *
@@ -29,9 +39,7 @@ package com.muxxu.mush.labo {
 		 * Creates an instance of <code>Application</code>.
 		 */
 		public function LaboApplication() {
-			var loader:Loader = new Loader();
-			addChild(loader);
-			loader.loadBytes(new _embed(), new LoaderContext(false, ApplicationDomain.currentDomain));
+			initialize();
 		}
 
 		
@@ -52,6 +60,34 @@ package com.muxxu.mush.labo {
 		/* ******* *
 		 * PRIVATE *
 		 * ******* */
+
+		private function initialize():void {
+			var loader:Loader = new Loader();
+			_spin = addChild(new LoaderSpinningGraphic());
+			_spin.filters = [new DropShadowFilter(0,0,0,.25,5,5,1,3)];
+			addChild(loader);
+			var context:LoaderContext = new LoaderContext(false, ApplicationDomain.currentDomain);
+			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loadCompleteHandler);
+			loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, loadErrorHandler);
+			stage.addEventListener(Event.RESIZE, computePositions);
+			computePositions();
+			var ba:ByteArray = new _embed();
+			setTimeout(loader.loadBytes, 500, ba, context);
+		}
+
+		private function loadCompleteHandler(event:Event):void {
+		}
+
+		private function loadErrorHandler(event:IOErrorEvent):void {
+		}
+		
+		/**
+		 * Resize and replace the elements.
+		 */
+		private function computePositions(event:Event = null):void {
+			_spin.x = stage.stageWidth * .5;
+			_spin.y = stage.stageHeight * .5;
+		}
 		
 	}
 }

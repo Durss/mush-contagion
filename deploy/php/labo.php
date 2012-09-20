@@ -21,7 +21,7 @@ if(is_int($msgID)){
 		$msg = implode('|',file($filename));
 	}
 }
-
+$dir = "msg/";
 //Introuvable : Premier message qui traine
 if(!$msg){
 	foreach(scandir('msg/') as $filename){
