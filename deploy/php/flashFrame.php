@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 //Bloque l'accès direct
 if(!isset($page))
 {
