@@ -151,7 +151,7 @@ if($lastInfection)
 {
 	//Compte le nombre d'infections
 	$countChilds = 0;
-	if($db->countChilds(UID)) //En cas d'erreur SQL
+	if($db->countChildsByWave(UID, $ini['RAZprogress'])) //En cas d'erreur SQL
 	{
 		if($row = mysql_fetch_assoc($db->result)){
 			$countChilds = ceil(intval($row['countChilds'])/intval($ini['infectPerTurn']));
@@ -243,6 +243,6 @@ if(FULL_INFOS)
 }
 
 //Finalise
-#echo $userinfos->asXML();
+//echo $userinfos->asXML();
 xmlFinish($userinfos);
 ?>
