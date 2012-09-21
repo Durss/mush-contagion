@@ -144,7 +144,7 @@ elseif(isset($_POST['checkMsg'])){
 		$ecrase = (bool) is_file($filename);
 		$legend = $ecrase
 			? "Modifier l'émission N°{$_POST['No']}"
-			: "Saugarder l'émission ?";
+			: "Sauvegarder l'émission ?";
 		$details = "<input type='hidden' name='No' value='{$_POST['No']}'/>"
 		."<textarea name='msg' readonly='readonly'>{$contents}</textarea>";
 		if($ecrase){

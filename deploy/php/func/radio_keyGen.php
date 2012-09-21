@@ -6,16 +6,29 @@
  * @return	string	$key
  */
 function radio_keyGen($No,$screen=false){
-	$md5 = substr(md5("coin coin !".$No." èçé* WH1T3-H4T:5UX-MY-C0CK!"),$No%16,16);
-	$parts = str_split($md5,4);
+	$md5 = substr(md5(":calim: coin coin !".$No." èçé* WH1T3-H4T:5UX-MY-C0CK!"),$No%16,16);
 	
 	//Clés possibles
 	$p_keys = array(
-		'0000','01e5','03cb','05b0','0796','097b','0b61','0d46','0f2c','1111','12f6','14dc','16c1','18a7','1a8c','1c72','1e57','203d','2222','2407','25ed','27d2','29b8','2b9d','2d83','2f68','314e','3333','3518','36fe','38e3','3ac9','3cae','3e94','4079','425f','4444','4629','480f','49f4','4bda','4dbf','4fa5','518a','5370','5555','573a','5920','5b05','5ceb','5ed0','60b6','629b','6481','6666','684b','6a31','6c16','6dfc','6fe1','71c7','73ac','7592','7777','795c','7b42','7d27','7f0d','80f2','82d8','84bd','86a3','8888','8a6d','8c53','8e38','901e','9203','93e9','95ce','97b4','9999','9b7e','9d64','9f49','a12f','a314','a4fa','a6df','a8c5','aaaa','ac8f','ae75','b05a','b240','b425','b60b','b7f0','b9d6','bbbb','bda0','bf86','c16b','c351','c536','c71c','c901','cae7','cccc','ceb1','d097','d27c','d462','d647','d82d','da12','dbf8','dddd','dfc2','e1a8','e38d','e573','e758','e93e','eb23','ed09','eeee','f0d3','f2b9','f49e','f684','f869','fa4f','fc34','fe1a','ffff'
-	);
+		'0000','00f3','02d8','04be','06a3','0889','0a6e','0c53','0e39',
+		'101e','1204','13e9','15cf','17b4','199a','1b7f','1d64','1f4a',
+		'212f','2315','24fa','26e0','28c5','2aab','2c90','2e75',
+		'305b','3240','3426','360b','37f1','39d6','3bbc','3da1','3f86',
+		'416c','4351','4537','471c','4902','4ae7','4ccd', '4eb2',
+		'5097','527d','5462','5648','582d','5a13','5bf8','5dde','5fc3',
+		'61a8','638e','6573','6759','693e','6b24','6d09','6eef',
+		'70d4','72b9','749f','7684','786a','7a4f','7c35','7e1a',
+		'8000','81e5','83ca','85b0','8795','897b','8b60','8d46','8f2b',
+		'9111','92f6','94db','96c1','98a6','9a8c','9c71','9e57',
+		'a03c','a222','a407','a5ec','a7d2','a9b7','ab9d','ad82','af68',
+		'b14d','b333','b518','b6fd','b8e3','bac8','bcae','be93',
+		'c079','c25e','c444','c629','c80e','c9f4','cbd9','cdbf','cfa4',
+		'd18a','d36f','d555','d73a','d91f','db05','dcea','ded0',
+		'e0b5','e29b','e480', 'e666', 'e84b','ea30','ec16','edfb','efe1',
+		'f1c6','f3ac','f591','f777','f95c','fb41','fd27','ff0c','ffff');
 	$key = array();
 	
-	foreach($parts as $i => $v){
+	foreach(str_split($md5,4) as $i => $v){
 		$dec = hexdec($v);
 		$laps = count($p_keys);
 		$m = $dec%$laps;
@@ -23,14 +36,5 @@ function radio_keyGen($No,$screen=false){
 		$key[$i] = $p_keys[$m] ;
 	}
 	return $screen ? implode(' ',$key) : implode($key);
-}
-
-$len = 270;
-$inc = hexdec('ffff') / $len;
-var_dump($inc);
-$step = 2;
-$stock = array();
-for($i = 0; $i <= $len; $i+=$step) {
-    $stock[] = str_pad(dechex(round($inc*$i)),4,'0',STR_PAD_LEFT);
 }
 ?>
