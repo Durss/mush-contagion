@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 //Bloque l'accès direct
 if(!isset($page))
 {
@@ -13,7 +13,7 @@ if(!isset($page))
 $id = UID ? UID : null;
 $key = isset($user->key['friends']) ? $user->key['friends'] : null; // NOTE: Et OUI, il ne s'agit pas du pubkey ;)
 
-$version= "1.24";
+$version= "2.0";
 
 //Paramètres de la page
 $page->addScriptFile('js/swfobject.js');
