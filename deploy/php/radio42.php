@@ -154,8 +154,10 @@ elseif(isset($_POST['checkMsg'])){
 				$details .= "</fieldset><fieldset><legend>Ancienne version</legend>"
 				."<textarea name='old' readonly='readonly'>{$contents2}</textarea>";
 			}
-			else $page->c .= "<div class='adv'>Il n'y a pas de modification.</div>";
-			die();
+			else{
+				$page->c .= "<div class='adv'>Il n'y a pas de modification.</div>";
+				die();
+			}
 		}
 		$btn = array(
 			"cancel" => "Annuler",
