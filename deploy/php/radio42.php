@@ -138,7 +138,7 @@ elseif(isset($_POST['checkMsg'])){
 		$keyFile = radio_keyGen($_POST['No']);
 		$filename = "msg/".intval($_POST['No'])."_{$keyFile}.txt";
 		//Contenu
-		$contents = strip_tags($_POST['msg']);
+		$contents = ($_POST['msg']);
 		$key = md5("Pép1t0 c4c4huEttE bAmb0UlA n0ug4t ch0c4p1c".$contents."S4UC1553-4L54C13NN3");
 		//création / écrasement ?
 		$ecrase = (bool) is_file($filename);
@@ -179,7 +179,7 @@ EOHTML;
 	else{
 		$contents = isset($_POST['msg'])
 		? "<p>Récupération de votre message :</p>"
-		."<textarea name='old' readonly='readonly'>".strip_tags($_POST['msg'])."</textarea>"
+		."<textarea name='old' readonly='readonly'>".htmlentities($_POST['msg'])."</textarea>"
 		: null;
 		
 		$page->c .= "<div class='adv'>Oups : un bug ?</div>".$contents;
@@ -193,13 +193,13 @@ elseif(isset($_POST['confirm_MSG'])){
 	&& $_POST['saveMsg'] == md5("Pép1t0 c4c4huEttE bAmb0UlA n0ug4t ch0c4p1c{$_POST['msg']}S4UC1553-4L54C13NN3")){
 		$keyFile = radio_keyGen($_POST['No']);
 		$filename = "msg/".intval($_POST['No'])."_{$keyFile}.txt";
-		$data = strip_tags($_POST['msg']);
+		$data = ($_POST['msg']);
 		$test = file_put_contents($filename, $data);
 	}
 	if(!$test){
 		$contents = isset($_POST['msg'])
 		? "<p>Récupération de votre message :</p>"
-		."<textarea name='old' readonly='readonly'>".strip_tags($_POST['msg'])."</textarea>"
+		."<textarea name='old' readonly='readonly'>".htmlentities($_POST['msg'])."</textarea>"
 		: null;
 		
 		$page->c .= "<div class='adv'>Oups : un bug ?</div>".$contents;
