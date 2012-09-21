@@ -92,9 +92,10 @@ class care{
 						$list[intval($_POST[$check])] = $_POST["name_{$matche[1]}"];
 					}
 				}
+				$r_list = ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') ? addslashes(serialize($list)) : serialize($list);
 				$details = "<input type='hidden' name='action' value='{$_POST['action']}'/>"
 				."<p>".implode(', ',$list)."</p>"
-				."<input type='hidden' name='list' value='".addslashes(serialize($list))."'/>";
+				."<input type='hidden' name='list' value='{$r_list}'/>";
 				
 				switch($act){
 					case 'setToubibs':
