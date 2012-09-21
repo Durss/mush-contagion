@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 //Bloque l'accès direct
 if(!isset($page))
 {
@@ -38,7 +38,7 @@ $pseudoLink = $twinID ? "<a href='http://twinoid.com/user/{$twinID}' target='twi
 $testMush = (bool) (intval($userinfos->user['level']) >= intval($ini['params']['infectCeil']));
 $infected = $testMush ? 'true' : 'false';
 
-$version= "1";
+$version= "2.0";
 
 if($testMush && isset($userinfos->user->parent->spore)){
 	$parentList =  array();

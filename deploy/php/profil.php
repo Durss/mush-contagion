@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 //Bloque l'accès direct
 if(!isset($page))
 {
@@ -38,7 +38,7 @@ $pseudo = strval($userinfos->user->name);
 $pseudoLink = $twinID ? "<a href='http://twinoid.com/user/{$twinID}' target='twinoid'>{$pseudo}</a>" : "<a href='http://muxxu.com/user/{$id}' target='twinoid'>{$pseudo}</a>";
 $infected = (intval($userinfos->user['level']) >= intval($ini['params']['infectCeil'])) ? 'true' : 'false';
 $testMush = (bool) (intval($userinfos->user['level']) >= intval($ini['params']['infectCeil']));
-$version= "1";
+$version= "2.0";
 
 $userVars = "'{$id}', '{$pseudo}', {$infected}, true";
 

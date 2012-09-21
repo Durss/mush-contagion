@@ -9,9 +9,9 @@ if(!isset($page))
 	die();
 }
 
-require_once('php/func/radio_keyGen.php');
-require_once('php/func/swf_crypt.php');
-require_once('php/func/swf_concat.php');
+require_once('func/radio_keyGen.php');
+require_once('func/swf_crypt.php');
+require_once('func/swf_concat.php');
 
 //Recherche le message
 $msg = false;
