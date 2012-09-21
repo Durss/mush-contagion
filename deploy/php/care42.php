@@ -32,7 +32,7 @@ $care = new care();
 
 if(isset($_GET['DISPLAY_POST'])) $page->c .= "<textarea>".print_r($_POST,1)."</textarea>";
 
-$page->c .= "<h1><a href='?{$_SERVER['QUERY_STRING']}'>Fungi-Care 42<sup>mg</sup></a></h1>";
+$page->c .= "<h1><a href='?{$_SERVER['QUERY_STRING']}'>Fongi-Care 42<sup>mg</sup></a></h1>";
 
 /**
  * Soigner tout le monde
