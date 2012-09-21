@@ -11,6 +11,7 @@ if(!isset($page))
 
 require_once('php/func/radio_keyGen.php');
 require_once('php/func/swf_crypt.php');
+require_once('php/func/swf_concat.php');
 
 //Recherche le message
 $msg = false;
@@ -18,26 +19,26 @@ if(is_int($msgID)){
 	$key = radio_keyGen($msgID);
 	$filename = "msg/{$msgID}_{$key}.txt";
 	if(file_exists($filename)){
-		$msg = implode('|',file($filename));
+		$msg = swf_concat(file_get_contents($filename));
 	}
 }
-$dir = "msg/";
+
 //Introuvable : Premier message qui traine
 if(!$msg){
 	foreach(scandir('msg/') as $filename){
 		//filtres
-		if(!is_file($dir.'/'.$filename)) continue;
+		if(!is_file('msg/'.$filename)) continue;
 		$pattern = '#^(?<No>[1-9][0-9]*)_(?<key>[0-9a-f]{16})\.txt$#';
 		if(!preg_match($pattern, $filename, $matches)) continue;
 		$key = $matches['key'];
-		$msg = implode('|',file($dir.'/'.$filename));
+		$msg = swf_concat(file_get_contents('msg/'.$filename));
 	}
 }
 
 //Toujours pas de message
 if(!$msg){
-	$key = '00005555aaaaffff';
-	$msg = "Vous me recevez ?|Bien, désormais nous savons que la radio fonctionne.";
+	$key = '000080008000ffff';
+	$msg = utf8_decode("Vous me recevez ?|Bien, désormais nous savons que la radio fonctionne.");
 }
 
 //cryptage
