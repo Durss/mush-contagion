@@ -144,7 +144,7 @@ EOHTML;
 
 
 //Transcodeur mush
-if($id == UID && 3){
+if($id == UID && $testMush){
 	$js = <<<EOJS
 			var attributesTM = {};
 			var flashvarsTM = {};

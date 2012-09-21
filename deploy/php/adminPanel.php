@@ -411,6 +411,14 @@ if(isset($_POST['setMaintenance']) || isset($_POST['setParams']))
 	}
 	else $update['topDelay'] = $ini['params']['topDelay'];
 	
+	//RAZprogress
+	if(isset($_POST['RAZprogress']) && $_POST['RAZprogress'] != $ini['params']['RAZprogress'])
+	{
+		$update['RAZprogress'] = $_POST['RAZprogress'];
+		$do = true;
+	}
+	else $update['RAZprogress'] = $ini['params']['RAZprogress'];
+	
 	if($do)
 	{
 		$page->c .= "<pre>".print_r($_POST,1)."</pre>"; 
@@ -435,6 +443,7 @@ queryLimit={$update['queryLimit']};		(int)	Limitation du nombre de profils éval
 coefMaxDelay={$update['coefMaxDelay']};			(int)
 ceilDelay={$update['ceilDelay']};	(int)
 topDelay={$update['topDelay']};		(int)
+RAZprogress='{$update['RAZprogress']}';		(string) YYYY-MM-DD HH:ii:ss (date au delà de laquelle le nb d'infection n'entre pas en compte dans l'ugmentation du délais)
 
 [admins]; pseudo=uid
 {$iniAdminList}
@@ -468,6 +477,7 @@ $infectDelay = $ini['params']['infectDelay'];
 $coefMaxDelay = $ini['params']['coefMaxDelay'];
 $ceilDelay = $ini['params']['ceilDelay'];
 $topDelay = $ini['params']['topDelay'];
+$RAZprogress = $ini['params']['RAZprogress'];
 
 //Liste les admins
 $adminList = "<li>".implode("</li>\n\t\t\t\t\t<li>",$adminList)."</li>";
@@ -510,6 +520,7 @@ $page->c .= <<<EOHTML
 					<label>Plafonnement du Délais : <input type="text" name="coefMaxDelay" value="{$coefMaxDelay}" size="3" /> (x infectDelay)</label>
 					<label>Point de départ de l'augmentation du délai : <input type="text" name="ceilDelay" value="{$ceilDelay}" size="3" /> (nb d'usages de l'infecteur)</label>
 					<label>Seuil plafond : <input type="text" name="topDelay" value="{$topDelay}" size="3" /> (nb d'usages de l'infecteur)</label>
+					<label>Progression de délai pour les infection post : <input type="text" name="RAZprogress" value="{$RAZprogress}" size="16" /> (date YYYY-MM-DD HH:ii:ss)</label>
 			</fieldset>
 			<fieldset>
 				<input type="submit" name="setParams" value="enregistrer" />
