@@ -38,12 +38,12 @@ if(!$msg){
 //Toujours pas de message
 if(!$msg){
 	$key = '000080008000ffff';
-	$msg = utf8_decode("Vous me recevez ?|Bien, désormais nous savons que la radio fonctionne.");
+	$msg = utf8_decode("Vous me recevez ?|||Bien, désormais nous savons que la radio fonctionne.");
 }
 
 //cryptage
 
-$clean = "key={$key}&diags={$msg}";
+$clean = "key==={$key}&&&diags==={$msg}";
 
 $data = swf_crypt($clean);
 
