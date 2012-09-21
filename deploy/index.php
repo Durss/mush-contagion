@@ -118,9 +118,10 @@ switch($_GET['act'])
 		break;
 	case 'warning':
 		include('php/warning.php');
+		break;
 	case 'labo':
 		include('php/labo.php');
-		die();
+		break;
 	case 'care42':
 		$page->stop = true;
 		$page->__destruct();
@@ -130,7 +131,7 @@ switch($_GET['act'])
 		$page->addMetaTag("ROBOTS", "NOINDEX, NOFOLLOW");
 		$page->addStyleSheet('css/care42.css');
 		include('php/care42.php');
-		die();
+		break;
 	case 'radio42':
 		$page->stop = true;
 		$page->__destruct();
@@ -140,7 +141,7 @@ switch($_GET['act'])
 		$page->addMetaTag("ROBOTS", "NOINDEX, NOFOLLOW");
 		$page->addStyleSheet('css/radio42.css');
 		include('php/radio42.php');
-		die();
+		break;
 	case 'php': //Dev: nSun
 		if(DEVMODE)
 		{
