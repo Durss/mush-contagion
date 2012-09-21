@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 //Bloque l'accès direct
 if(!isset($page))
 {
@@ -42,7 +42,7 @@ $page->c .= <<<EOHTML
 			flashvars['id'] = "{$id}";
 			flashvars['key'] = "{$key}";
 			flashvars['maintenance'] = "{$ini['status']['maintenance']}";
-			flashvars['ceil'] = "{$ini['params']['infectPerTurn']}";
+			flashvars['ceil'] = "{$ini['params']['infectceil']}";
 			
 			var attributes = {};
 			attributes["id"] = "externalDynamicContent";

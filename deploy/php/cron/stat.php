@@ -2,7 +2,7 @@
 /*
  * Relevé des statistiques
  */
-define('DEVMODE', false);
+define('DEVMODE', true);
 $print = null;
 
 //Filtre CRON-JOB
@@ -13,7 +13,8 @@ if(!DEVMODE && !isset($_SERVER['CRON_ID']))
 }
 
 //init
-define('STAT_DELAY', 60*60-1); //secondes
+//define('STAT_DELAY', 60*60-1); //secondes
+define('STAT_DELAY', 30); //secondes
 
 //Parametres
 $ini = parse_ini_file('../../params.ini');

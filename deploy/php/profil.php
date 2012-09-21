@@ -38,7 +38,7 @@ $pseudo = strval($userinfos->user->name);
 $pseudoLink = $twinID ? "<a href='http://twinoid.com/user/{$twinID}' target='twinoid'>{$pseudo}</a>" : "<a href='http://muxxu.com/user/{$id}' target='twinoid'>{$pseudo}</a>";
 $infected = (intval($userinfos->user['level']) >= intval($ini['params']['infectCeil'])) ? 'true' : 'false';
 $testMush = (bool) (intval($userinfos->user['level']) >= intval($ini['params']['infectCeil']));
-$version= "2.0";
+$version= "2.1";
 
 $userVars = "'{$id}', '{$pseudo}', {$infected}, true";
 
@@ -144,7 +144,7 @@ EOHTML;
 
 
 //Transcodeur mush
-if($id == UID && $testMush){
+if($id == UID && 3){
 	$js = <<<EOJS
 			var attributesTM = {};
 			var flashvarsTM = {};
@@ -155,7 +155,7 @@ if($id == UID && $testMush){
 			paramsTM['allowFullScreen'] = 'true';
 			paramsTM['menu'] = 'false';
 			
-			swfobject.embedSWF("swf/language.swf?v=1.1", "content", "0", "0", "10.2", "swf/expressinstall.swf", flashvarsTM, paramsTM, attributesTM);
+			swfobject.embedSWF("swf/language.swf?v=2.1", "content", "0", "0", "10.2", "swf/expressinstall.swf", flashvarsTM, paramsTM, attributesTM);
 			
 			var lastCryptTime = -100;
 			/*
