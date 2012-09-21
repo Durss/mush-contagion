@@ -281,6 +281,25 @@ EOSQL;
 	}
 	
 	/**
+	 * Compte le nombre d'enfants, infectés par un utilisateur à partir d'un timestamp
+	 * @param	int	$uid	-N°identifiant du parent
+	 * @param	string	$ts	-timestamp MySQL ex : '2012-09-14 20:31:36';
+	 * @return	ressource
+	 */
+	public function countChildsByWave($uid, $ts)
+	{
+		$sql = <<<EOSQL
+-- count childs
+SELECT COUNT(`id`) as countChilds
+FROM `{$this->tbl['link']}`
+WHERE `parent` = {$uid}
+AND `date` > '{$ts}';
+EOSQL;
+		
+		return $this->query($sql) or $this->error(mysql_error());
+	}
+	
+	/**
 	 * Vider la table 'users'
 	 * @return	ressource
 	 */
