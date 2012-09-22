@@ -97,6 +97,8 @@ package com.muxxu.mush.contaminator.views {
 		override public function update(event:IModelEvent):void {
 			var model:Model = event.model as Model;
 			
+			_speak.waitDurationCallback = model.getWaitDuration;
+			
 			if(model.infectedUsers != null) {
 				return;
 			}

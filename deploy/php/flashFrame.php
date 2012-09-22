@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 //Bloque l'accès direct
 if(!isset($page))
 {
@@ -13,7 +13,7 @@ if(!isset($page))
 $id = UID ? UID : null;
 $key = isset($user->key['friends']) ? $user->key['friends'] : null; // NOTE: Et OUI, il ne s'agit pas du pubkey ;)
 
-$version= "2.0";
+$version= "2.7";
 
 //Paramètres de la page
 $page->addScriptFile('js/swfobject.js');
@@ -42,7 +42,7 @@ $page->c .= <<<EOHTML
 			flashvars['id'] = "{$id}";
 			flashvars['key'] = "{$key}";
 			flashvars['maintenance'] = "{$ini['status']['maintenance']}";
-			flashvars['ceil'] = "{$ini['params']['infectceil']}";
+			flashvars['ceil'] = "{$ini['params']['infectCeil']}";
 			
 			var attributes = {};
 			attributes["id"] = "externalDynamicContent";

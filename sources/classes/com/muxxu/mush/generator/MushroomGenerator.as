@@ -183,7 +183,7 @@ package com.muxxu.mush.generator {
 			_mushroomBig.x = 25;
 			_mushroomBig.y = 30;
 			
-			_twinoidBig.populate(key, 1.5, 0);
+			_twinoidBig.populate(key, 1.5, 0, 0);
 			_twinoidBig.x = 400;
 			_twinoidBig.y = 200;
 			

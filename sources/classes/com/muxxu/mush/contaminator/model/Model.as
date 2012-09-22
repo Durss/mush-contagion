@@ -88,7 +88,6 @@ package com.muxxu.mush.contaminator.model {
 		public function start():void {
 			_playIntro = _so.data["introPlayed"] == undefined;
 			var xml:XML = DependencyStorage.getInstance().getDependencyById("infos").xml;
-			trace('xml: ' + (xml));
 			var delayNode:XML = XML(xml.child("user")[0]).child("delay")[0];
 			_waitFor = parseInt(delayNode.@wait);
 			_control = delayNode.@ctrl;
@@ -144,6 +143,14 @@ package com.muxxu.mush.contaminator.model {
 			_contaminationComplete = true;
 			update();
 		}
+		
+		/**
+		 * Get the wait duration
+		 */
+		public function getWaitDuration():Number {
+			var past:Number = getTimer() - _start;
+			return Math.max(0, _waitFor * 1000 - past);
+		}
 
 
 		
@@ -155,7 +162,7 @@ package com.muxxu.mush.contaminator.model {
 		 * Initialize the class.
 		 */
 		private function initialize():void {
-			_so = SharedObject.getLocal("mushcontagion-v1", "/");
+			_so = SharedObject.getLocal("mushcontagion-v2", "/");
 //			_so.clear();//TODO remove!
 			if(_so.data["sound"] == undefined) _so.data["sound"] = true;
 			_soundEnabled = _so.data["sound"] !== false;
