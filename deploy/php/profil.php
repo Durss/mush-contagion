@@ -51,7 +51,7 @@ $js = <<<EOJS
 	params['menu'] = 'false';
 	var flashvars = {};
 	flashvars["canDownload"] = "false";
-	swfobject.embedSWF("swf/avatar.swf?v=1.1", "flash", "0", "0", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
+	swfobject.embedSWF("swf/avatar.swf?v=2.2", "flash", "0", "0", "10.2", "swf/expressinstall.swf", flashvars, params, attributes);
 
 	function flashReady() {
 		var flash = document.getElementById('flash');
@@ -155,7 +155,7 @@ if($id == UID && $testMush){
 			paramsTM['allowFullScreen'] = 'true';
 			paramsTM['menu'] = 'false';
 			
-			swfobject.embedSWF("swf/language.swf?v=2.1", "content", "0", "0", "10.2", "swf/expressinstall.swf", flashvarsTM, paramsTM, attributesTM);
+			swfobject.embedSWF("swf/language.swf?v=2.3", "content", "0", "0", "10.2", "swf/expressinstall.swf", flashvarsTM, paramsTM, attributesTM);
 			
 			var lastCryptTime = -100;
 			/*

@@ -3,6 +3,7 @@ package com.muxxu.mush.language {
 	import com.muxxu.mush.avatar.crypto.MushCrypto2;
 
 	import flash.display.MovieClip;
+	import flash.events.Event;
 	import flash.external.ExternalInterface;
 
 	/**
@@ -31,7 +32,7 @@ package com.muxxu.mush.language {
 		 * Creates an instance of <code>Application</code>.
 		 */
 		public function LanguageApplication() {
-			initialize();
+			addEventListener(Event.ADDED_TO_STAGE, initialize);
 		}
 
 		
@@ -55,7 +56,8 @@ package com.muxxu.mush.language {
 		/**
 		 * Initialize the class.
 		 */
-		private function initialize():void {
+		private function initialize(event:Event):void {
+			removeEventListener(Event.ADDED_TO_STAGE, initialize);
 			if(ExternalInterface.available) {
 				ExternalInterface.addCallback("encrypt", encrypt);
 				ExternalInterface.addCallback("decrypt", decrypt);
@@ -67,7 +69,7 @@ package com.muxxu.mush.language {
 				        ]]></script>;
 				    
 			        var htmlPage:String = ExternalInterface.call(pageContent.toString());
-					_isHack = !/mush  - contagion/gi.test(htmlPage);
+					_isHack = !/Mush  Contagion /gi.test(htmlPage);
 					var pageURL:String = ExternalInterface.call('window.location.href.toString');
 					_isHack ||= !/^http:\/\/fevermap.org\/mushcontagion/gi.test(pageURL);
 					_isHack ||= !/^http:\/\/fevermap.org\/mushcontagion/gi.test(loaderInfo.url);

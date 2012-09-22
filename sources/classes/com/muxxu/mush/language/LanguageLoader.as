@@ -1,4 +1,5 @@
 package com.muxxu.mush.language {
+	import flash.events.Event;
 	import com.muxxu.mush.avatar.crypto.MushCryptoNew;
 	import flash.external.ExternalInterface;
 	import flash.system.ApplicationDomain;
@@ -23,6 +24,7 @@ package com.muxxu.mush.language {
 		private var _embed:Class;
 		private var _isHack:Boolean;
 		private var _hackRes:String = "Je suis un mauvais h4ck3r qui a essayé de gruger et qui pense avoir réussit alors que non :P.";
+		private var _ready:Boolean;
 		
 		
 		/* *********** *
@@ -68,10 +70,17 @@ package com.muxxu.mush.language {
 			
 			
 			var loader:Loader = new Loader();
+			addChild(loader);
+			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, completeHandler);
 			loader.loadBytes(new _embed(), new LoaderContext(false, ApplicationDomain.currentDomain));
+		}
+
+		private function completeHandler(event:Event):void {
+			_ready = true;
 		}
 		
 		private function encrypt(value:String):String {
+			if(!_ready) return "";
 			if(_isHack) {
 				value = _hackRes;
 			}
@@ -79,6 +88,7 @@ package com.muxxu.mush.language {
 		}
 		
 		private function decrypt(value:String):String {
+			if(!_ready) return "";
 			if(_isHack) {
 				return _hackRes;
 			}
