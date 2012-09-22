@@ -81,14 +81,14 @@ elseif(isset($_POST['findOp'])){
 elseif(isset($_POST['setRadio'])){
 	$radio->db = new mushSQL($mysql_vars,1);
 	$test = $radio->confirm('setRadio');
-	$page->c .= $test ? $test : "<div class='adv'>Oups : un bug ?</div>"; 
+	$page->c .= $test ? $test : "<div class='adv'>#01 Oups : un bug ?</div>"; 
 	$radio->db->__destruct();
 	die();
 }
 //--execution
 elseif(isset($_POST['confirm'], $_POST['confirm_setRadio'])) {
 	$test = $radio->control('setRadio',$op_radio);
-	$page->c .= $test ? $test : "<div class='adv'>Oups : un bug ?</div>"; 
+	$page->c .= $test ? $test : "<div class='adv'>#02 Oups : un bug ?</div>"; 
 	die();
 }
 //Edition Messages
@@ -110,7 +110,7 @@ elseif(isset($_POST['newMsg']) || isset($_POST['editMsg'])){
 		$key_str = radio_keyGen($No,1);
 		$filename = "msg/{$No}_{$key}.txt";
 		if(!is_file($filename)){
-			$page->c .= "<div class='adv'>Oups : un bug ?</div>";
+			$page->c .= "<div class='adv'>#03 Oups : un bug ?</div>";
 			die();
 		}
 		$contents = file_get_contents($filename);
@@ -138,7 +138,7 @@ elseif(isset($_POST['checkMsg'])){
 		$keyFile = radio_keyGen($_POST['No']);
 		$filename = "msg/".intval($_POST['No'])."_{$keyFile}.txt";
 		//Contenu
-		$contents = ($_POST['msg']);
+		$contents = stripslashes($_POST['msg']);
 		$key = md5("Pép1t0 c4c4huEttE bAmb0UlA n0ug4t ch0c4p1c".$contents."S4UC1553-4L54C13NN3");
 		//création / écrasement ?
 		$ecrase = (bool) is_file($filename);
@@ -179,30 +179,30 @@ EOHTML;
 	else{
 		$contents = isset($_POST['msg'])
 		? "<p>Récupération de votre message :</p>"
-		."<textarea name='old' readonly='readonly'>".htmlentities($_POST['msg'])."</textarea>"
+		."<textarea name='old' readonly='readonly'>".htmlentities(stripslashes($_POST['msg']))."</textarea>"
 		: null;
 		
-		$page->c .= "<div class='adv'>Oups : un bug ?</div>".$contents;
+		$page->c .= "<div class='adv'>#04 Oups : un bug ?</div>".$contents;
 	}
 }
 //--enregistrement
 elseif(isset($_POST['confirm_MSG'])){
 	$test = false;
+	$msg = stripslashes($_POST['msg']);
 	if(isset($_POST['saveMsg'],$_POST['No'],$_POST['msg'])
 	&& is_numeric($_POST['No'])
-	&& $_POST['saveMsg'] == md5("Pép1t0 c4c4huEttE bAmb0UlA n0ug4t ch0c4p1c{$_POST['msg']}S4UC1553-4L54C13NN3")){
+	&& $_POST['saveMsg'] == md5("Pép1t0 c4c4huEttE bAmb0UlA n0ug4t ch0c4p1c{$msg}S4UC1553-4L54C13NN3")){
 		$keyFile = radio_keyGen($_POST['No']);
 		$filename = "msg/".intval($_POST['No'])."_{$keyFile}.txt";
-		$data = ($_POST['msg']);
-		$test = file_put_contents($filename, $data);
+		$test = file_put_contents($filename, $msg);
 	}
 	if(!$test){
 		$contents = isset($_POST['msg'])
 		? "<p>Récupération de votre message :</p>"
-		."<textarea name='old' readonly='readonly'>".htmlentities($_POST['msg'])."</textarea>"
+		."<textarea name='old' readonly='readonly'>".htmlentities($msg)."</textarea>"
 		: null;
 		
-		$page->c .= "<div class='adv'>Oups : un bug ?</div>".$contents;
+		$page->c .= "<div class='adv'>#05 Oups : un bug ?</div>".$contents;
 		die();
 	}
 	else $page->c .= "<div class='adv'>Le message N°{$_POST['No']} a bien été enregistré.</div>";
