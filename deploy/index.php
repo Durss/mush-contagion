@@ -25,7 +25,7 @@ require('php/class/dto/friends.php');
 //Template
 require('php/class/nsunTpl.php');
 $page = new nsunTpl();
-$page->title = "Mush Contagion";
+$page->title = "Mush  Contagion ";
 $page->addMetaTag("ROBOTS", "NOINDEX, NOFOLLOW");
 $page->addStyleSheet('css/base.css?v=2');
 
