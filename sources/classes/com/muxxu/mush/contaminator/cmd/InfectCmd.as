@@ -66,7 +66,6 @@ package com.muxxu.mush.contaminator.cmd {
 		 * ******* */
 
 		private function loadCompleteHandler(event:Event):void {
-				trace('_loader.data: ' + (_loader.data));
 			try {
 				var data:XML = new XML(_loader.data);
 			}catch(error:Error) {

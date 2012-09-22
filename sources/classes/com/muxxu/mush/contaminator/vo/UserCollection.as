@@ -58,7 +58,7 @@ package com.muxxu.mush.contaminator.vo {
 			len = nodes.length();
 			_collection = new Vector.<User>(len, true);
 			_transformedUser = new Vector.<User>();
-			var total:int = Config.getNumVariable("infectCeil");
+			var total:int = Config.getNumVariable("ceil");
 			for(i = 0; i < len; ++i) {
 				_collection[i] = new User();
 				_collection[i].populate(nodes[i]);

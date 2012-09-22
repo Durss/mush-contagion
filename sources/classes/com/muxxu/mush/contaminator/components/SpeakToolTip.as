@@ -37,6 +37,7 @@ package com.muxxu.mush.contaminator.components {
 		private var _speaking:Boolean;
 		private var _reg:RegExp;
 		private var _channel:SoundChannel;
+		private var _waitDurationCallback:Function;
 		
 		
 		
@@ -61,6 +62,8 @@ package com.muxxu.mush.contaminator.components {
 		override public function set y(value:Number):void { _y = value; }
 		
 		public function get speaking():Boolean { return _speaking; }
+		
+		public function set waitDurationCallback(value:Function):void { _waitDurationCallback = value; }
 
 
 
@@ -71,7 +74,16 @@ package com.muxxu.mush.contaminator.components {
 		 * Populates the component
 		 */
 		public function populate(labelId:String, music:Boolean =true):void {
-			var xml:XML = new XML(Label.getLabel(labelId));
+			var label:String = Label.getLabel(labelId);
+			var delay:String = "";
+			var duration:Number = _waitDurationCallback();
+			if(duration<60000) {
+				delay = Math.round(duration/1000)+" "+Label.getLabel("seconds");
+			}else{
+				delay = Math.round((duration/1000)/60)+" "+Label.getLabel("minutes");
+			}
+			label = label.replace(/\{DURATION\}/gi, delay);
+			var xml:XML = new XML(label);
 			_sentences = xml.child("s");
 			_charIndex = 0;
 			_sentenceIndex = 0;

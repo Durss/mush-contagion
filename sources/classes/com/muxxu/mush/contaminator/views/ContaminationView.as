@@ -89,7 +89,7 @@ package com.muxxu.mush.contaminator.views {
 					
 					_shadows[i].blendMode = BlendMode.SUBTRACT;
 					_pseudos[i].populate(user.name, _twinoids[i], _mushrooms[i]);
-					setTimeout(_twinoids[i].populate, i*1 + 5, key, 1, user.infectionLevel/Config.getNumVariable("infectCeil"));
+					setTimeout(_twinoids[i].populate, i*1 + 5, key, 1, user.infectionLevel/Config.getNumVariable("ceil"), Config.getNumVariable("ceil"));
 					setTimeout(_mushrooms[i].populate, i*1.5 + 5, key, 1);
 					_twinoids[i].addEventListener(InfectionEvent.INFECTED, infectionCompleteHandler);
 					_twinoids[i].addEventListener(InfectionEvent.NOT_YET_INFECTED, infectionCompleteHandler);
@@ -214,7 +214,7 @@ package com.muxxu.mush.contaminator.views {
 				target = _twinoids[i];
 				bounds = target.getBounds(target);
 				target.x = stage.stageWidth * inc * (i+1) - bounds.width*.5 - bounds.x;
-				target.y = _ground.height - rnd - bounds.height - bounds.y;
+				target.y = _ground.height - rnd - bounds.height - bounds.y - 20;
 				_targetToPosY[target] = target.y + bounds.height + bounds.y;
 				addChild(target);
 				_twinoids[i].validate();

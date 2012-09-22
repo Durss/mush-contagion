@@ -75,10 +75,8 @@ package com.muxxu.mush.contaminator.vo {
 			_isFriend = parseBoolean(xml.@isFriend);
 			_name = xml.child("name")[0];
 			_avatar = xml.child("avatar")[0];
-			var tid:String = _avatar.replace(/.+twinoid\/(?:[0-9a-f]\/[0-9a-f]\/[0-9a-f]+_)([1-9][0-9]*)\.jpg$/gi, "$1");
-			var hasTwinoid:Boolean = tid != _avatar;
-			var url:String = hasTwinoid? Config.getPath("userProfileTwino") : Config.getPath("userProfileMuxxu");
-			url = url.replace(/\{UID\}/gi, hasTwinoid? tid : _uid);
+			var url:String = Config.getPath("userProfileTwino");
+			url = url.replace(/\{UID\}/gi, _uid);
 			_profileURL = url;
 		}
 		

@@ -33,15 +33,28 @@
 		<label code="MYSQL_QUERY_FAIL_10"><![CDATA[Echec de la recherche d'information sur la dernière infection menée par cet utilisateur.]]></label>
 
 
+		<label code="seconds"><![CDATA[secondes]]></label>
+		<label code="minutes"><![CDATA[minutes]]></label>
 		<label code="copyStatus"><![CDATA[Copier]]></label>
 		<label code="contaminationComplete"><![CDATA[<b>Brave petit humain, c'est bien, le mush est fier de toi!</b><br />Pour prouver un peu plus ton adhésion au mush n'hésite pas à te vanter de cette contamination auprès de tous tes amis en copiant/collant ceci en statut&nbsp;]]></label>
 
 		<!-- Main mushroom dialogs -->
 		<label code="slowDownDude">
 			<s><![CDATA[Wow<wait.2 /> wow<wait.2 /> wow!!!<wait1 /><br />Tu m'as pris pour une<br />usine à spores ou quoi?]]></s>
-			<s><![CDATA[Tu seras mignon d'attendre<br />un brin que j'en produise<br />à nouveau p'tit père!<br ><br /><wait1 />			 Merci!<wait1 />]]></s>
+			<s><![CDATA[Tu seras mignon d'attendre<br />encore {DURATION}<br />que j'en produise à nouveau<br />mon p'tit père!<br ><br /><wait1 />			 Merci!<wait1 />]]></s>
 		</label>
 		<label code="intro">
+			<s><![CDATA[		 <sneeze/>*ATCHA*<wait1 /><br /><br />RAAAH SATANÉS HUMAINS !!!]]></s>
+			<s><![CDATA[Ils ont bien faillit<br />nous avoir cette<br />fois-ci les gredins...]]></s>
+			<s><![CDATA[Leur fichu vaccin semble<br />bien fonctionnel.<br />Heureusement certains d'entre-nous<br />ont résisté,<wait.25 /> la contagion<br />peut donc reprendre!<sneeze/><br /><br />			  *ATCHA*]]></s>
+			<s><![CDATA[Le hic,<wait1 /> c'est que ces ignominies<br />sont devenues plus résistantes<br />qu'avant à nos merveilleuses<br />et contagieuses spores...]]></s>
+			<s><![CDATA[	COURAGE COMPAGNONGS!!<wait1 /><br /><br />Nous arriveront à instaurer<br />la supprématie du mush!]]></s>
+			<s><![CDATA[Les bases rebelles ne nous<br />échapperont pas cette fois-ci.<wait1 /><br /><br />Comme tout le monde ils deviendront<br />				  MUSH!]]></s>
+			<s><![CDATA[Oh... dernière chose....<wait1 /><br />Vous y avez été un peu comme<br />des gros bourrins la dernière fois.<sneeze/><br /><br />				*ATCHA*]]></s>
+			<s><![CDATA[Vous m'avez un peu trop cogné<br />et mes glandes sporiques sont<br />pas dans leur plus beau jour...]]></s>
+			<s><![CDATA[Du coup<wait.5 /> faudra être<br />un peu plus patients que la<br />dernière fois pour contaminer<br />les saletés d'humains.<wait1 />]]></s>
+			<s><![CDATA[	GLOIRE AU CHAMPROUT !!!<wait1 /><br /><br />*ATC<sneeze/>HA*<wait.5/>  *ATC<sneeze/>HA*<wait.5/>  *ATC<sneeze/>HA*<wait2/>]]></s>
+			<!--
 			<s><![CDATA[				<sneeze/>*ATCHA*<wait1 /><br /><br />RAAAH C'EST POUR QUOI ENCORE ???!!!]]></s>
 			<s><![CDATA[Tu QUOI?!!??!!<wait1 /><br />Tu souhaites te convertir<br />au mush???!!!???!!!<wait1 /><br />Ohh...... <wait.5 />C'est pas banal ça...]]></s>
 			<s><![CDATA[Tous les humains ne sont peut-être<br />pas si stupides finalement...<br /><br />				<sneeze/>*ATCHA*]]></s>
@@ -52,6 +65,7 @@
 			<s><![CDATA[Il ne te restera alors qu'à<br />croiser les fesses pour qu'ils<br />en fassent de même avec toi<br />...si ce n'est pas déjà le cas!]]></s>
 			<s><![CDATA[N'attends plus une seule seconde<br />et tapote-moi fermement!<br />Mais délicatement....<br />S'agirait de pas me décapiter...<br /><br />				<sneeze/>*ATCHA*]]></s>
 			<s><![CDATA[Et ALORS !<br />ALORS !!!<br />Tu ne seras plus une saleté<br />d'humain mais bien un grand<br /><br />			 !!! MUSH !!!<br /> <wait1 /><sneeze/>*ATCHA*<wait.7 /><sneeze/> *ATCHA*<wait.7 /><sneeze/> *ATCHA*<wait1 />]]></s>
+			-->
 		</label>
 		<label code="harder">
 			<s><![CDATA[C'est tout ce que t'as?!<wait1 /><br />Ma parole ces humains ne servent<br />Vraiment à rien !]]></s>

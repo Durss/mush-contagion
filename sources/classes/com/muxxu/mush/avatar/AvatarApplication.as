@@ -119,7 +119,7 @@ package com.muxxu.mush.avatar {
 			if(infected) _holder.addChild(_mushroom);
 			_mushroom.filters = [new DropShadowFilter(0,135,0,1,7,7,2,2)];
 			_twinoid = new Twinoid();
-			_twinoid.populate(key, .31 * _scale, 0);
+			_twinoid.populate(key, .31 * _scale, 0, 0);
 			_twinoid.setAvatarPosition();
 			if(!infected) _holder.addChild(_twinoid);
 			_twinoid.filters = [new DropShadowFilter(0,135,0,.35,7,7,2,2)];
@@ -183,7 +183,7 @@ package com.muxxu.mush.avatar {
 				_mushroom.x = (Math.round((_back.width - _mushroom.getBounds(_mushroom).width) * .5) - _mushroom.getBounds(_mushroom).x);
 				_mushroom.y = (Math.round((_back.height - _mushroom.getBounds(_mushroom).height) * .5) - _mushroom.getBounds(_mushroom).y);
 			}else{
-				_twinoid.populate(key, .31 * _scale, 0);
+				_twinoid.populate(key, .31 * _scale, 0, 0);
 				_twinoid.setAvatarPosition();
 				_twinoid.x = (Math.round((_back.width - _twinoid.getBounds(_twinoid).width) * .5) - _twinoid.getBounds(_twinoid).x);
 				_twinoid.y = (Math.round((_back.height - _twinoid.getBounds(_twinoid).height) * .5) - _twinoid.getBounds(_twinoid).y);
