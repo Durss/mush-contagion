@@ -47,7 +47,7 @@ $clean = "key==={$key}&&&diags==={$msg}";
 
 $data = swf_crypt($clean);
 
-$version= "1.6";
+$version= "1.7";
 
 //Paramètres de la page
 $page->addScriptFile('js/swfobject.js');
