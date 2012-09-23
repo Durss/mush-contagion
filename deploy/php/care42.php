@@ -1,5 +1,6 @@
 <?php
 $toubibs = parse_ini_file('soigneurs.ini');
+define('logFile','../logs/care.txt');
 
 //identification
 $flow = $api->flow('user', UID, PUBKEY);
@@ -15,6 +16,7 @@ if($user
 	require_once('php/class/care.php');
 	require_once('php/func/getTwinID.php');
 	require_once('php/func/tableUserResults.php');
+	require_once('php/func/setLog.php');
 	$page->addScriptFile('js/misc.js');
 }
 //503	Service Unavailable
@@ -221,6 +223,7 @@ elseif(isset($_POST['confirm'], $_POST['confirm_setHealSomeUsers'])) {
 $medicList = array_keys($toubibs);
 sort($medicList);
 $medicList = "<li>".implode("</li>\n<li>",$medicList)."</li>";
+$logs = file_exists(logFile) ? file_get_contents(logFile) : null;
 
 $page->c .= <<<EOHTML
 		<form method="post" action="?{$_SERVER['QUERY_STRING']}">
@@ -238,5 +241,9 @@ $page->c .= <<<EOHTML
 				</ul>
 			</fieldset>
 		</form>
+			<fieldset>
+				<legend>Logs</legend>
+				<textarea style="width: 100%; font-size: 11px;">{$logs}</textarea>
+			</fieldset>
 EOHTML;
 ?>

@@ -189,7 +189,10 @@ EOHTML;
 	 */
 	public function healAllUsers(){
 		$this->db->healEveryone();
-		if($this->db->result) return "<div class='adv'>Tous les 'users' ont été soignés.</div>\n";
+		if($this->db->result){
+			setLog('Soin detous les users');
+			return "<div class='adv'>Tous les 'users' ont été soignés.</div>\n";
+		}
 		else return "<div class='adv'>Les 'users' <u>n'ont pas été</u> soignés.</div>\n"."<div class='adv'>".mysql_error()."</div>\n";
 	}
 	
@@ -201,7 +204,10 @@ EOHTML;
 		$list = unserialize(stripslashes($_POST['list']));
 		$listUid = array_keys($list);
 		$this->db->healSelectUsers($listUid);
-		if($this->db->result) return "<div class='adv'>".implode(", ",$list)." ont été soignés.</div>\n";
+		if($this->db->result){
+			setLog('Soins : '.implode(", ",$list));
+			return "<div class='adv'>".implode(", ",$list)." ont été soignés.</div>\n";
+		}
 		else return "<div class='adv'>".implode(", ",$list)." <u>n'ont pas été</u> soignés.</div>\n"."<div class='adv'>".mysql_error()."</div>\n";
 	}
 	
@@ -223,7 +229,10 @@ EOHTML;
 		//Découpage des enfants en tranches
 		$chunk = array_chunk($childsList, intval($ini['params']['queryLimit']));
 		foreach($chunk as $listUid) $this->db->healSelectUsers($listUid);
-		if($this->db->result) return "<div class='adv'>Tous les efants de ".implode(", ",$list)." ont été soignés.</div>\n";
+		if($this->db->result){
+			setLog('Soins Enfants : '.implode(", ",$list));
+			return "<div class='adv'>Tous les efants de ".implode(", ",$list)." ont été soignés.</div>\n";
+		}
 		else return "<div class='adv'>Les enfants de ".implode(", ",$list)." <u>n'ont pas été</u> soignés.</div>\n"."<div class='adv'>".mysql_error()."</div>\n";
 	}
 	
@@ -254,7 +263,10 @@ EOHTML;
 		if(!$valid == $this->_key($_POST['valid'])) return "<div class='adv'>Le délais de confirmation est dépassé</div>";
 		
 		$this->db->healAs($qty,$ceil,$compare,$pubkey);
-		if($this->db->result) return "<div class='adv'>Les soins ont été donnés selon vos ordres.</div>\n";
+		if($this->db->result){
+			setLog("HealSomeUsers : {$valid}");
+			return "<div class='adv'>Les soins ont été donnés selon vos ordres.</div>\n";
+		}
 		else return "<div class='adv'>Les soins n'ont pas pu être prodigués..</div>\n"."<div class='adv'>".mysql_error()."</div>\n";
 	}
 	
@@ -288,11 +300,12 @@ EOHTML;
 		}
 		
 		if($do){
-			$list = array();
+			$list2 = array();
 			$str = ";Les gens ayant accès au module de soin alpha\n"
 			.";\tedit: ".date('Y-m-d H:i:s').' par '.UID."\n";
-			foreach($toubibs as $name => $uid) $list[] = "{$name}={$uid};";
-			file_put_contents('soigneurs.ini', $str.implode("\n",$list));
+			foreach($toubibs as $name => $uid) $list2[] = "{$name}={$uid};";
+			file_put_contents('soigneurs.ini', $str.implode("\n",$list2));
+			setLog("Toubibs {$msg} : ".implode(', ',$list));
 			return "<div class='adv'>Les soigneurs sélectionnés ont été {$msg}.</div>\n";
 		}
 		else return "<div class='adv'>Aucun changement d'effectif n'a été enregistré.</div>\n";
