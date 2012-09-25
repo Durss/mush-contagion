@@ -1,6 +1,6 @@
 <?php
 $toubibs = parse_ini_file('soigneurs.ini');
-define('logFile','../logs/care.txt');
+define('logFile','logs/care.txt');
 
 //identification
 $flow = $api->flow('user', UID, PUBKEY);
