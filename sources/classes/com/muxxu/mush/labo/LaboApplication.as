@@ -1,15 +1,16 @@
 package com.muxxu.mush.labo {
-	import flash.utils.ByteArray;
-	import flash.events.IOErrorEvent;
 	import com.muxxu.mush.graphics.LoaderSpinningGraphic;
+	import com.spikything.utils.MouseWheelTrap;
 
 	import flash.display.DisplayObject;
 	import flash.display.Loader;
 	import flash.display.MovieClip;
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
 	import flash.filters.DropShadowFilter;
 	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;
+	import flash.utils.ByteArray;
 	import flash.utils.setTimeout;
 
 	/**
@@ -73,6 +74,8 @@ package com.muxxu.mush.labo {
 			computePositions();
 			var ba:ByteArray = new _embed();
 			setTimeout(loader.loadBytes, 500, ba, context);
+			
+			MouseWheelTrap.setup(stage);
 		}
 
 		private function loadCompleteHandler(event:Event):void {

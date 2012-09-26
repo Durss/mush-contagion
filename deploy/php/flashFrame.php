@@ -13,7 +13,7 @@ if(!isset($page))
 $id = UID ? UID : null;
 $key = isset($user->key['friends']) ? $user->key['friends'] : null; // NOTE: Et OUI, il ne s'agit pas du pubkey ;)
 
-$version= "2.8";
+$version= "2.10";
 
 //Paramètres de la page
 $page->addScriptFile('js/swfobject.js');
@@ -49,6 +49,7 @@ $page->c .= <<<EOHTML
 			attributes["name"] = "externalDynamicContent";
 			
 			var params = {};
+			params['allowScriptAccess'] = 'always';
 			params['allowFullScreen'] = 'true';
 			params['menu'] = 'false';
 			params['wmode'] = 'opaque';

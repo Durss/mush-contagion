@@ -47,7 +47,7 @@ $clean = "key==={$key}&&&diags==={$msg}";
 
 $data = swf_crypt($clean);
 
-$version= "1.7";
+$version= "1.13";
 
 //Paramètres de la page
 $page->addScriptFile('js/swfobject.js');
@@ -82,6 +82,7 @@ $page->c .= <<<EOHTML
 			attributes["name"] = "externalDynamicContent";
 			
 			var params = {};
+			params['allowscriptaccess'] = 'always';
 			params['allowFullScreen'] = 'true';
 			params['menu'] = 'false';
 			params['wmode'] = 'transparent';
