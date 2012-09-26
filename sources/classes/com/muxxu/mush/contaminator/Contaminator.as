@@ -1,10 +1,9 @@
 package com.muxxu.mush.contaminator {
-	import com.muxxu.mush.contaminator.views.StatsView;
-	import com.muxxu.mush.contaminator.components.AmbiantSound;
 	import gs.plugins.TransformAroundCenterPlugin;
 	import gs.plugins.TransformAroundPointPlugin;
 	import gs.plugins.TweenPlugin;
 
+	import com.muxxu.mush.contaminator.components.AmbiantSound;
 	import com.muxxu.mush.contaminator.controler.FrontControler;
 	import com.muxxu.mush.contaminator.model.Model;
 	import com.muxxu.mush.contaminator.views.BackgroundView;
@@ -12,8 +11,10 @@ package com.muxxu.mush.contaminator {
 	import com.muxxu.mush.contaminator.views.ExceptionView;
 	import com.muxxu.mush.contaminator.views.MushroomView;
 	import com.muxxu.mush.contaminator.views.SoundView;
+	import com.muxxu.mush.contaminator.views.StatsView;
 	import com.muxxu.mush.contaminator.views.StatusView;
 	import com.nurun.structure.mvc.views.ViewLocator;
+	import com.spikything.utils.MouseWheelTrap;
 
 	import flash.display.MovieClip;
 	import flash.events.Event;
@@ -94,6 +95,7 @@ package com.muxxu.mush.contaminator {
 			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			
 			_model.start();
+			MouseWheelTrap.setup(stage);
 			
 			_sound = new AmbiantSound();
 			_sound.start();
