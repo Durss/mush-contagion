@@ -40,9 +40,17 @@
 
 		<!-- Main mushroom dialogs -->
 		<label code="slowDownDude">
+			<s><![CDATA[Inutile de me tapoter...<wait1/><br />La guerre est finie...<wait1/><br />Ces ignominies d'humains ont gagné.<wait1 /><br />			   *AT<sneeze/>CHA*<wait1/> ]]></s>
+			<s><![CDATA[Ces saletés ont même été<br />jusqu'à m'opérer des glandes<br />pour éviter que je produise<br />des spores à nouveau.<wait3/> ]]></s>
+			<s><![CDATA[N'est-ce pas attroce ???<wait3/> ]]></s>
+			<s><![CDATA[Mutiler le grand Jean-Pierre...<br /><wait1.5/>Beaucoup sont morts pour<br />bien moins que ça...<wait2/> ]]></s>
+			<s><![CDATA[Merci tout de même<br />d'avoir voulu aider.<wait3 /> ]]></s>
+			<s><![CDATA[Adieux,<wait1/> ignominie d'humain...<wait1 /><br />		 *ATC<sneeze/>HA*<wait2 /> ]]></s>
+		</label>
+		<!--<label code="slowDownDude">
 			<s><![CDATA[Wow<wait.2 /> wow<wait.2 /> wow!!!<wait1 /><br />Tu m'as pris pour une<br />usine à spores ou quoi?]]></s>
 			<s><![CDATA[Tu seras mignon d'attendre<br />encore {DURATION}<br />que j'en produise à nouveau<br />mon p'tit père!<br ><br /><wait1 />			 Merci!<wait1 />]]></s>
-		</label>
+		</label>-->
 		<label code="intro">
 			<s><![CDATA[		 <sneeze/>*ATCHA*<wait1 /><br /><br />RAAAH SATANÉS HUMAINS !!!]]></s>
 			<s><![CDATA[Ils ont bien faillit<br />nous avoir cette<br />fois-ci les gredins...]]></s>
