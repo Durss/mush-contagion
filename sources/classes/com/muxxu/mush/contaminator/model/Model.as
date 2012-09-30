@@ -100,6 +100,12 @@ package com.muxxu.mush.contaminator.model {
 		 * Starts the application.
 		 */
 		public function throwSpores():void {
+			var appDisabled:Boolean = true; // FIXME disables the application. Remove to make the application work again.
+			if(appDisabled) {
+				dispatchLight(LightEvent.CANT_THROW_SPORES);
+				return;
+			}
+			
 			if(getTimer() - _start > _waitFor * 1000) {
 				var cmd:InfectCmd = new InfectCmd();
 				cmd.addEventListener(CommandEvent.COMPLETE, infectCompleteHandler);

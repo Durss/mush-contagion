@@ -1,6 +1,4 @@
 package com.muxxu.mush.contaminator.views {
-	import com.nurun.utils.pos.roundPos;
-	import com.muxxu.mush.graphics.FlyingObjectGraphic;
 	import gs.TweenLite;
 	import gs.easing.Sine;
 
@@ -9,9 +7,11 @@ package com.muxxu.mush.contaminator.views {
 	import com.muxxu.mush.contaminator.events.LightEvent;
 	import com.muxxu.mush.contaminator.model.Model;
 	import com.muxxu.mush.graphics.CountDownGraphic;
+	import com.muxxu.mush.graphics.FlyingObjectGraphic;
 	import com.muxxu.mush.graphics.GroundBack;
 	import com.muxxu.mush.graphics.MushroomsBmp;
 	import com.muxxu.mush.graphics.RocketGraphic;
+	import com.muxxu.mush.graphics.SignBmp;
 	import com.muxxu.mush.graphics.SkyBmp;
 	import com.muxxu.mush.graphics.WaterReflectGraphic;
 	import com.nurun.structure.environnement.configuration.Config;
@@ -22,6 +22,7 @@ package com.muxxu.mush.contaminator.views {
 	import com.nurun.utils.input.keyboard.events.KeyboardSequenceEvent;
 	import com.nurun.utils.math.MathUtils;
 	import com.nurun.utils.pos.PosUtils;
+	import com.nurun.utils.pos.roundPos;
 
 	import flash.display.Bitmap;
 	import flash.display.MovieClip;
@@ -67,6 +68,7 @@ package com.muxxu.mush.contaminator.views {
 		private var _dark:Shape;
 		private var _flyingObject:FlyingObjectGraphic;
 		private var _flyingObjectLaunched:Boolean;
+		private var _sign:Bitmap;
 		
 		
 		
@@ -169,6 +171,7 @@ package com.muxxu.mush.contaminator.views {
 			_reflects = _holder.addChild(new WaterReflectGraphic()) as WaterReflectGraphic;
 			_rocket = _holder.addChild(new RocketGraphic()) as RocketGraphic;
 			_mushrooms = addChild(new Bitmap(new MushroomsBmp(NaN, NaN))) as Bitmap;
+			_sign = addChild(new Bitmap(new SignBmp(NaN, NaN))) as Bitmap;
 			_fog = _holder.addChild(new Fog()) as Fog;
 			_rocket.stop();
 			
@@ -176,6 +179,8 @@ package com.muxxu.mush.contaminator.views {
 			_offsetY = 0;
 			_reflects.alpha = .5;
 			_reflects.filters = [new BlurFilter(2,2,2)];
+			_sign.x = 35;
+			_sign.y = 335;
 			
 			_flyingObject.visible = false;
 			
